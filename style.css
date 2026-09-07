@@ -637,3 +637,12 @@ h1,h2,p{margin-top:0}
   line-height:1.15!important;
   transform:rotate(-1deg)
 }
+
+/* v18: two-level Padel scoreboard */
+.padel-points{
+  display:block;
+  margin-top:4px;
+  font-size:13px;
+  letter-spacing:2px;
+  opacity:.78;
+}

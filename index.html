@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Best Game</title>
-  <link rel="stylesheet" href="style.css?v=17">
+  <link rel="stylesheet" href="style.css?v=18">
 </head>
 <body>
 <main id="app">
@@ -247,7 +247,7 @@ onclick="
         <div class="stat-line"><span>CONDITION</span><strong>SWEATY</strong></div>
         <div class="stat-line"><span>PHYSIQUE</span><strong>UNBELIEVABLY SEXY</strong></div>
         <div class="stat-line"><span>CONFIDENCE</span><strong>UNFORTUNATELY HIGH</strong></div>
-        <p>First to 5 points. Hit at the right moment. Try not to embarrass France.</p>
+        <p>5 games total. First to 5 points wins each game. Try not to embarrass France.</p>
         <button id="start-padel" class="primary">ENTER THE COURT →</button>
       </div>
     </div>
@@ -258,8 +258,9 @@ onclick="
   <header class="hud padel-game-hud">
     <button class="hud-btn padel-back">← INDONESIA</button>
     <div class="padel-hud-center">
-      <span id="padel-set-label">PADEL // SET 1 OF 5</span>
-      <strong id="padel-score">YOU 0 — 0 CPU</strong>
+      <span id="padel-set-label">PADEL // GAME 1 OF 5</span>
+      <strong id="padel-score">GAMES&nbsp;&nbsp; YOU 0 — 0 CPU</strong>
+      <span id="padel-points" class="padel-points">POINTS&nbsp;&nbsp; 0 — 0</span>
     </div>
     <div class="padel-hud-right">
       <span class="padel-lives-label">LIVES <strong id="padel-lives">❤️❤️❤️</strong></span>
@@ -396,6 +397,6 @@ onclick="
   });
 })();
 </script>
-<script src="game.js?v=17"></script>
+<script src="game.js?v=18"></script>
 </body>
 </html>
