@@ -165,25 +165,57 @@ function nextProfile(){
   renderProfile();
 }
 
-function showSwipePopup(text,type="safe"){
-  const old=document.querySelector(".swipe-popup");
+function showSwipePopup(text,type="safe",title=null){
+  const phone=document.querySelector(".phone");
+  if(!phone)return;
+
+  const old=phone.querySelector(".swipe-popup");
   if(old)old.remove();
+
   const pop=document.createElement("div");
   pop.className=`swipe-popup ${type}`;
-  pop.innerHTML=`<span>${type==="life"?"−1 LIFE":"✓ LIFE SAVED"}</span><strong>${text}</strong>`;
-  document.body.appendChild(pop);
+
+  const label=title || (type==="life" ? "−1 LIFE" : "✓ LIFE SAVED");
+  pop.innerHTML=`
+    <div class="notification-app">
+      <span class="notification-logo">🔥</span>
+      <span>TINDER</span>
+      <small>now</small>
+    </div>
+    <div class="notification-title">${label}</div>
+    <div class="notification-text">${text}</div>
+  `;
+
+  phone.appendChild(pop);
   requestAnimationFrame(()=>pop.classList.add("show"));
-  setTimeout(()=>pop.classList.remove("show"),1450);
-  setTimeout(()=>pop.remove(),1800);
+  setTimeout(()=>pop.classList.remove("show"),1650);
+  setTimeout(()=>pop.remove(),1950);
+}
+
+function badLikeMessage(actionText){
+  if(state.lives===MAX_LIVES){
+    return actionText;
+  }
+  if(state.lives===2){
+    return `You absolute debil. ${actionText} Two lives left.`;
+  }
+  if(state.lives===1){
+    return `Are you stupid? ${actionText} Do that one more time and you're buying a pain au chocolat.`;
+  }
+  return actionText;
 }
 
 function swipe(dir){
   const p=profiles[state.currentProfile];
   const action=dir==="right"?p.like:p.nope;
 
-  if(p.isFinal&&dir==="left"){
+  if(p.isFinal && dir==="left"){
     const c=document.querySelector(".profile-card");
-    if(c)c.animate([{transform:"translateX(-10px)"},{transform:"translateX(10px)"},{transform:"translateX(0)"}],{duration:300});
+    if(c)c.animate(
+      [{transform:"translateX(-10px)"},{transform:"translateX(10px)"},{transform:"translateX(0)"}],
+      {duration:300}
+    );
+    showSwipePopup("Nice try. Swipe right, debil.","life","WRONG BUTTON");
     return;
   }
 
@@ -191,34 +223,50 @@ function swipe(dir){
 
   const c=document.querySelector(".profile-card");
   if(c){
-    c.style.transform=dir==="right"?"translateX(150%) rotate(18deg)":"translateX(-150%) rotate(-18deg)";
+    c.style.transform=dir==="right"
+      ?"translateX(150%) rotate(18deg)"
+      :"translateX(-150%) rotate(-18deg)";
     c.style.opacity="0";
   }
 
   if(action.type==="life"){
-    const result=loseLife(action.text);
-    msg.textContent=result;
-    showSwipePopup(result,"life");
+    const original=action.text;
+    const result=loseLife(original);
+
+    if(result.startsWith("NO LIVES LEFT")){
+      showSwipePopup(
+        "Congratulations, genius. You lost all your lives. +1 pain au chocolat debt. Lives restored.",
+        "life",
+        "DEBT +1"
+      );
+    }else{
+      showSwipePopup(badLikeMessage(original),"life");
+    }
   }
   else if(action.type==="match"){
-    showSwipePopup("Correct choice. Suspiciously correct.","safe");
-    setTimeout(()=>showScreen("screen-match"),900);
+    showSwipePopup(
+      "Okay. For once you clicked the correct button.",
+      "safe",
+      "IT'S A MATCH"
+    );
+    setTimeout(()=>showScreen("screen-match"),1050);
     return;
-  }else{
+  }
+  else{
     showSwipePopup(action.text,"safe");
   }
 
-  setTimeout(nextProfile,260);
+  setTimeout(nextProfile,280);
 }
 
 function rewind(){
   if(!state.history.length){
-    showSwipePopup("Nothing to rewind. Time machine not installed.","safe");
+    showSwipePopup("Nothing to rewind. Even this game has limits.","safe","REWIND");
     return;
   }
   state.currentProfile=state.history.pop();
   renderProfile();
-  showSwipePopup("Rewound. Pretend that never happened.","safe");
+  showSwipePopup("Rewound. Your terrible decision has been temporarily erased.","safe","REWIND");
 }
 
 function attachDrag(card){

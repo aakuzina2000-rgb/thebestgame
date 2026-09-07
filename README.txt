@@ -33,3 +33,11 @@ V10:
 - Removed the permanent feedback text under Tinder cards.
 - Swipe feedback now appears only as a temporary phone-style notification at the top of the screen.
 - Rewind feedback also uses the same notification style.
+
+V11:
+- Fixed the Like-button crash/white screen (removed a stale reference to the deleted bottom message).
+- Swipe notifications now render inside the Tinder phone itself.
+- Bad likes show -1 LIFE and escalating insults/warnings.
+- With one life left, the notification warns that one more bad choice means buying a pain au chocolat.
+- Losing all lives shows DEBT +1 and restores lives.
+- No permanent result text below the card.

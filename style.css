@@ -229,3 +229,73 @@ h1,h2,p{margin-top:0}
 .swipe-popup.life{
   border:0;
 }
+
+
+/* ===== V11: notification belongs to the phone, not the browser ===== */
+.phone{
+  position:relative;
+  overflow:visible;
+}
+
+.swipe-popup{
+  position:absolute!important;
+  z-index:500;
+  top:12px!important;
+  left:12px!important;
+  right:12px!important;
+  width:auto!important;
+  padding:11px 13px 12px!important;
+  border-radius:16px!important;
+  background:rgba(247,247,249,.97)!important;
+  color:#18191b!important;
+  box-shadow:0 9px 24px rgba(0,0,0,.25)!important;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  transform:translateY(-16px) scale(.98)!important;
+  opacity:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif!important;
+  pointer-events:none;
+  transition:opacity .22s ease,transform .22s ease!important;
+}
+
+.swipe-popup.show{
+  opacity:1!important;
+  transform:translateY(0) scale(1)!important;
+}
+
+.swipe-popup:before{display:none!important}
+
+.notification-app{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-bottom:5px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.04em;
+  color:#74787d;
+}
+.notification-app small{
+  margin-left:auto;
+  font-size:10px;
+  font-weight:500;
+  color:#999da1;
+}
+.notification-logo{font-size:13px}
+
+.notification-title{
+  font-size:14px;
+  line-height:1.15;
+  font-weight:800;
+  color:#17191b;
+  margin-bottom:3px;
+}
+.notification-text{
+  font-size:13px;
+  line-height:1.28;
+  font-weight:500;
+  color:#3d4145;
+}
+
+.swipe-popup.life .notification-title{color:#d94139}
+.swipe-popup.safe .notification-title{color:#188b59}
