@@ -1,3 +1,4 @@
+console.log("THE BEST GAME v17 loaded");
 const ACCESS_CODE="indonesia";
 const MAX_LIVES=3;
 const SAVE_KEY="thebestgame_save_v1";

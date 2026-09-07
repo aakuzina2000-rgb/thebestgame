@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Best Game</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=17">
 </head>
 <body>
 <main id="app">
@@ -30,7 +30,28 @@
       <label>ACCESS CODE
         <input id="access-code" type="text" value="indonesia" autocomplete="off">
       </label>
-      <button id="login-btn" class="primary" type="button">ENTER</button>
+      <button id="login-btn" class="primary" type="button"
+onclick="
+  (function(){
+    var n=document.getElementById('player-name');
+    var c=document.getElementById('access-code');
+    var err=document.getElementById('login-error');
+    if(!c || c.value.trim().toLowerCase()!=='indonesia'){
+      if(err) err.textContent='WRONG ACCESS CODE';
+      return;
+    }
+    if(err) err.textContent='';
+    var login=document.getElementById('screen-login');
+    var home=document.getElementById('screen-home');
+    if(login) login.classList.remove('active');
+    if(home) home.classList.add('active');
+    var hp=document.getElementById('home-player');
+    if(hp) hp.textContent=(n && n.value.trim()) || 'Anastasia';
+    try{
+      if(typeof showRandomWelcome==='function') showRandomWelcome();
+    }catch(e){}
+  })();
+">ENTER</button>
       <div id="login-error" class="error"></div>
       <small>Good players create luck. Bad players create debt.</small>
     </div>
@@ -355,6 +376,26 @@
 </div>
 
 </main>
-<script src="game.js"></script>
+
+<script>
+(function(){
+  function emergencyEnter(){
+    var btn=document.getElementById('login-btn');
+    if(btn) btn.click();
+  }
+  ['player-name','access-code'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){
+      el.addEventListener('keydown',function(e){
+        if(e.key==='Enter'){
+          e.preventDefault();
+          emergencyEnter();
+        }
+      });
+    }
+  });
+})();
+</script>
+<script src="game.js?v=17"></script>
 </body>
 </html>
