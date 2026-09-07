@@ -1,4 +1,4 @@
-console.log("THE BEST GAME v22 loaded");
+console.log("THE BEST GAME v23 loaded");
 const ACCESS_CODE="indonesia";
 const MAX_LIVES=3;
 const SAVE_KEY="thebestgame_save_v1";
@@ -308,23 +308,23 @@ function attachDrag(card){
 /* ===== MISSION 02: CHURROS ===== */
 let churros={
   active:false,score:0,lives:3,basketX:50,items:[],spawnTimer:null,raf:null,last:0,
-  keys:{left:false,right:false},nextId:1
+  keys:{left:false,right:false},nextId:1,startTime:0
 };
 const churrosGood=[
-  {label:"CHURROS",kind:"food",symbol:"CH"},
-  {label:"ECZEMA",kind:"diagnosis",symbol:"Rx"},
-  {label:"ARTHRITIS",kind:"diagnosis",symbol:"Rx"}
+  {label:"CHURROS",kind:"food",image:"assets/food_churros.png"},
+  {label:"ECZEMA",kind:"diagnosis"},
+  {label:"ARTHRITIS",kind:"diagnosis"}
 ];
 const churrosBad=[
-  {label:"CROISSANT",kind:"food",symbol:"CR"},
-  {label:"DONUT",kind:"food",symbol:"DO"},
-  {label:"TOMATO",kind:"food",symbol:"TO"},
-  {label:"BROCCOLI",kind:"food",symbol:"BR"},
-  {label:"MIGRAINE",kind:"diagnosis",symbol:"Rx"},
-  {label:"ASTHMA",kind:"diagnosis",symbol:"Rx"},
-  {label:"GOUT",kind:"diagnosis",symbol:"Rx"},
-  {label:"SCOLIOSIS",kind:"diagnosis",symbol:"Rx"},
-  {label:"DIABETES",kind:"diagnosis",symbol:"Rx"}
+  {label:"CROISSANT",kind:"food",image:"assets/food_croissant.png"},
+  {label:"DONUT",kind:"food",image:"assets/food_donut.png"},
+  {label:"TOMATO",kind:"food",image:"assets/food_tomato.png"},
+  {label:"BROCCOLI",kind:"food",image:"assets/food_broccoli.png"},
+  {label:"MIGRAINE",kind:"diagnosis"},
+  {label:"ASTHMA",kind:"diagnosis"},
+  {label:"GOUT",kind:"diagnosis"},
+  {label:"SCOLIOSIS",kind:"diagnosis"},
+  {label:"DIABETES",kind:"diagnosis"}
 ];
 
 function renderChurrosMission(){
@@ -360,12 +360,21 @@ function spawnChurrosItem(){
   const data=pool[Math.floor(Math.random()*pool.length)];
   const el=document.createElement("div");
   el.className=`fall-item ${data.kind} ${good?"wanted":"wrong"}`;
-  el.innerHTML=`<b>${data.symbol}</b><span>${data.label}</span>`;
+  el.innerHTML=data.kind==="food"
+    ? `<img src="${data.image}" alt=""><span>${data.label}</span>`
+    : `<span class="diagnosis-name">${data.label}</span>`;
   document.getElementById("falling-layer").appendChild(el);
-  const item={id:churros.nextId++,x:8+Math.random()*84,y:-10,speed:18+Math.random()*7,good,data,el};
+
+  const elapsed=churros.startTime ? (performance.now()-churros.startTime)/1000 : 0;
+  const difficulty=Math.min(elapsed/35,1); // ramps over ~35 seconds
+  const speedBase=18 + difficulty*20;      // ~18 -> ~38
+  const item={id:churros.nextId++,x:8+Math.random()*84,y:-10,speed:speedBase+Math.random()*7,good,data,el};
   churros.items.push(item);
   el.style.left=item.x+"%";el.style.top=item.y+"%";
-  churros.spawnTimer=setTimeout(spawnChurrosItem,650+Math.random()*450);
+
+  const baseDelay=900 - difficulty*480;    // ~900ms -> ~420ms
+  const jitter=220 - difficulty*80;
+  churros.spawnTimer=setTimeout(spawnChurrosItem,baseDelay+Math.random()*jitter);
 }
 function catchChurros(item){
   item.el.remove();churros.items=churros.items.filter(x=>x!==item);
@@ -405,7 +414,7 @@ function churrosFrame(t){
 }
 function resetChurros(){
   stopChurros();clearChurrosItems();
-  churros.score=0;churros.lives=3;churros.basketX=50;churros.last=0;
+  churros.score=0;churros.lives=3;churros.basketX=50;churros.last=0;churros.startTime=0;
   churros.keys.left=false;churros.keys.right=false;
   const result=document.getElementById("churros-result");
   const start=document.getElementById("churros-start-overlay");
@@ -420,6 +429,7 @@ function startChurros(){
   const start=document.getElementById("churros-start-overlay");
   start.classList.add("hidden");
   start.style.display="none";
+  churros.startTime=performance.now();
   churros.active=true;spawnChurrosItem();churros.raf=requestAnimationFrame(churrosFrame);
 }
 
