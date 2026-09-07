@@ -53,3 +53,16 @@ V12:
 - Losing a whole match costs one life.
 - Losing all three Padel lives adds +1 pain au chocolat debt and restores lives.
 - Winning completes Mission 02 and unlocks Mission 03.
+
+V13:
+- Mission 01: removed "You somehow made it."
+- Mission 01 swipe notifications simplified to +1 LIFE / -1 LIFE + "You debil."
+- Padel physique changed to UNBELIEVABLY SEXY.
+- Replaced the padel photo sprite with a stylized muscular shirtless game character in black shorts, dark socks/shoes, with racket and sweat details.
+- Player can now move left/right with Arrow keys or A/D.
+- Hitting now requires BOTH positioning under the incoming ball and correct timing.
+- Ball speeds up gently each rally (~4%), with a playable cap.
+- Added PAUSE button and P-key pause/resume.
+- Padel mission passes whether the match is won or lost.
+- Winning shows "MATCH RESULT — YOU WIN"; losing shows "MATCH OVER".
+- Final message is shown in French plus a decorative Cyrillic line.

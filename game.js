@@ -216,7 +216,7 @@ function swipe(dir){
       [{transform:"translateX(-10px)"},{transform:"translateX(10px)"},{transform:"translateX(0)"}],
       {duration:300}
     );
-    showSwipePopup("Nice try. Swipe right, debil.","life","WRONG BUTTON");
+    showSwipePopup("You debil.","life","−1 LIFE");
     return;
   }
 
@@ -231,25 +231,15 @@ function swipe(dir){
   }
 
   if(action.type==="life"){
-    const original=action.text;
-    const result=loseLife(original);
-
+    const result=loseLife(action.text);
     if(result.startsWith("NO LIVES LEFT")){
-      showSwipePopup(
-        "Congratulations, genius. You lost all your lives. +1 pain au chocolat debt. Lives restored.",
-        "life",
-        "DEBT +1"
-      );
+      showSwipePopup("You debil.","life","−1 LIFE · DEBT +1");
     }else{
-      showSwipePopup(badLikeMessage(original),"life");
+      showSwipePopup("You debil.","life","−1 LIFE");
     }
   }
   else if(action.type==="match"){
-    showSwipePopup(
-      "Okay. For once you clicked the correct button.",
-      "safe",
-      "IT'S A MATCH"
-    );
+    showSwipePopup("You debil.","safe","+1 LIFE");
     setTimeout(()=>showScreen("screen-match"),1050);
     return;
   }
@@ -293,8 +283,10 @@ function attachDrag(card){
 
 /* ===== MISSION 02: PADEL ===== */
 let padel={
-  you:0,cpu:0,lives:3,roundActive:false,startTime:0,duration:1500,
-  raf:null,finished:false
+  you:0,cpu:0,lives:3,roundActive:false,startTime:0,duration:1650,
+  raf:null,finished:false,paused:false,pauseStarted:0,
+  playerX:50,ballTargetX:50,rallyCount:0,
+  keys:{left:false,right:false},lastFrame:0
 };
 
 function renderPadelMission(){
@@ -302,16 +294,9 @@ function renderPadelMission(){
   const btn=document.getElementById("open-padel");
   const status=document.getElementById("padel-status");
   if(!btn||!status)return;
-  if(g.completed){
-    btn.classList.remove("locked");
-    status.textContent="✓ COMPLETE";
-  }else if(g.unlocked){
-    btn.classList.remove("locked");
-    status.textContent="PLAY →";
-  }else{
-    btn.classList.add("locked");
-    status.textContent="LOCKED";
-  }
+  if(g.completed){btn.classList.remove("locked");status.textContent="✓ COMPLETE";}
+  else if(g.unlocked){btn.classList.remove("locked");status.textContent="PLAY →";}
+  else{btn.classList.add("locked");status.textContent="LOCKED";}
 }
 
 function renderPadelHud(){
@@ -329,92 +314,120 @@ function padelNotify(title,text,type="good"){
   n.querySelector(".notification-text").textContent=text;
   n.classList.add("show");
   clearTimeout(n._timer);
-  n._timer=setTimeout(()=>n.classList.remove("show"),1500);
+  n._timer=setTimeout(()=>n.classList.remove("show"),1200);
+}
+
+function updatePlayer(){
+  const el=document.getElementById("padel-player");
+  if(el)el.style.left=padel.playerX+"%";
 }
 
 function setBallProgress(p){
   const ball=document.getElementById("padel-ball");
   const marker=document.getElementById("timing-marker");
   if(!ball||!marker)return;
-  // opponent -> player
-  const top=22 + p*62;
-  const wiggle=Math.sin(p*Math.PI*2)*10;
+  const top=22+p*62;
+  const startX=50;
+  const curve=Math.sin(p*Math.PI)*((padel.ballTargetX-startX)*.18);
+  const x=startX+(padel.ballTargetX-startX)*p+curve;
   ball.style.top=top+"%";
-  ball.style.left=(50+wiggle)+"%";
-  const meter=Math.max(0,Math.min(1,p));
-  marker.style.left=`calc(${meter*100}% - 2px)`;
+  ball.style.left=x+"%";
+  marker.style.left=`calc(${Math.max(0,Math.min(1,p))*100}% - 2px)`;
+}
+
+function currentSpeedDuration(){
+  // Gets ~4% faster per rally, capped so it stays playable.
+  return Math.max(900,1650*Math.pow(.96,padel.rallyCount));
 }
 
 function startRally(){
-  if(padel.roundActive||padel.finished)return;
+  if(padel.roundActive||padel.finished||padel.paused)return;
   padel.roundActive=true;
+  padel.rallyCount++;
   padel.startTime=performance.now();
-  padel.duration=1350 + Math.random()*350;
+  padel.duration=currentSpeedDuration();
+  padel.ballTargetX=20+Math.random()*60;
   setBallProgress(0);
 
   function frame(t){
-    if(!padel.roundActive)return;
+    if(!padel.roundActive||padel.finished)return;
+    if(padel.paused){padel.raf=requestAnimationFrame(frame);return;}
+
+    const dt=padel.lastFrame ? Math.min(32,t-padel.lastFrame) : 16;
+    padel.lastFrame=t;
+    const moveSpeed=.038*dt;
+    if(padel.keys.left)padel.playerX=Math.max(13,padel.playerX-moveSpeed);
+    if(padel.keys.right)padel.playerX=Math.min(87,padel.playerX+moveSpeed);
+    updatePlayer();
+
     const p=(t-padel.startTime)/padel.duration;
     setBallProgress(Math.min(p,1));
     if(p>=1){
       padel.roundActive=false;
-      cpuPoint("TOO LATE","Incredible reaction time. For a dead person.");
+      cpuPoint("MISSED","The ball was somewhere else. So were you.");
       return;
     }
     padel.raf=requestAnimationFrame(frame);
   }
+  padel.lastFrame=0;
   padel.raf=requestAnimationFrame(frame);
 }
 
 function scheduleNextRally(){
-  if(padel.finished)return;
-  setTimeout(startRally,850);
+  if(padel.finished||padel.paused)return;
+  setTimeout(()=>{if(!padel.paused&&!padel.finished)startRally()},650);
 }
 
 function playerPoint(title,text){
-  padel.you++;
-  renderPadelHud();
-  padelNotify(title,text,"good");
+  padel.you++;renderPadelHud();padelNotify(title,text,"good");
   if(padel.you>=5)return finishPadelMatch(true);
   scheduleNextRally();
 }
-
 function cpuPoint(title,text){
-  padel.cpu++;
-  renderPadelHud();
-  padelNotify(title,text,"bad");
+  padel.cpu++;renderPadelHud();padelNotify(title,text,"bad");
   if(padel.cpu>=5)return finishPadelMatch(false);
   scheduleNextRally();
 }
 
 function hitPadel(){
-  if(!padel.roundActive||padel.finished)return;
-  const elapsed=performance.now()-padel.startTime;
-  const p=elapsed/padel.duration;
-  padel.roundActive=false;
-  cancelAnimationFrame(padel.raf);
+  if(!padel.roundActive||padel.finished||padel.paused)return;
+  const p=(performance.now()-padel.startTime)/padel.duration;
+  const timingDistance=Math.abs(p-.76);
+  const positionDistance=Math.abs(padel.playerX-padel.ballTargetX);
 
-  const ideal=.76;
-  const d=Math.abs(p-ideal);
+  // Now BOTH timing and player position matter.
+  if(positionDistance>15){
+    padel.roundActive=false;cancelAnimationFrame(padel.raf);
+    cpuPoint("TOO FAR","Move your sexy ass toward the ball.");
+    return;
+  }
 
-  if(d<=.045){
-    setBallProgress(.76);
-    playerPoint("PERFECT","Okay, Nadal. Calm down.");
-  }else if(d<=.095){
-    setBallProgress(.76);
-    const win=Math.random()<.78;
-    if(win)playerPoint("GREAT","Annoyingly competent.");
-    else cpuPoint("RETURNED","Good hit. Unfortunately, he also knows how to play.");
-  }else if(d<=.17){
-    setBallProgress(.76);
-    const win=Math.random()<.48;
-    if(win)playerPoint("GOOD","Ugly, but legal.");
-    else cpuPoint(p<ideal?"TOO EARLY":"TOO LATE",p<ideal?"Bro is fighting the air.":"The ball filed a missing-person report.");
+  padel.roundActive=false;cancelAnimationFrame(padel.raf);
+  if(timingDistance<=.05) playerPoint("PERFECT","Okay, champion.");
+  else if(timingDistance<=.11) playerPoint("GREAT","Sexy and coordinated. Suspicious.");
+  else if(timingDistance<=.18){
+    if(Math.random()<.55)playerPoint("GOOD","Not elegant. Still counts.");
+    else cpuPoint(p<.76?"TOO EARLY":"TOO LATE","Timing, beau gosse.");
+  }else cpuPoint(p<.76?"TOO EARLY":"TOO LATE",p<.76?"Fighting the air again.":"The ball has already moved on.");
+}
+
+function togglePadelPause(force){
+  if(padel.finished)return;
+  const next=typeof force==="boolean"?force:!padel.paused;
+  if(next===padel.paused)return;
+  padel.paused=next;
+  const overlay=document.getElementById("padel-pause-overlay");
+  const btn=document.getElementById("padel-pause");
+  if(padel.paused){
+    padel.pauseStarted=performance.now();
+    overlay.classList.remove("hidden");
+    btn.innerHTML='RESUME <small>P</small>';
   }else{
-    cpuPoint(
-      p<ideal?"TOO EARLY":"TOO LATE",
-      p<ideal?"Bro is fighting the air.":"Incredible reaction time. For a dead person."
-    );
+    const pausedFor=performance.now()-padel.pauseStarted;
+    if(padel.roundActive)padel.startTime+=pausedFor;
+    overlay.classList.add("hidden");
+    btn.innerHTML='PAUSE <small>P</small>';
+    if(!padel.roundActive&&!padel.finished)setTimeout(startRally,300);
   }
 }
 
@@ -423,62 +436,37 @@ function showPadelResult(title,copy,buttonText,handler){
   document.getElementById("padel-result-title").textContent=title;
   document.getElementById("padel-result-copy").textContent=copy;
   const btn=document.getElementById("padel-result-btn");
-  btn.textContent=buttonText;
-  btn.onclick=handler;
+  btn.textContent=buttonText;btn.onclick=handler;
   box.classList.remove("hidden");
 }
 
 function finishPadelMatch(won){
-  padel.finished=true;
-  padel.roundActive=false;
-  cancelAnimationFrame(padel.raf);
+  padel.finished=true;padel.roundActive=false;cancelAnimationFrame(padel.raf);
 
-  if(won){
-    state.parts.indonesia.minigames.game2.completed=true;
-    state.parts.indonesia.minigames.game3.unlocked=true;
-    saveState();
-    renderProgress();
-    renderPadelMission();
-    showPadelResult(
-      "YOU WIN",
-      "Against all odds, you are moderately competent.",
-      "MISSION COMPLETE",
-      ()=>{
-        document.getElementById("padel-result").classList.add("hidden");
-        showScreen("screen-indonesia");
-      }
-    );
-  }else{
-    padel.lives--;
-    renderPadelHud();
+  // The joke is that the mission passes either way.
+  state.parts.indonesia.minigames.game2.completed=true;
+  state.parts.indonesia.minigames.game3.unlocked=true;
+  saveState();renderProgress();renderPadelMission();
 
-    if(padel.lives<=0){
-      state.debt++;
-      padel.lives=3;
-      saveState();renderDebt();renderPadelHud();
-      showPadelResult(
-        "DEBT +1",
-        "Three matches. Three disasters. This officially costs you one pain au chocolat.",
-        "TRY AGAIN",
-        resetPadelMatch
-      );
-    }else{
-      const warning=padel.lives===1
-        ?"One life left. Lose again and you're buying a pain au chocolat."
-        :"Losing at padel? In Indonesia? Embarrassing.";
-      showPadelResult("−1 LIFE",warning,"REMATCH",resetPadelMatch);
+  showPadelResult(
+    won ? "MATCH RESULT — YOU WIN" : "MATCH OVER",
+    won ? "Fine. You actually won the match." : "Technically you lost. Emotionally? Irrelevant.",
+    "CONTINUE →",
+    ()=>{
+      document.getElementById("padel-result").classList.add("hidden");
+      showScreen("screen-indonesia");
     }
-  }
+  );
 }
 
 function resetPadelMatch(){
   document.getElementById("padel-result").classList.add("hidden");
-  padel.you=0;padel.cpu=0;padel.finished=false;padel.roundActive=false;
-  renderPadelHud();
-  setBallProgress(0);
+  document.getElementById("padel-pause-overlay").classList.add("hidden");
+  padel.you=0;padel.cpu=0;padel.finished=false;padel.roundActive=false;padel.paused=false;
+  padel.playerX=50;padel.rallyCount=0;padel.keys.left=false;padel.keys.right=false;
+  renderPadelHud();updatePlayer();setBallProgress(0);
   setTimeout(startRally,600);
 }
-
 function enterPadel(){
   if(!state.parts.indonesia.minigames.game2.unlocked)return;
   showScreen("screen-padel-intro");
@@ -533,22 +521,35 @@ if(state.playerName)document.getElementById("player-name").value=state.playerNam
 renderDebt();renderLives();renderProgress();rebuildProfiles();
 
 
+
 document.getElementById("open-padel").addEventListener("click",enterPadel);
 document.getElementById("start-padel").addEventListener("click",()=>{
-  padel.you=0;padel.cpu=0;padel.lives=3;padel.finished=false;padel.roundActive=false;
+  padel.you=0;padel.cpu=0;padel.lives=3;padel.finished=false;padel.roundActive=false;padel.paused=false;
+  padel.playerX=50;padel.rallyCount=0;padel.keys.left=false;padel.keys.right=false;
   document.getElementById("padel-result").classList.add("hidden");
-  renderPadelHud();
+  document.getElementById("padel-pause-overlay").classList.add("hidden");
+  renderPadelHud();updatePlayer();
   showScreen("screen-padel");
-  setTimeout(startRally,700);
+  setTimeout(startRally,650);
 });
 document.querySelectorAll(".padel-back").forEach(b=>b.addEventListener("click",()=>{
-  padel.roundActive=false;padel.finished=true;cancelAnimationFrame(padel.raf);
-  showScreen("screen-indonesia");
+  padel.roundActive=false;padel.finished=true;padel.paused=false;
+  cancelAnimationFrame(padel.raf);showScreen("screen-indonesia");
 }));
 document.getElementById("padel-hit").addEventListener("click",hitPadel);
+document.getElementById("padel-pause").addEventListener("click",()=>togglePadelPause());
+document.getElementById("padel-resume").addEventListener("click",()=>togglePadelPause(false));
+
 document.addEventListener("keydown",e=>{
-  if(e.code==="Space" && document.getElementById("screen-padel").classList.contains("active")){
-    e.preventDefault();hitPadel();
-  }
+  if(!document.getElementById("screen-padel").classList.contains("active"))return;
+  if(["ArrowLeft","ArrowRight","KeyA","KeyD","Space","KeyP"].includes(e.code))e.preventDefault();
+  if(e.code==="ArrowLeft"||e.code==="KeyA")padel.keys.left=true;
+  if(e.code==="ArrowRight"||e.code==="KeyD")padel.keys.right=true;
+  if(e.code==="Space"&&!e.repeat)hitPadel();
+  if(e.code==="KeyP"&&!e.repeat)togglePadelPause();
+});
+document.addEventListener("keyup",e=>{
+  if(e.code==="ArrowLeft"||e.code==="KeyA")padel.keys.left=false;
+  if(e.code==="ArrowRight"||e.code==="KeyD")padel.keys.right=false;
 });
 renderPadelMission();
