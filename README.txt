@@ -66,3 +66,18 @@ V13:
 - Padel mission passes whether the match is won or lost.
 - Winning shows "MATCH RESULT — YOU WIN"; losing shows "MATCH OVER".
 - Final message is shown in French plus a decorative Cyrillic line.
+
+V14:
+- Mission status text now uses compact badges: IN PROGRESS / UNLOCKED / COMPLETE / LOCKED.
+- Added 10 random trash-talk welcome messages; one appears randomly on each login.
+- Password removed during testing.
+- Enter key now logs in from the player-name field.
+- Restored the real padel photo on the Mission 02 intro screen.
+- Padel opponent is now a stylized woman in a gray top and black skirt.
+- Fixed Padel timing bug by widening the valid hit window.
+- Padel is now exactly 5 sets/rallies; scoreboard tracks YOU vs CPU across all five.
+- Ball gently accelerates from set to set.
+- Added 3-2-1-MAAAATCH countdown before play.
+- French sexy victory text appears ONLY on a win.
+- Loss text: "Losing at padel. In Indonesia. Against a girl. Impressive, beau gosse."
+- No Russian final text.

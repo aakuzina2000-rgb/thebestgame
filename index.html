@@ -27,10 +27,6 @@
         <input id="player-name" type="text" placeholder="Player name">
       </label>
 
-      <label>ACCESS CODE
-        <input id="access-code" type="password" placeholder="••••••">
-      </label>
-
       <button id="login-btn" class="primary">ENTER</button>
       <div id="login-error" class="error"></div>
       <small>Good players create luck. Bad players create debt.</small>
@@ -42,9 +38,9 @@
   <div class="welcome-card">
     <button id="close-welcome" class="close">×</button>
     <div class="eyebrow">THE BEST GAME PRESENTS</div>
-    <h2>Coucou, yopta.</h2>
-    <p class="welcome-main">Thought you were going to play Call of Duty?</p>
-    <p class="french-hand">Ah bah non. T’en voulais beaucoup, hein ?</p>
+    <h2 id="welcome-title">Coucou, yopta.</h2>
+    <p id="welcome-main" class="welcome-main">Thought you were going to play Call of Duty?</p>
+    <p id="welcome-french" class="french-hand">Ah bah non. T’en voulais beaucoup, hein ?</p>
     <div class="warcuta">WELCOME TO WARCUTA</div>
     <p class="tiny-joke">Campaign difficulty: relationship.</p>
     <button id="welcome-continue" class="primary">LET'S SUFFER →</button>
@@ -141,7 +137,7 @@
           <strong>FIND YOUR MATCH</strong>
           <small>Swipe. Suffer. Repeat.</small>
         </div>
-        <b id="tinder-status">PLAY →</b>
+        <b id="tinder-status" class="mission-status">IN PROGRESS</b>
       </button>
 
       <button id="open-padel" class="mission-row locked padel-mission">
@@ -151,7 +147,7 @@
           <strong>PADEL</strong>
           <small>Timing. Sweat. Questionable confidence.</small>
         </div>
-        <b id="padel-status">LOCKED</b>
+        <b id="padel-status" class="mission-status">LOCKED</b>
       </button>
 
       <button class="mission-row locked">
@@ -161,7 +157,7 @@
           <strong>CLASSIFIED</strong>
           <small>More bad decisions later.</small>
         </div>
-        <b>LOCKED</b>
+        <b class="mission-status">LOCKED</b>
       </button>
     </div>
   </div>
@@ -217,18 +213,7 @@
   <div class="padel-intro-wrap">
     <div class="character-card">
       <div class="character-photo-wrap">
-        <div class="retro-court-bg"></div>
-        <div class="game-man game-man-large">
-          <div class="gm-head"><div class="gm-hair"></div><div class="gm-stubble"></div></div>
-          <div class="gm-neck"></div>
-          <div class="gm-torso"><div class="gm-sweat s1"></div><div class="gm-sweat s2"></div><div class="gm-sweat s3"></div></div>
-          <div class="gm-arm gm-arm-left"></div>
-          <div class="gm-arm gm-arm-right"></div>
-          <div class="gm-shorts"></div>
-          <div class="gm-leg gm-leg-left"></div><div class="gm-leg gm-leg-right"></div>
-          <div class="gm-shoe gm-shoe-left"></div><div class="gm-shoe gm-shoe-right"></div>
-          <div class="gm-racket"><div class="gm-racket-face"></div><div class="gm-racket-handle"></div></div>
-        </div>
+        <img src="assets/padel_player_retro.png" alt="Padel player">
         <div class="scanlines"></div>
       </div>
       <div class="character-info">
@@ -249,7 +234,7 @@
   <header class="hud padel-game-hud">
     <button class="hud-btn padel-back">← INDONESIA</button>
     <div class="padel-hud-center">
-      <span>PADEL // FIRST TO 5</span>
+      <span id="padel-set-label">PADEL // SET 1 OF 5</span>
       <strong id="padel-score">YOU 0 — 0 CPU</strong>
     </div>
     <div class="padel-hud-right">
@@ -271,11 +256,19 @@
         <div class="court-line service-bottom"></div>
         <div class="court-net"></div>
 
-        <div class="padel-enemy">
-          <div class="enemy-head"></div>
-          <div class="enemy-body"></div>
-          <div class="enemy-racket"></div>
-          <span>LOCAL PADEL DAD, 46</span>
+        <div class="padel-enemy padel-woman">
+          <div class="pw-head"><div class="pw-hair"></div></div>
+          <div class="pw-neck"></div>
+          <div class="pw-top"></div>
+          <div class="pw-arm pw-arm-l"></div>
+          <div class="pw-arm pw-arm-r"></div>
+          <div class="pw-skirt"></div>
+          <div class="pw-leg pw-leg-l"></div>
+          <div class="pw-leg pw-leg-r"></div>
+          <div class="pw-shoe pw-shoe-l"></div>
+          <div class="pw-shoe pw-shoe-r"></div>
+          <div class="pw-racket"></div>
+          <span>PADEL GIRL</span>
         </div>
 
         <div id="padel-player" class="padel-player">
@@ -293,6 +286,10 @@
 
         <div id="padel-ball" class="padel-ball"></div>
         <div id="hit-zone" class="hit-zone"></div>
+      </div>
+
+      <div id="padel-countdown" class="padel-countdown hidden">
+        <span id="padel-countdown-text">3</span>
       </div>
 
       <div id="padel-notification" class="padel-notification">
@@ -327,8 +324,7 @@
       <div class="eyebrow">MATCH RESULT</div>
       <h2 id="padel-result-title">YOU WIN</h2>
       <p id="padel-result-copy"></p>
-      <p class="padel-french-final">Peu importe que tu gagnes ou non. La vraie victoire, c’est que t’es sexy. Tu passes à la suite, beau gosse.</p>
-      <p class="padel-cyrillic-final">Неважно, выиграл ты или нет. Главная победа — то, что ты секси. Проходишь дальше, красавчик.</p>
+      <p id="padel-french-final" class="padel-french-final hidden">Peu importe que tu gagnes ou non. La vraie victoire, c’est que t’es sexy. Tu passes à la suite, beau gosse.</p>
       <button id="padel-result-btn" class="primary">CONTINUE</button>
     </div>
   </div>

@@ -503,3 +503,137 @@ h1,h2,p{margin-top:0}
   font-family:"Brush Script MT","Segoe Script","Bradley Hand",cursive!important;
   font-size:22px!important;line-height:1.2!important;transform:rotate(.5deg)
 }
+
+
+/* ===== V14 ===== */
+
+/* Mission statuses are proper badges, so COMPLETE never crashes into the frame */
+.mission-row{
+  grid-template-columns:88px minmax(0,1fr) auto!important;
+}
+.mission-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:104px;
+  margin-right:18px;
+  padding:8px 10px;
+  border:1px solid #58636a;
+  background:#172127;
+  color:#aeb9bd!important;
+  font-size:10px!important;
+  letter-spacing:.1em;
+  white-space:nowrap;
+}
+.mission-status[data-status="complete"]{
+  border-color:#4c8d69;
+  color:#78d69d!important;
+  background:#13241b;
+}
+.mission-status[data-status="unlocked"],
+.mission-status[data-status="progress"]{
+  border-color:#9a763b;
+  color:#e4bd67!important;
+  background:#251f15;
+}
+.mission-status[data-status="locked"]{
+  opacity:.72;
+}
+
+/* Real photo stays on the Padel intro */
+.character-photo-wrap img{
+  display:block!important;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center top;
+  image-rendering:pixelated;
+}
+
+/* Cartoon female opponent: gray top + black skirt */
+.padel-woman{
+  width:76px!important;
+  height:125px!important;
+  top:5%!important;
+}
+.padel-woman .pw-head{
+  position:absolute;left:27px;top:1px;width:24px;height:26px;
+  border-radius:48%;background:#d3a17e;z-index:5
+}
+.padel-woman .pw-hair{
+  position:absolute;left:-5px;right:-5px;top:-4px;height:26px;
+  background:#3a2924;border-radius:50% 50% 38% 38%;
+  clip-path:polygon(0 0,100% 0,96% 80%,78% 100%,67% 60%,31% 100%,9% 81%)
+}
+.padel-woman .pw-neck{
+  position:absolute;left:34px;top:24px;width:11px;height:9px;background:#c99472
+}
+.padel-woman .pw-top{
+  position:absolute;left:20px;top:31px;width:39px;height:42px;
+  background:#7d8589;
+  clip-path:polygon(18% 0,82% 0,100% 18%,88% 100%,12% 100%,0 18%)
+}
+.padel-woman .pw-arm{
+  position:absolute;top:34px;width:9px;height:43px;background:#cf9b77;border-radius:8px
+}
+.padel-woman .pw-arm-l{left:14px;transform:rotate(7deg)}
+.padel-woman .pw-arm-r{right:13px;transform:rotate(-8deg)}
+.padel-woman .pw-skirt{
+  position:absolute;left:17px;top:70px;width:45px;height:27px;
+  background:#11171a;
+  clip-path:polygon(16% 0,84% 0,100% 100%,0 100%)
+}
+.padel-woman .pw-leg{
+  position:absolute;top:95px;width:9px;height:26px;background:#c99472
+}
+.padel-woman .pw-leg-l{left:26px}.padel-woman .pw-leg-r{right:25px}
+.padel-woman .pw-shoe{
+  position:absolute;top:117px;width:15px;height:6px;background:#e2e2dd;border-radius:7px
+}
+.padel-woman .pw-shoe-l{left:21px}.padel-woman .pw-shoe-r{right:20px}
+.padel-woman .pw-racket{
+  position:absolute;right:-2px;top:51px;width:21px;height:30px;
+  border:4px solid #222a2d;border-radius:50%;transform:rotate(-22deg);
+  background:radial-gradient(circle,#d59a45 0 4%,#283337 5% 10%,transparent 11%) 0 0/8px 8px
+}
+.padel-woman span{
+  position:absolute!important;top:-22px!important;left:50%!important;
+  transform:translateX(-50%)!important;white-space:nowrap!important;
+  font-size:9px!important;color:#ddd!important
+}
+
+/* Countdown: 3 — 2 — 1 — MAAAATCH */
+.padel-countdown{
+  position:absolute;inset:0;z-index:230;
+  display:grid;place-items:center;
+  background:rgba(5,10,13,.72);
+  backdrop-filter:blur(2px);
+}
+.padel-countdown.hidden{display:none}
+.padel-countdown span{
+  font-family:Georgia,serif;
+  font-size:clamp(70px,12vw,150px);
+  font-weight:900;
+  color:#e5b34d;
+  text-shadow:0 10px 35px rgba(0,0,0,.65);
+  letter-spacing:.03em;
+}
+.padel-countdown span.pop{
+  animation:countPop .42s ease;
+}
+@keyframes countPop{
+  0%{transform:scale(.55);opacity:.1}
+  70%{transform:scale(1.12);opacity:1}
+  100%{transform:scale(1);opacity:1}
+}
+
+/* French win line only; no Russian anywhere */
+.padel-french-final.hidden{display:none!important}
+.padel-french-final{
+  margin:20px 0 24px!important;
+  color:#e5ad42!important;
+  font-family:"Brush Script MT","Segoe Script","Bradley Hand",cursive!important;
+  font-size:29px!important;
+  line-height:1.15!important;
+  transform:rotate(-1deg)
+}
