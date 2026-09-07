@@ -1,26 +1,28 @@
-THE BEST GAME — v4
+THE BEST GAME — v5
 
-Upload these files/folders to the ROOT of the GitHub repository:
-- index.html
-- style.css
-- game.js
-- assets/
+UPLOAD TO GITHUB ROOT:
+index.html
+style.css
+game.js
+assets/
 
-Netlify is already connected to GitHub. After GitHub receives a new commit,
-Netlify will redeploy the same production URL automatically.
+Netlify is already linked to your GitHub repository, so after committing these files the same public URL will redeploy automatically.
 
-CURRENT FEATURES
-- Secret access code (currently: indonesia)
-- Player name
-- Persistent browser save
-- Part / mini-game completion tracking
-- Tinder attempts + best lives
-- Pain au chocolat debt persists
-- 3 lives -> zero lives -> +1 debt -> lives respawn
-- PART 1 Indonesia
-- Tinder mini-game with detailed retro profiles
-- Anastasia uses the supplied real photo and bio:
-  "Russian. Love bumble coffee and kinder bueno"
+ACCESS CODE: indonesia
+
+V5 CHANGES
+- Complete visual rebuild based on the cinematic game UI reference.
+- Dark blue/black + gold Assassin's Creed / tactical game-menu direction.
+- PART 2 renamed to RUSSIA.
+- Tagline: Different places. Same two debils. ♡
+- More cringe jokes added throughout UI.
+- User-supplied transparent pain au chocolat PNG used directly, no background removal.
+- Pain au chocolat is much larger in Debt screen and profile stats.
+- Tinder remains Tinder-colored, embedded inside a more serious gaming HUD.
+- Tinder cards now use the supplied/generated detailed character portraits instead of hand-drawn emoji-like art.
+- Anastasia card keeps the supplied real photo and bio.
+- Tinder decoy order is randomized on each attempt; Anastasia remains the final match.
+- Persistent browser save retained: debt, attempts, completion and progress survive reload/close.
 
 NOTE
-Current save persists in the same browser/device. Cloud save across devices is the next infrastructure step.
+Save is still per browser/device. Cloud save can be added later.
