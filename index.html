@@ -1,232 +1,230 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Best Game</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main id="app">
 
-  <!-- LOGIN -->
-  <section id="screen-login" class="screen active login-screen">
-    <div class="login-overlay"></div>
-    <div class="login-wrap">
-      <div class="brand-block">
-        <div class="kicker">FOR YOU ♡</div>
-        <h1>THE BEST<br><span>GAME</span></h1>
-        <p>SOME STORIES ARE WORTH PLAYING</p>
-      </div>
-
-      <div class="login-panel">
-        <div class="eyebrow">PRIVATE CAMPAIGN</div>
-        <h2>PLAYER<br>IDENTIFICATION</h2>
-        <p>One player. One save. Several questionable decisions.</p>
-
-        <label>PLAYER NAME
-          <input id="player-name" type="text" placeholder="Player name" />
-        </label>
-
-        <label>ACCESS CODE
-          <input id="access-code" type="password" placeholder="••••••" />
-        </label>
-
-        <button id="login-btn" class="primary-btn">ENTER</button>
-        <div id="login-error" class="error"></div>
-        <small>Good players create luck. Bad players create debt.</small>
-      </div>
+<section id="screen-login" class="screen active login-screen">
+  <div class="login-overlay"></div>
+  <div class="login-layout">
+    <div class="brand">
+      <div class="for-you">FOR YOU ♡</div>
+      <h1>THE BEST<br><span>GAME</span></h1>
+      <p>SOME STORIES ARE WORTH PLAYING</p>
     </div>
-  </section>
 
-  <!-- WELCOME MODAL -->
-  <div id="welcome-modal" class="modal hidden">
-    <div class="welcome-card">
-      <button id="close-welcome" class="close-btn">×</button>
-      <div class="eyebrow">WELCOME MESSAGE</div>
-      <h2>Coucou, yopta.</h2>
-      <p class="welcome-big">Thought you were going to play Call of Duty?</p>
-      <p><strong>Ah bah non. T’en voulais beaucoup, hein ?</strong></p>
-      <div class="warcuta">WELCOME TO WARCUTA</div>
-      <p class="small-joke">Campaign difficulty: relationship.</p>
-      <button id="welcome-continue" class="primary-btn">LET'S SUFFER →</button>
+    <div class="login-panel">
+      <div class="eyebrow">PRIVATE CAMPAIGN</div>
+      <h2>PLAYER<br>IDENTIFICATION</h2>
+      <p>One player. One save. Several questionable decisions.</p>
+
+      <label>PLAYER NAME
+        <input id="player-name" type="text" placeholder="Player name">
+      </label>
+
+      <label>ACCESS CODE
+        <input id="access-code" type="password" placeholder="••••••">
+      </label>
+
+      <button id="login-btn" class="primary">ENTER</button>
+      <div id="login-error" class="error"></div>
+      <small>Good players create luck. Bad players create debt.</small>
     </div>
   </div>
+</section>
 
-  <!-- WORLD / PARTS -->
-  <section id="screen-home" class="screen home-screen">
-    <header class="simple-hud">
-      <div><span class="hud-label">PLAYER</span><strong id="home-player">—</strong></div>
-      <div class="hud-actions">
-        <button id="inventory-btn" class="hud-btn">INVENTORY</button>
-        <button id="debt-btn" class="debt-btn">DEBT <img src="assets/pain_au_chocolat.png" alt=""> <span id="debt-top">0</span></button>
-      </div>
-    </header>
+<div id="welcome-modal" class="modal hidden">
+  <div class="welcome-card">
+    <button id="close-welcome" class="close">×</button>
+    <div class="eyebrow">THE BEST GAME PRESENTS</div>
+    <h2>Coucou, yopta.</h2>
+    <p class="welcome-main">Thought you were going to play Call of Duty?</p>
+    <p class="french-hand">Ah bah non. T’en voulais beaucoup, hein ?</p>
+    <div class="warcuta">WELCOME TO WARCUTA</div>
+    <p class="tiny-joke">Campaign difficulty: relationship.</p>
+    <button id="welcome-continue" class="primary">LET'S SUFFER →</button>
+  </div>
+</div>
 
-    <section class="campaign-shell">
-      <div class="campaign-head">
-        <div>
-          <div class="eyebrow">CAMPAIGN</div>
-          <h2>CHOOSE YOUR PART</h2>
-          <p>Different places. Same two debils.</p>
-        </div>
-      </div>
+<section id="screen-home" class="screen home-screen">
+  <header class="hud">
+    <div>
+      <span class="hud-label">PLAYER</span>
+      <strong id="home-player">—</strong>
+    </div>
+    <button id="debt-btn" class="debt-button">
+      DEBT
+      <img src="assets/pain_au_chocolat.png" alt="">
+      <span id="debt-top">0</span>
+    </button>
+  </header>
 
-      <div class="strategy-map">
-        <div class="map-bg"></div>
-        <div class="route route-1"></div>
-        <div class="route route-2"></div>
-
-        <button class="part-node node-indonesia" data-part="indonesia">
-          <span class="part-no">PART 1</span>
-          <strong>INDONESIA</strong>
-          <small class="indonesia-progress">0/3 MISSIONS COMPLETE</small>
-        </button>
-
-        <button class="part-node node-russia locked-node">
-          <span class="part-no">PART 2</span>
-          <strong>RUSSIA</strong>
-          <small>LOCKED</small>
-        </button>
-
-        <button class="part-node node-future locked-node">
-          <span class="part-no">PART 3</span>
-          <strong>???</strong>
-          <small>CLASSIFIED</small>
-        </button>
-      </div>
-    </section>
-  </section>
-
-  <!-- PART 1 -->
-  <section id="screen-indonesia" class="screen indonesia-screen">
-    <header class="simple-hud">
-      <button class="hud-btn back-home">← PARTS</button>
-      <div class="hud-actions">
-        <button class="hud-btn inventory-open">INVENTORY</button>
-        <button class="debt-btn debt-open">DEBT <img src="assets/pain_au_chocolat.png" alt=""> <span class="debt-any">0</span></button>
-      </div>
-    </header>
-
-    <div class="part-hero">
-      <div class="eyebrow">PART 1</div>
-      <h2>INDONESIA</h2>
-      <p>Three missions. One highly questionable dating history.</p>
+  <div class="campaign-wrap">
+    <div class="campaign-title">
+      <div class="eyebrow">CAMPAIGN</div>
+      <h2>CHOOSE YOUR PART</h2>
+      <p>Different places. Same two debils.</p>
     </div>
 
-    <div class="mission-board">
-      <button id="open-tinder" class="mission-tile available">
-        <div class="mission-image tinder-art"></div>
-        <div class="mission-copy">
+    <div class="parts-layout">
+      <div class="world-map-panel">
+        <div class="map-caption">CAMPAIGN MAP</div>
+        <div class="continent europe"></div>
+        <div class="continent asia"></div>
+        <div class="continent seasia"></div>
+        <div class="route route1"></div>
+        <div class="map-marker russia-marker"><i>2</i><span>RUSSIA</span></div>
+        <div class="map-marker indonesia-marker"><i>1</i><span>INDONESIA</span></div>
+        <div class="compass">N<br>✦<br>S</div>
+        <div class="map-note">Same player.<br>New bad decisions.</div>
+      </div>
+
+      <div class="part-list">
+        <button class="part-row available" data-part="indonesia">
+          <span class="part-num">PART 1</span>
+          <span class="part-name">
+            <strong>INDONESIA</strong>
+            <small class="indonesia-progress">0/3 MISSIONS COMPLETE</small>
+          </span>
+          <span class="part-arrow">→</span>
+        </button>
+
+        <button class="part-row locked">
+          <span class="part-num">PART 2</span>
+          <span class="part-name">
+            <strong>RUSSIA</strong>
+            <small>LOCKED</small>
+          </span>
+          <span class="part-lock">▣</span>
+        </button>
+
+        <button class="part-row locked">
+          <span class="part-num">PART 3</span>
+          <span class="part-name">
+            <strong>???</strong>
+            <small>CLASSIFIED</small>
+          </span>
+          <span class="part-lock">▣</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screen-indonesia" class="screen indonesia-screen">
+  <header class="hud">
+    <button class="hud-btn back-home">← PARTS</button>
+    <button class="debt-button debt-open">
+      DEBT
+      <img src="assets/pain_au_chocolat.png" alt="">
+      <span class="debt-any">0</span>
+    </button>
+  </header>
+
+  <div class="part-wrap">
+    <div class="part-title">
+      <div class="eyebrow">PART 1</div>
+      <h2>INDONESIA</h2>
+      <p>Sun, chaos and questionable choices.</p>
+    </div>
+
+    <div class="mission-list">
+      <button id="open-tinder" class="mission-row available">
+        <div class="mission-icon tinder-mini">♥</div>
+        <div class="mission-text">
           <span>MISSION 01</span>
           <strong>FIND YOUR MATCH</strong>
-          <small>Dating app survival.</small>
-          <b id="tinder-status">PLAY →</b>
+          <small>Swipe. Suffer. Repeat.</small>
         </div>
+        <b id="tinder-status">PLAY →</b>
       </button>
 
-      <button class="mission-tile locked-node">
-        <div class="mission-image cs-art"></div>
-        <div class="mission-copy">
+      <button class="mission-row locked">
+        <div class="mission-icon">?</div>
+        <div class="mission-text">
           <span>MISSION 02</span>
           <strong>CLASSIFIED</strong>
-          <small>Apparently you survive Mission 01 first.</small>
-          <b>LOCKED</b>
+          <small>Finish the first mess first.</small>
         </div>
+        <b>LOCKED</b>
       </button>
 
-      <button class="mission-tile locked-node">
-        <div class="mission-image racing-art"></div>
-        <div class="mission-copy">
+      <button class="mission-row locked">
+        <div class="mission-icon">?</div>
+        <div class="mission-text">
           <span>MISSION 03</span>
           <strong>CLASSIFIED</strong>
           <small>More bad decisions later.</small>
-          <b>LOCKED</b>
         </div>
+        <b>LOCKED</b>
       </button>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- TINDER -->
-  <section id="screen-tinder" class="screen tinder-screen">
-    <header class="simple-hud tinder-hud">
-      <button class="hud-btn" id="back-indonesia">← INDONESIA</button>
-      <div class="game-stats">
-        <span>HP <strong id="lives">❤️❤️❤️</strong></span>
-        <button class="debt-btn debt-open">DEBT <img src="assets/pain_au_chocolat.png" alt=""> <span class="debt-any">0</span></button>
-      </div>
-    </header>
-
-    <div class="tinder-center">
-      <div class="phone-shell">
-        <div class="phone-top">
-          <span class="tinder-logo">🔥 tinder</span>
-          <span class="server">BALI SERVER</span>
-        </div>
-
-        <div class="mission-strip">
-          <span>MISSION 01</span>
-          <strong>Find the right girl.</strong>
-        </div>
-
-        <div id="card-stack" class="card-stack"></div>
-
-        <div class="swipe-actions">
-          <button id="nope-btn" class="swipe-btn nope">✕</button>
-          <button id="like-btn" class="swipe-btn like">♥</button>
-        </div>
-
-        <div id="game-message" class="game-message">Swipe. Try not to die.</div>
-      </div>
+<section id="screen-tinder" class="screen tinder-screen">
+  <header class="hud tinder-hud">
+    <button class="hud-btn" id="back-indonesia">← INDONESIA</button>
+    <div class="tinder-stats">
+      <span class="lives-label">LIVES <strong id="lives">❤️❤️❤️</strong></span>
+      <button class="debt-button debt-open">
+        DEBT
+        <img src="assets/pain_au_chocolat.png" alt="">
+        <span class="debt-any">0</span>
+      </button>
     </div>
-  </section>
+  </header>
 
-  <!-- MATCH -->
-  <section id="screen-match" class="screen match-screen">
-    <div class="match-card">
-      <div class="eyebrow">MISSION UPDATE</div>
-      <h2>IT'S A MATCH</h2>
-      <p>You somehow made it.</p>
-      <img src="assets/anastasia_real.jpeg" class="match-photo" alt="Anastasia">
-      <button id="finish-tinder" class="primary-btn">MISSION COMPLETE</button>
-    </div>
-  </section>
+  <div class="tinder-center">
+    <div class="phone">
+      <div class="phone-top">
+        <span class="tinder-logo">🔥 tinder</span>
+        <span class="server">BALI SERVER</span>
+      </div>
 
-  <!-- DEBT -->
-  <div id="debt-modal" class="modal hidden">
-    <div class="debt-card">
-      <button id="close-debt" class="close-btn">×</button>
-      <div class="eyebrow">PENALTY</div>
-      <h2>YOUR DEBT</h2>
-      <img src="assets/pain_au_chocolat.png" class="debt-pastry" alt="pain au chocolat">
-      <div class="debt-number"><span id="debt-big">0</span> × PAIN AU CHOCOLAT</div>
-      <p>Закончились жизни — поздравляю, ты мне должен ещё один.</p>
+      <div class="mission-strip">
+        <span>MISSION 01</span>
+        <strong>Find the right girl.</strong>
+      </div>
+
+      <div id="card-stack" class="card-stack"></div>
+
+      <div class="swipe-actions">
+        <button id="rewind-btn" class="swipe-btn rewind" title="Rewind">↶</button>
+        <button id="nope-btn" class="swipe-btn nope" title="Nope">✕</button>
+        <button id="like-btn" class="swipe-btn like" title="Like">♥</button>
+      </div>
+
+      <div id="game-message" class="game-message">Swipe. Try not to die.</div>
     </div>
   </div>
+</section>
 
-  <!-- INVENTORY -->
-  <div id="inventory-modal" class="modal hidden">
-    <div class="inventory-card">
-      <button id="close-inventory" class="close-btn">×</button>
-      <div class="eyebrow">INVENTORY</div>
-      <h2>PLAYER STASH</h2>
-      <div class="inventory-grid">
-        <div class="inventory-slot">
-          <img src="assets/pain_au_chocolat.png" alt="">
-          <strong>PAIN AU CHOCOLAT</strong>
-          <span>Debt item. Unfortunately stackable.</span>
-        </div>
-        <div class="inventory-slot empty">
-          <strong>???</strong>
-          <span>Locked.</span>
-        </div>
-        <div class="inventory-slot empty">
-          <strong>???</strong>
-          <span>Locked.</span>
-        </div>
-      </div>
-    </div>
+<section id="screen-match" class="screen match-screen">
+  <div class="match-card">
+    <div class="eyebrow">MISSION UPDATE</div>
+    <h2>IT'S A MATCH</h2>
+    <p>You somehow made it.</p>
+    <img src="assets/anastasia_16bit.png" class="match-photo" alt="Anastasia">
+    <button id="finish-tinder" class="primary">MISSION COMPLETE</button>
   </div>
+</section>
+
+<div id="debt-modal" class="modal hidden">
+  <div class="debt-card">
+    <button id="close-debt" class="close">×</button>
+    <div class="eyebrow">PLAYER PENALTY</div>
+    <h2>YOUR DEBT</h2>
+    <img src="assets/pain_au_chocolat.png" class="pastry-big" alt="pain au chocolat">
+    <div class="debt-count"><span id="debt-big">0</span> × PAIN AU CHOCOLAT</div>
+    <p class="cyrillic-joke">Закончились жизни — поздравляю, ты мне должен ещё один.</p>
+  </div>
+</div>
 
 </main>
 <script src="game.js"></script>

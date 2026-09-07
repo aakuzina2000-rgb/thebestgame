@@ -1,4 +1,4 @@
-THE BEST GAME — v6
+THE BEST GAME — v8
 
 UPLOAD TO GITHUB ROOT:
 - index.html
@@ -6,17 +6,18 @@ UPLOAD TO GITHUB ROOT:
 - game.js
 - assets/
 
-Changes:
-- Removed extra left-side profile, World/Missions/Stats/Journal navigation and unnecessary menu buttons.
-- Returned to simple PART structure: Part 1 Indonesia, Part 2 Russia, Part 3 locked.
-- Clicking Part 1 opens its own mini-game list.
-- Added one-time welcome popup after first successful login:
-  "Coucou, yopta. Thought you were going to play Call of Duty? Ah bah non. T’en voulais beaucoup, hein ? Welcome to Warcuta."
-- Inventory preserved as a separate modal.
-- Debt preserved, no debt log button or history shown.
-- Pain au chocolat uses the user's transparent PNG directly and is larger.
-- Tinder no longer shows any visible profile queue.
-- Tinder profiles use detailed supplied/generated image assets.
-- User's uploaded game screenshots are used sparingly as backgrounds / mission artwork.
-- Save state remains persistent in the same browser/device.
-- Part 2 renamed RUSSIA.
+CHANGES IN V8:
+- No inventory.
+- Pain au chocolat is larger everywhere and uses the supplied transparent PNG directly.
+- Welcome French line uses the handwritten/script style.
+- Choose Your Part has NO photo background.
+- Choose Your Part = map on the left + Part 1 / Part 2 / Part 3 rows on the right.
+- Part 2 = RUSSIA.
+- Part 1 retains the Assassin-style background.
+- Mission list no longer uses random uploaded screenshots.
+- Mission 01 has a simple Tinder-specific icon; locked missions stay neutral.
+- Tinder uses LIVES instead of HP.
+- Added Rewind button.
+- Tinder descriptions rewritten with more jokes.
+- Anastasia photo converted to a subtle low-resolution / 16-bit-ish version without color filters.
+- Save state and pain-au-chocolat debt remain persistent in the same browser/device.

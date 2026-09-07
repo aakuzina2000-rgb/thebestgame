@@ -1,47 +1,144 @@
-
 *{box-sizing:border-box}
 :root{
-  --bg:#0e1418;--panel:#111a20;--panel2:#19232a;--line:#35434b;--gold:#d9a83c;
-  --cream:#f1ead9;--muted:#aab4b8;--red:#d04c42;--green:#2ad07f;--tinder:#fd267a;--orange:#ff6036;
+  --bg:#0d1418;--panel:#10191f;--panel2:#162128;--line:#39464d;
+  --gold:#d6a342;--cream:#f2ead8;--muted:#a6b0b4;--red:#cf5147;
+  --green:#2ccf80;--tinder:#fd267a;--orange:#ff6036;
 }
 html{font-size:18px}
-body{margin:0;background:#0b1115;color:var(--cream);font-family:Arial,Helvetica,sans-serif}
-button,input{font:inherit}.screen{display:none;min-height:100vh}.screen.active{display:block}
-h1,h2,p{margin-top:0}.eyebrow{font-size:12px;letter-spacing:.16em;color:var(--gold);font-weight:800}
-.primary-btn,.hud-btn,.debt-btn{cursor:pointer;border:1px solid #8b692b;background:linear-gradient(#332b1f,#1d1812);color:#f4dfa5;font-weight:800}
-.primary-btn{padding:14px 18px;width:100%}.hud-btn,.debt-btn{padding:10px 14px}.debt-btn img{width:44px;height:30px;object-fit:contain;vertical-align:middle;margin:0 6px}
+body{margin:0;background:var(--bg);color:var(--cream);font-family:Arial,Helvetica,sans-serif}
+button,input{font:inherit}
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+h1,h2,p{margin-top:0}
+.eyebrow{font-size:12px;letter-spacing:.16em;color:var(--gold);font-weight:800}
+.primary,.hud-btn,.debt-button{border:1px solid #8e692d;background:linear-gradient(#32291d,#1c1712);color:#f7dda0;font-weight:800;cursor:pointer}
+.primary{width:100%;padding:14px 18px}
+.hud-btn,.debt-button{padding:10px 14px}
+.debt-button{display:flex;align-items:center;gap:8px}
+.debt-button img{width:72px;height:50px;object-fit:contain;image-rendering:pixelated}
 
+/* login */
 .login-screen{position:relative;background:url("assets/bg_assassin_city.jpeg") center/cover no-repeat}
-.login-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,12,15,.25),rgba(8,12,15,.8) 58%,rgba(8,12,15,.92))}
-.login-wrap{position:relative;z-index:2;min-height:100vh;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:60px;padding:7vw}
-.brand-block{max-width:620px}.brand-block .kicker{font-size:13px;letter-spacing:.2em;margin-bottom:18px}.brand-block h1{font-family:Georgia,serif;font-size:clamp(64px,8vw,120px);line-height:.78;letter-spacing:-.05em;text-shadow:0 5px 25px rgba(0,0,0,.6)}.brand-block h1 span{color:#e3b24f}.brand-block p{letter-spacing:.18em;font-weight:700}
-.login-panel{max-width:520px;margin-left:auto;background:rgba(8,15,20,.94);border:1px solid #3f4b51;padding:32px;box-shadow:0 20px 70px rgba(0,0,0,.45)}.login-panel h2{font-family:Georgia,serif;font-size:36px;line-height:.95;margin:10px 0 12px}.login-panel p,.login-panel small{color:var(--muted)}.login-panel label{display:block;font-size:12px;letter-spacing:.12em;margin:18px 0 8px}.login-panel input{display:block;width:100%;margin-top:8px;padding:14px 12px;background:#0b1115;border:1px solid #4b565c;color:white}.login-panel .primary-btn{margin-top:14px}.error{min-height:18px;color:#ff9d91;margin:10px 0}
+.login-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,9,12,.18),rgba(5,9,12,.76) 55%,rgba(5,9,12,.94))}
+.login-layout{position:relative;z-index:2;min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:60px;padding:6vw}
+.brand{max-width:650px}
+.for-you{font-size:13px;letter-spacing:.2em;margin-bottom:20px}
+.brand h1{font-family:Georgia,serif;font-size:clamp(64px,8vw,118px);line-height:.78;letter-spacing:-.05em;text-shadow:0 8px 30px rgba(0,0,0,.6)}
+.brand h1 span{color:#e0ae4a}
+.brand p{letter-spacing:.16em;font-weight:700}
+.login-panel{max-width:520px;margin-left:auto;padding:32px;background:rgba(7,14,18,.95);border:1px solid #46545b;box-shadow:0 24px 70px rgba(0,0,0,.45)}
+.login-panel h2{font-family:Georgia,serif;font-size:38px;line-height:.95;margin:8px 0 12px}
+.login-panel p,.login-panel small{color:var(--muted)}
+.login-panel label{display:block;font-size:12px;letter-spacing:.12em;margin:18px 0}
+.login-panel input{display:block;width:100%;margin-top:8px;padding:14px;background:#0a1014;border:1px solid #46545b;color:#fff}
+.login-panel .primary{margin-top:4px}
+.error{min-height:20px;color:#ff9c90;margin:10px 0}
 
-.simple-hud{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;background:rgba(8,14,18,.95);border-bottom:1px solid #2e3940;position:sticky;top:0;z-index:10}.hud-label{display:block;color:#839198;font-size:10px;letter-spacing:.15em}.simple-hud strong{font-size:20px}.hud-actions,.game-stats{display:flex;gap:12px;align-items:center}
+/* modal */
+.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(3,7,9,.8)}
+.hidden{display:none}
+.welcome-card,.debt-card{position:relative;width:min(620px,100%);padding:32px;background:#0c151b;border:1px solid #506069;box-shadow:0 30px 90px rgba(0,0,0,.55)}
+.close{position:absolute;right:14px;top:12px;width:38px;height:38px;background:#131d23;color:#fff;border:1px solid #506069;font-size:24px}
+.welcome-card h2,.debt-card h2{font-family:Georgia,serif;font-size:46px;margin:8px 0 12px}
+.welcome-main{font-size:23px}
+.french-hand{margin:18px 0 20px;color:#e7ad41;font-family:"Brush Script MT","Segoe Script","Bradley Hand",cursive;font-size:clamp(29px,4vw,44px);line-height:1.03;transform:rotate(-1deg)}
+.warcuta{margin:20px 0;padding:15px;border:1px solid #8b692d;color:#e8bd5d;text-align:center;font-size:31px;font-weight:900;letter-spacing:.07em}
+.tiny-joke{color:#929ea4}
 
-.home-screen{background:
-linear-gradient(rgba(7,12,15,.48),rgba(7,12,15,.75)),
-url("assets/bg_aoe.jpeg") center/cover fixed no-repeat}
-.campaign-shell{padding:50px 6vw 70px}.campaign-head{max-width:1200px;margin:0 auto 24px}.campaign-head h2{font-family:Georgia,serif;font-size:48px;margin:6px 0 8px}.campaign-head p{font-style:italic;color:#cfd4d1}
-.strategy-map{position:relative;max-width:1200px;height:620px;margin:0 auto;border:1px solid #6a604d;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden;background:#1b2528}
-.map-bg{position:absolute;inset:0;background:
-linear-gradient(rgba(8,16,18,.2),rgba(8,16,18,.4)),
-url("assets/bg_city_strategy.jpeg") center/cover no-repeat;filter:saturate(.82) contrast(1.03)}
-.strategy-map:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,transparent 25%,rgba(3,8,10,.55) 100%);pointer-events:none}
-.part-node{position:absolute;z-index:3;width:230px;text-align:left;padding:18px;background:rgba(10,17,21,.92);border:1px solid #a08145;color:#f7e7bc;box-shadow:0 10px 30px rgba(0,0,0,.4);cursor:pointer}.part-node span,.part-node small{display:block;color:#c4b07c}.part-node strong{display:block;font-size:27px;margin:6px 0}.node-indonesia{left:11%;bottom:14%}.node-russia{left:43%;top:14%}.node-future{right:10%;bottom:20%}.locked-node{opacity:.48;cursor:default}
-.route{position:absolute;z-index:2;height:2px;border-top:3px dashed rgba(226,187,98,.85);transform-origin:left center}.route-1{width:350px;left:27%;bottom:29%;transform:rotate(-25deg)}.route-2{width:300px;left:56%;top:28%;transform:rotate(31deg)}
+/* common hud */
+.hud{display:flex;justify-content:space-between;align-items:center;padding:17px 28px;background:rgba(7,13,17,.96);border-bottom:1px solid #303c43;position:sticky;top:0;z-index:20}
+.hud-label{display:block;color:#7f8c92;font-size:10px;letter-spacing:.14em}
+.hud strong{font-size:20px}
 
-.indonesia-screen{background:linear-gradient(rgba(8,12,15,.5),rgba(8,12,15,.75)),url("assets/bg_assassin_desert.jpeg") center/cover fixed no-repeat;padding-bottom:70px}.part-hero{max-width:1100px;margin:0 auto;padding:55px 28px 25px}.part-hero h2{font-family:Georgia,serif;font-size:64px;margin:5px 0}.part-hero p{color:#d3d7d2}.mission-board{max-width:1100px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.mission-tile{padding:0;background:#11181d;border:1px solid #5c666b;color:white;text-align:left;overflow:hidden}.mission-image{height:250px;background-size:cover;background-position:center}.tinder-art{background-image:linear-gradient(rgba(15,15,15,.1),rgba(15,15,15,.35)),url("assets/bg_gta.jpeg")}.cs-art{background-image:url("assets/bg_cs.png")}.racing-art{background-image:url("assets/bg_racing.jpeg")}.mission-copy{padding:18px}.mission-copy span{font-size:11px;letter-spacing:.13em;color:#c4a565}.mission-copy strong{display:block;font-size:22px;margin:7px 0}.mission-copy small{color:#aab2b5}.mission-copy b{display:block;margin-top:18px;color:#f3d58c}
+/* choose part */
+.home-screen{background:radial-gradient(circle at 20% 0%,rgba(207,157,65,.07),transparent 30%),linear-gradient(135deg,#121a1f,#0e1519)}
+.campaign-wrap{max-width:1280px;margin:0 auto;padding:44px 32px 70px}
+.campaign-title{margin-bottom:25px}
+.campaign-title h2{font-family:Georgia,serif;font-size:clamp(42px,5vw,68px);margin:5px 0}
+.campaign-title p{color:#c6c9c7;font-style:italic}
+.parts-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(350px,.85fr);gap:28px}
+.world-map-panel{position:relative;min-height:520px;background:#b5a272;border:1px solid #7e6841;box-shadow:inset 0 0 80px rgba(58,40,17,.35),0 20px 50px rgba(0,0,0,.28);overflow:hidden}
+.world-map-panel:before{content:"";position:absolute;inset:22px;border:1px solid rgba(59,45,25,.34)}
+.map-caption{position:absolute;top:26px;left:30px;color:#302617;font-size:13px;font-weight:900;letter-spacing:.16em}
+.continent{position:absolute;background:#657255;opacity:.92;filter:drop-shadow(0 3px 0 rgba(56,51,33,.35))}
+.europe{left:8%;top:25%;width:34%;height:28%;clip-path:polygon(2% 36%,18% 10%,36% 14%,52% 2%,73% 19%,96% 16%,90% 45%,73% 56%,58% 83%,34% 70%,16% 91%,4% 62%)}
+.asia{left:36%;top:19%;width:55%;height:41%;clip-path:polygon(2% 32%,15% 16%,30% 20%,43% 8%,57% 18%,73% 12%,88% 28%,100% 42%,90% 58%,75% 63%,65% 81%,48% 73%,34% 94%,21% 73%,6% 67%)}
+.seasia{right:12%;bottom:17%;width:26%;height:12%;clip-path:polygon(0 40%,18% 22%,33% 46%,52% 16%,70% 45%,88% 30%,100% 52%,85% 68%,62% 55%,42% 83%,21% 64%)}
+.route{position:absolute;height:0;border-top:3px dashed rgba(255,244,213,.92);transform-origin:left center}
+.route1{left:35%;top:39%;width:39%;transform:rotate(28deg)}
+.map-marker{position:absolute;color:#34291b;font-weight:900}
+.map-marker i{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:#d5a441;border:4px solid #594822;font-style:normal}
+.map-marker span{display:block;margin-top:4px;font-size:12px}
+.russia-marker{left:44%;top:31%}
+.indonesia-marker{right:15%;bottom:19%}
+.compass{position:absolute;left:8%;bottom:10%;color:#3d321f;text-align:center;font-family:Georgia,serif;font-size:18px}
+.map-note{position:absolute;right:7%;top:8%;color:#5a4930;font-family:"Brush Script MT","Segoe Script",cursive;font-size:24px;transform:rotate(-4deg)}
+.part-list{display:flex;flex-direction:column;gap:14px}
+.part-row{display:grid;grid-template-columns:90px 1fr 42px;align-items:center;gap:13px;width:100%;padding:18px 19px;background:#111a20;border:1px solid #4b555b;color:#f4e7c5;text-align:left}
+.part-row.available{cursor:pointer;border-color:#98733a}
+.part-row.available:hover{background:#162128}
+.part-num{font-size:12px;color:#bca66f;letter-spacing:.12em}
+.part-name strong{display:block;font-family:Georgia,serif;font-size:29px}
+.part-name small{display:block;margin-top:5px;color:#8f9ba0}
+.part-arrow{font-size:30px;color:#e0b04e}
+.part-lock{color:#777}
 
-.tinder-screen{background:linear-gradient(135deg,#f9e5ea,#ffd8cb 50%,#e9e9ec);padding-bottom:60px}.tinder-hud{background:#fff;color:#222}.tinder-hud .hud-btn,.tinder-hud .debt-btn{background:#fff;color:#333;border-color:#ddd}.tinder-center{display:grid;place-items:center;padding:35px 0}.phone-shell{width:min(430px,calc(100vw - 28px));background:#fff;border:5px solid #202326;border-radius:22px;padding:14px;box-shadow:0 28px 70px rgba(0,0,0,.3)}.phone-top{display:flex;justify-content:space-between;align-items:center;padding:8px 5px 14px}.tinder-logo{font-size:25px;font-weight:900;background:linear-gradient(90deg,var(--tinder),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}.server{font-size:11px;color:#999;font-weight:800}.mission-strip{padding:11px 13px;border-radius:10px;background:linear-gradient(90deg,var(--tinder),var(--orange));color:white}.mission-strip span{display:block;font-size:10px;letter-spacing:.13em}.card-stack{height:520px;position:relative;margin-top:12px}.profile-card{position:absolute;inset:0;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 26px rgba(0,0,0,.18);user-select:none;touch-action:none;transition:transform .25s,opacity .25s}.profile-visual{height:72%;background:#222;overflow:hidden}.profile-visual img{width:100%;height:100%;object-fit:cover}.profile-copy{height:28%;padding:15px;color:#222}.profile-copy h3{font-size:28px;margin:0 0 5px}.profile-copy p{font-size:15px;color:#444;margin:0;line-height:1.35}.profile-meta{font-size:12px;color:#888;margin-top:8px}.swipe-actions{display:flex;justify-content:center;gap:38px;padding-top:16px}.swipe-btn{width:62px;height:62px;border-radius:50%;background:#fff;border:1px solid #ddd;font-size:30px;font-weight:900}.nope{color:#fd5068}.like{color:#21d07a}.game-message{text-align:center;color:#555;padding-top:12px;font-size:14px}
+/* part 1 */
+.indonesia-screen{background:linear-gradient(rgba(8,12,15,.5),rgba(8,12,15,.76)),url("assets/bg_assassin_desert.jpeg") center/cover fixed no-repeat;padding-bottom:70px}
+.part-wrap{max-width:1050px;margin:0 auto;padding:55px 28px}
+.part-title h2{font-family:Georgia,serif;font-size:66px;margin:5px 0}
+.part-title p{color:#d3d7d2}
+.mission-list{display:flex;flex-direction:column;gap:14px;margin-top:26px}
+.mission-row{display:grid;grid-template-columns:88px 1fr 100px;align-items:center;width:100%;min-height:120px;padding:0;background:rgba(12,18,22,.93);border:1px solid #566168;color:#fff;text-align:left;overflow:hidden}
+.mission-row.available{cursor:pointer;border-color:#9a763b}
+.mission-row.available:hover{background:rgba(20,29,35,.97)}
+.mission-icon{display:grid;place-items:center;align-self:stretch;background:#18242a;border-right:1px solid #465158;font-size:36px;color:#8d989d}
+.tinder-mini{background:linear-gradient(145deg,#fd267a,#ff6036);color:#fff}
+.mission-text{padding:18px}
+.mission-text span{font-size:11px;letter-spacing:.13em;color:#c4a465}
+.mission-text strong{display:block;font-size:23px;margin:6px 0}
+.mission-text small{color:#aeb7bb}
+.mission-row b{color:#e5bd63}
+.locked{opacity:.48;cursor:default}
 
-.match-screen{background:linear-gradient(rgba(8,12,15,.45),rgba(8,12,15,.8)),url("assets/bg_assassin_city.jpeg") center/cover no-repeat;display:none}.match-screen.active{display:grid;place-items:center}.match-card{width:min(520px,calc(100vw - 32px));background:rgba(9,15,19,.94);border:1px solid #6b6f69;padding:28px;text-align:center}.match-card h2{font-family:Georgia,serif;font-size:50px}.match-photo{width:240px;height:300px;object-fit:cover;border:1px solid #b59454;margin-bottom:20px}
+/* tinder */
+.tinder-screen{background:linear-gradient(135deg,#f7e4e9,#ffd9ca 48%,#ededf0);padding-bottom:60px}
+.tinder-hud{background:#fff;color:#222;border-color:#ddd}
+.tinder-hud .hud-btn,.tinder-hud .debt-button{background:#fff;color:#333;border-color:#ddd}
+.tinder-stats{display:flex;align-items:center;gap:14px}
+.lives-label{font-size:14px;font-weight:800}
+.tinder-center{display:grid;place-items:center;padding:34px 0}
+.phone{width:min(430px,calc(100vw - 28px));padding:14px;background:#fff;border:5px solid #202326;border-radius:22px;box-shadow:0 28px 70px rgba(0,0,0,.28)}
+.phone-top{display:flex;justify-content:space-between;align-items:center;padding:8px 5px 14px}
+.tinder-logo{font-size:25px;font-weight:900;background:linear-gradient(90deg,var(--tinder),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+.server{font-size:11px;color:#999;font-weight:800}
+.mission-strip{padding:11px 13px;border-radius:10px;background:linear-gradient(90deg,var(--tinder),var(--orange));color:#fff}
+.mission-strip span{display:block;font-size:10px;letter-spacing:.13em}
+.card-stack{height:520px;position:relative;margin-top:12px}
+.profile-card{position:absolute;inset:0;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 26px rgba(0,0,0,.18);user-select:none;touch-action:none;transition:transform .25s,opacity .25s}
+.profile-visual{height:72%;background:#222;overflow:hidden}
+.profile-visual img{width:100%;height:100%;object-fit:cover}
+.profile-copy{height:28%;padding:15px;color:#222}
+.profile-copy h3{font-size:28px;margin:0 0 5px}
+.profile-copy p{font-size:15px;color:#444;margin:0;line-height:1.35}
+.profile-meta{font-size:12px;color:#888;margin-top:8px}
+.swipe-actions{display:flex;justify-content:center;gap:28px;padding-top:16px}
+.swipe-btn{width:62px;height:62px;border-radius:50%;background:#fff;border:1px solid #ddd;font-size:30px;font-weight:900;box-shadow:0 5px 15px rgba(0,0,0,.1)}
+.rewind{color:#f0a93d}.nope{color:#fd5068}.like{color:#21d07a}
+.game-message{text-align:center;color:#555;padding-top:12px;font-size:14px}
 
-.modal{position:fixed;inset:0;z-index:100;background:rgba(4,8,10,.78);display:grid;place-items:center;padding:20px}.hidden{display:none}.welcome-card,.debt-card,.inventory-card{position:relative;width:min(620px,100%);background:#0d171d;border:1px solid #53616a;padding:30px;box-shadow:0 30px 80px rgba(0,0,0,.5)}.close-btn{position:absolute;right:14px;top:12px;width:38px;height:38px;border:1px solid #4e5b62;background:#172127;color:white;font-size:24px}.welcome-card h2,.debt-card h2,.inventory-card h2{font-family:Georgia,serif;font-size:42px;margin:8px 0 12px}.welcome-big{font-size:24px}.warcuta{font-size:34px;color:#e5b445;font-weight:900;border:1px solid #7b632f;padding:15px;text-align:center;margin:20px 0}.small-joke{color:#96a1a7}
-.debt-card{text-align:center}.debt-pastry{width:min(420px,80vw);max-height:260px;object-fit:contain;display:block;margin:10px auto}.debt-number{font-size:30px;color:#edbd51;font-weight:900}
-.inventory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}.inventory-slot{min-height:190px;background:#111c22;border:1px solid #39474f;padding:16px;text-align:center}.inventory-slot img{width:120px;height:90px;object-fit:contain}.inventory-slot strong{display:block;margin:8px 0}.inventory-slot span{color:#98a3a8;font-size:13px}.inventory-slot.empty{opacity:.45}
+/* match + debt */
+.match-screen{background:linear-gradient(rgba(8,12,15,.45),rgba(8,12,15,.82)),url("assets/bg_assassin_city.jpeg") center/cover no-repeat}
+.match-screen.active{display:grid;place-items:center}
+.match-card{width:min(520px,calc(100vw - 32px));padding:28px;text-align:center;background:rgba(8,14,18,.95);border:1px solid #677176}
+.match-card h2{font-family:Georgia,serif;font-size:50px}
+.match-photo{width:250px;height:310px;object-fit:cover;border:1px solid #a78649;margin-bottom:20px;image-rendering:pixelated}
+.debt-card{text-align:center}
+.pastry-big{width:min(430px,82vw);max-height:280px;object-fit:contain;display:block;margin:8px auto;image-rendering:pixelated}
+.debt-count{font-size:30px;color:#e6b64f;font-weight:900}
+.cyrillic-joke{margin-top:18px;color:#d8d0bd;font-family:"Brush Script MT","Segoe Script","Bradley Hand",cursive;font-size:25px;transform:rotate(-1deg)}
 
 @media(max-width:900px){
-  .login-wrap{grid-template-columns:1fr;padding:28px}.brand-block{display:none}.login-panel{margin:auto}
-  .mission-board{grid-template-columns:1fr}.strategy-map{height:700px}.part-node{width:210px}.node-indonesia{left:5%;bottom:12%}.node-russia{left:38%;top:13%}.node-future{right:4%;bottom:20%}
+  .login-layout{grid-template-columns:1fr;padding:28px}.brand{display:none}.login-panel{margin:auto}
+  .parts-layout{grid-template-columns:1fr}.world-map-panel{min-height:430px}
 }
