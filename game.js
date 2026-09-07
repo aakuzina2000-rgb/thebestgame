@@ -1,4 +1,4 @@
-console.log("THE BEST GAME v19 loaded");
+console.log("THE BEST GAME v20 loaded");
 const ACCESS_CODE="indonesia";
 const MAX_LIVES=3;
 const SAVE_KEY="thebestgame_save_v1";
@@ -306,7 +306,7 @@ let padel={
   roundActive:false,finished:false,paused:false,
   startTime:0,duration:1500,raf:null,pauseStarted:0,
   ballTargetX:50,
-  rallyCount:0,totalGames:5,currentGame:1,pointsToWin:5,
+  rallyCount:0,totalGames:5,currentGame:1,pointsToWin:5,visualProgress:0,
   keys:{left:false,right:false},lastFrame:0
 };
 
@@ -358,12 +358,14 @@ function updatePlayer(){
 function setBallProgress(p){
   const ball=document.getElementById("padel-ball");
   const marker=document.getElementById("timing-marker");
+  const visualP=Math.max(0,Math.min(1,p));
+  padel.visualProgress=visualP;
   if(!ball||!marker)return;
-  const top=22+p*62;
+  const top=22+visualP*62;
   const x=50;
   ball.style.top=top+"%";
   ball.style.left=x+"%";
-  marker.style.left=`calc(${Math.max(0,Math.min(1,p))*100}% - 2px)`;
+  marker.style.left=`calc(${visualP*100}% - 2px)`;
 }
 
 function currentSpeedDuration(){
@@ -490,19 +492,22 @@ function finishPoint(playerWon,title,text){
 function hitPadel(){
   if(!padel.roundActive||padel.finished||padel.paused)return;
 
-  const p=(performance.now()-padel.startTime)/padel.duration;
+  // IMPORTANT: score from the marker's ACTUAL displayed position, not a second clock.
+  // This removes the visual/timing mismatch that caused center hits to lose.
+  const p=padel.visualProgress;
+
   padel.roundActive=false;
   cancelAnimationFrame(padel.raf);
 
-  // Fixed timing bug: a broad valid window instead of a razor-thin single moment.
-  if(p>=0.69 && p<=0.86){
-    finishPoint(true,"PERFECT","+1 point.");
-  }else if(p>=0.58 && p<=0.94){
-    finishPoint(true,"GOOD","+1 point.");
-  }else if(p<0.58){
-    finishPoint(false,"TOO EARLY","CPU +1 point.");
+  // The visible middle zone is deliberately generous.
+  if(p>=0.40 && p<=0.60){
+    finishPoint(true,"PERFECT","+1 POINT");
+  }else if(p>=0.30 && p<=0.70){
+    finishPoint(true,"GOOD","+1 POINT");
+  }else if(p<0.30){
+    finishPoint(false,"TOO EARLY","CPU +1 POINT");
   }else{
-    finishPoint(false,"TOO LATE","The ball has already moved on.");
+    finishPoint(false,"TOO LATE","CPU +1 POINT");
   }
 }
 
@@ -582,7 +587,7 @@ function resetPadelMatch(){
   document.getElementById("padel-pause-overlay").classList.add("hidden");
   padel.gamesYou=0;padel.gamesCpu=0;padel.pointsYou=0;padel.pointsCpu=0;
   padel.finished=false;padel.roundActive=false;padel.paused=false;
-  padel.rallyCount=0;padel.currentGame=1;
+  padel.rallyCount=0;padel.currentGame=1;padel.visualProgress=0;
   padel.keys.left=false;padel.keys.right=false;
   renderPadelHud();updatePlayer();setBallProgress(0);
 }

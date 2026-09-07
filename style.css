@@ -713,3 +713,25 @@ h1,h2,p{margin-top:0}
   font-size:11px;
   opacity:.72;
 }
+
+/* v20: larger debt notification */
+.debt-gain-toast{
+  right:24px;
+  top:92px;
+  min-width:330px;
+  padding:18px 22px 18px 16px;
+  gap:16px;
+  border-width:2px;
+}
+.debt-gain-toast img{
+  width:88px;
+  height:62px;
+}
+.debt-gain-toast strong{
+  font-size:22px;
+  letter-spacing:1.5px;
+}
+.debt-gain-toast span{
+  margin-top:4px;
+  font-size:15px;
+}
