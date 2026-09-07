@@ -735,3 +735,44 @@ h1,h2,p{margin-top:0}
   margin-top:4px;
   font-size:15px;
 }
+
+/* v21: Churros mission */
+.churros-screen{background:radial-gradient(circle at 50% 20%,#47301f 0,#18130f 48%,#080a0b 100%)}
+.churros-hud{display:flex;align-items:center;gap:22px;font-size:13px;letter-spacing:1px}
+.churros-wrap{max-width:1000px;margin:0 auto;padding:18px 24px 40px}
+.churros-title{text-align:center;margin-bottom:14px}
+.churros-title h2{font-family:Georgia,serif;font-size:52px;margin:4px 0}
+.medical-cheat{display:inline-block;padding:8px 14px;border:1px solid #725b3c;background:#17120d;color:#e0c89b;font-size:12px;letter-spacing:1px}
+.churros-stage{height:570px;position:relative;overflow:hidden;border:1px solid #66513b;background:linear-gradient(#24170f,#0d0c0b 68%,#17100b);box-shadow:0 22px 70px #0008}
+.restaurant-sign{text-align:center;padding:10px;background:#0b0b0b;color:#d5b477;letter-spacing:3px;font-size:12px;border-bottom:1px solid #4b3a29}
+.falling-layer{position:absolute;inset:38px 0 0}
+.fall-item{position:absolute;width:92px;min-height:54px;transform:translateX(-50%);display:grid;place-items:center;text-align:center;padding:6px;border:1px solid #6f665b;background:#16191b;box-shadow:0 6px 15px #0008}
+.fall-item b{font-family:Georgia,serif;font-size:20px;color:#e4b45b}.fall-item span{font-size:10px;letter-spacing:.6px;font-weight:900}
+.fall-item.food{border-radius:24px;background:#3b2513}.fall-item.diagnosis{background:#e3ddd1;color:#191919;border-color:#aaa}.fall-item.diagnosis b{color:#8d1717}
+.churros-basket{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);width:150px;height:62px;border:4px solid #a97739;border-top:8px solid #d2a05b;background:linear-gradient(90deg,#5d381c,#a46b30,#5d381c);clip-path:polygon(8% 0,92% 0,82% 100%,18% 100%);display:grid;place-items:center;color:#24150b;font-weight:1000;font-size:11px}
+.churros-popup{position:absolute;left:50%;top:18%;transform:translateX(-50%);padding:9px 16px;opacity:0;background:#0b0d0e;border:1px solid #777;z-index:20;font-weight:900;transition:.15s}.churros-popup.show{opacity:1}.churros-popup.good{color:#e5bd68}.churros-popup.bad{color:#e37a6e}
+.churros-start-overlay,.churros-result{position:absolute;z-index:30;inset:0;display:grid;place-content:center;text-align:center;padding:35px;background:rgba(5,5,5,.88);backdrop-filter:blur(3px)}
+.churros-start-overlay h3,.churros-result h2{font-family:Georgia,serif;font-size:38px;margin:8px 0}.churros-start-overlay p,.churros-result p{color:#c9c0b5;line-height:1.55}
+.churros-controls{text-align:center;margin-top:10px;font-size:11px;letter-spacing:2px;color:#8f9496}
+.churros-mini{font-size:10px!important;letter-spacing:-1px;background:#7d4d20!important}
+
+/* Padel: visual PERFECT zone and scoring are both exactly 45–55%. */
+.perfect-zone{left:45%!important;width:10%!important}
+
+/* Compact translucent pause card; court stays visible. */
+.padel-pause-overlay{
+  inset:auto!important;
+  left:50%!important;top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  width:min(390px,72%)!important;
+  min-height:0!important;
+  display:block!important;
+  padding:18px 22px!important;
+  background:rgba(7,10,12,.68)!important;
+  border:1px solid rgba(255,255,255,.22)!important;
+  backdrop-filter:blur(2px)!important;
+  box-shadow:0 12px 35px rgba(0,0,0,.4)!important;
+}
+.padel-pause-overlay.hidden{display:none!important}
+.padel-pause-overlay .eyebrow{font-size:10px}.padel-pause-overlay h2{font-size:30px!important;margin:3px 0!important}.padel-pause-overlay p{font-size:12px;margin:4px 0 12px!important}
+.padel-pause-overlay .primary{padding:8px 16px;font-size:11px}

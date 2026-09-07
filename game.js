@@ -1,4 +1,4 @@
-console.log("THE BEST GAME v20 loaded");
+console.log("THE BEST GAME v21 loaded");
 const ACCESS_CODE="indonesia";
 const MAX_LIVES=3;
 const SAVE_KEY="thebestgame_save_v1";
@@ -39,6 +39,12 @@ function loadSave(){
 }
 
 const state={...loadSave(),lives:MAX_LIVES,currentProfile:0,history:[]};
+
+// v21 mission-order migration: Tinder -> Churros -> Padel.
+if(state.parts.indonesia.minigames.tinder.completed){
+  state.parts.indonesia.minigames.game2.unlocked=true;
+}
+
 
 const baseProfiles=[
   {
@@ -298,7 +304,117 @@ function attachDrag(card){
 }
 
 
-/* ===== MISSION 02: PADEL ===== */
+
+/* ===== MISSION 02: CHURROS ===== */
+let churros={
+  active:false,score:0,lives:3,basketX:50,items:[],spawnTimer:null,raf:null,last:0,
+  keys:{left:false,right:false},nextId:1
+};
+const churrosGood=[
+  {label:"CHURROS",kind:"food",symbol:"CH"},
+  {label:"ECZEMA",kind:"diagnosis",symbol:"Rx"},
+  {label:"ARTHRITIS",kind:"diagnosis",symbol:"Rx"}
+];
+const churrosBad=[
+  {label:"CROISSANT",kind:"food",symbol:"CR"},
+  {label:"DONUT",kind:"food",symbol:"DO"},
+  {label:"TOMATO",kind:"food",symbol:"TO"},
+  {label:"BROCCOLI",kind:"food",symbol:"BR"},
+  {label:"MIGRAINE",kind:"diagnosis",symbol:"Rx"},
+  {label:"ASTHMA",kind:"diagnosis",symbol:"Rx"},
+  {label:"GOUT",kind:"diagnosis",symbol:"Rx"},
+  {label:"SCOLIOSIS",kind:"diagnosis",symbol:"Rx"},
+  {label:"DIABETES",kind:"diagnosis",symbol:"Rx"}
+];
+
+function renderChurrosMission(){
+  const g=state.parts.indonesia.minigames.game2;
+  const btn=document.getElementById("open-churros");
+  const status=document.getElementById("churros-status");
+  if(!btn||!status)return;
+  if(g.completed){btn.classList.remove("locked");status.textContent="COMPLETE";status.dataset.status="complete";}
+  else if(g.unlocked){btn.classList.remove("locked");status.textContent="UNLOCKED";status.dataset.status="unlocked";}
+  else{btn.classList.add("locked");status.textContent="LOCKED";status.dataset.status="locked";}
+}
+function renderChurrosHud(){
+  const l=document.getElementById("churros-lives"),s=document.getElementById("churros-score");
+  if(l)l.textContent="❤️".repeat(churros.lives)+"🖤".repeat(3-churros.lives);
+  if(s)s.textContent=`${churros.score} / 15`;
+  const b=document.getElementById("churros-basket"); if(b)b.style.left=churros.basketX+"%";
+}
+function churrosPop(text,bad=false){
+  const p=document.getElementById("churros-popup"); if(!p)return;
+  p.textContent=text;p.className="churros-popup show "+(bad?"bad":"good");
+  clearTimeout(p._t);p._t=setTimeout(()=>p.className="churros-popup",800);
+}
+function clearChurrosItems(){
+  churros.items.forEach(i=>i.el.remove());churros.items=[];
+}
+function stopChurros(){
+  churros.active=false;clearTimeout(churros.spawnTimer);cancelAnimationFrame(churros.raf);
+}
+function spawnChurrosItem(){
+  if(!churros.active)return;
+  const good=Math.random()<0.48;
+  const pool=good?churrosGood:churrosBad;
+  const data=pool[Math.floor(Math.random()*pool.length)];
+  const el=document.createElement("div");
+  el.className=`fall-item ${data.kind} ${good?"wanted":"wrong"}`;
+  el.innerHTML=`<b>${data.symbol}</b><span>${data.label}</span>`;
+  document.getElementById("falling-layer").appendChild(el);
+  const item={id:churros.nextId++,x:8+Math.random()*84,y:-10,speed:18+Math.random()*7,good,data,el};
+  churros.items.push(item);
+  el.style.left=item.x+"%";el.style.top=item.y+"%";
+  churros.spawnTimer=setTimeout(spawnChurrosItem,650+Math.random()*450);
+}
+function catchChurros(item){
+  item.el.remove();churros.items=churros.items.filter(x=>x!==item);
+  if(item.good){
+    churros.score++;
+    churrosPop(item.data.label==="CHURROS"?"+1 · IMPORTANT MEDICATION":"+1 · YEP. THAT'S YOURS.");
+    if(churros.score>=15){
+      stopChurros();
+      document.getElementById("churros-result").classList.remove("hidden");
+      return;
+    }
+  }else{
+    churros.lives--;
+    churrosPop("WRONG. NOT YOUR PROBLEM.",true);
+    if(churros.lives<=0){
+      state.debt++;churros.lives=3;saveState();showDebtGain();
+    }
+  }
+  renderChurrosHud();
+}
+function churrosFrame(t){
+  if(!churros.active)return;
+  const dt=churros.last?Math.min(40,t-churros.last):16;churros.last=t;
+  const move=.045*dt;
+  if(churros.keys.left)churros.basketX=Math.max(7,churros.basketX-move);
+  if(churros.keys.right)churros.basketX=Math.min(93,churros.basketX+move);
+  renderChurrosHud();
+  [...churros.items].forEach(item=>{
+    item.y+=item.speed*dt/1000;
+    item.el.style.top=item.y+"%";
+    if(item.y>=78 && item.y<=92 && Math.abs(item.x-churros.basketX)<10)catchChurros(item);
+    else if(item.y>103){item.el.remove();churros.items=churros.items.filter(x=>x!==item);}
+  });
+  churros.raf=requestAnimationFrame(churrosFrame);
+}
+function resetChurros(){
+  stopChurros();clearChurrosItems();
+  churros.score=0;churros.lives=3;churros.basketX=50;churros.last=0;
+  churros.keys.left=false;churros.keys.right=false;
+  document.getElementById("churros-result").classList.add("hidden");
+  document.getElementById("churros-start-overlay").classList.remove("hidden");
+  renderChurrosHud();
+}
+function startChurros(){
+  resetChurros();document.getElementById("churros-start-overlay").classList.add("hidden");
+  churros.active=true;spawnChurrosItem();churros.raf=requestAnimationFrame(churrosFrame);
+}
+
+/* ===== MISSION 03: PADEL ===== */
 let padel={
   gamesYou:0,gamesCpu:0,
   pointsYou:0,pointsCpu:0,
@@ -311,7 +427,7 @@ let padel={
 };
 
 function renderPadelMission(){
-  const g=state.parts.indonesia.minigames.game2;
+  const g=state.parts.indonesia.minigames.game3;
   const btn=document.getElementById("open-padel");
   const status=document.getElementById("padel-status");
   if(!btn||!status)return;
@@ -500,11 +616,9 @@ function hitPadel(){
   cancelAnimationFrame(padel.raf);
 
   // The visible middle zone is deliberately generous.
-  if(p>=0.40 && p<=0.60){
+  if(p>=0.45 && p<=0.55){
     finishPoint(true,"PERFECT","+1 POINT");
-  }else if(p>=0.30 && p<=0.70){
-    finishPoint(true,"GOOD","+1 POINT");
-  }else if(p<0.30){
+  }else if(p<0.45){
     finishPoint(false,"TOO EARLY","CPU +1 POINT");
   }else{
     finishPoint(false,"TOO LATE","CPU +1 POINT");
@@ -551,8 +665,7 @@ function finishPadelMatch(won){
   cancelAnimationFrame(padel.raf);
 
   // Mission passes either way, as requested.
-  state.parts.indonesia.minigames.game2.completed=true;
-  state.parts.indonesia.minigames.game3.unlocked=true;
+  state.parts.indonesia.minigames.game3.completed=true;
   saveState();
   renderProgress();
   renderPadelMission();
@@ -593,7 +706,7 @@ function resetPadelMatch(){
 }
 
 function enterPadel(){
-  if(!state.parts.indonesia.minigames.game2.unlocked)return;
+  if(!state.parts.indonesia.minigames.game3.unlocked)return;
   showScreen("screen-padel-intro");
 }
 
@@ -724,6 +837,30 @@ renderDebt();renderLives();renderProgress();rebuildProfiles();
 
 
 
+
+
+document.getElementById("open-churros").addEventListener("click",()=>{
+  if(!state.parts.indonesia.minigames.game2.unlocked)return;
+  resetChurros();showScreen("screen-churros");
+});
+document.getElementById("start-churros").addEventListener("click",startChurros);
+document.querySelector(".churros-back").addEventListener("click",()=>{stopChurros();showScreen("screen-indonesia");});
+document.getElementById("finish-churros").addEventListener("click",()=>{
+  state.parts.indonesia.minigames.game2.completed=true;
+  state.parts.indonesia.minigames.game3.unlocked=true;
+  saveState();renderProgress();renderChurrosMission();renderPadelMission();showScreen("screen-indonesia");
+});
+document.addEventListener("keydown",e=>{
+  if(!document.getElementById("screen-churros").classList.contains("active"))return;
+  if(["ArrowLeft","ArrowRight","KeyA","KeyD"].includes(e.code))e.preventDefault();
+  if(e.code==="ArrowLeft"||e.code==="KeyA")churros.keys.left=true;
+  if(e.code==="ArrowRight"||e.code==="KeyD")churros.keys.right=true;
+});
+document.addEventListener("keyup",e=>{
+  if(e.code==="ArrowLeft"||e.code==="KeyA")churros.keys.left=false;
+  if(e.code==="ArrowRight"||e.code==="KeyD")churros.keys.right=false;
+});
+renderChurrosMission();
 
 document.getElementById("open-padel").addEventListener("click",enterPadel);
 

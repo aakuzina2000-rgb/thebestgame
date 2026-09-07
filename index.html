@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Best Game</title>
-  <link rel="stylesheet" href="style.css?v=20">
+  <link rel="stylesheet" href="style.css?v=21">
 </head>
 <body>
 <main id="app">
@@ -164,24 +164,24 @@ onclick="
         <b id="tinder-status" class="mission-status">IN PROGRESS</b>
       </button>
 
+      <button id="open-churros" class="mission-row locked churros-mission">
+        <div class="mission-icon churros-mini">CH</div>
+        <div class="mission-text">
+          <span>MISSION 02</span>
+          <strong>CHURROS</strong>
+          <small>Churros. Diagnoses. Medical negligence.</small>
+        </div>
+        <b id="churros-status" class="mission-status">LOCKED</b>
+      </button>
+
       <button id="open-padel" class="mission-row locked padel-mission">
         <div class="mission-icon padel-mini">●</div>
         <div class="mission-text">
-          <span>MISSION 02</span>
+          <span>MISSION 03</span>
           <strong>PADEL</strong>
           <small>Timing. Sweat. Questionable confidence.</small>
         </div>
         <b id="padel-status" class="mission-status">LOCKED</b>
-      </button>
-
-      <button class="mission-row locked">
-        <div class="mission-icon">?</div>
-        <div class="mission-text">
-          <span>MISSION 03</span>
-          <strong>CLASSIFIED</strong>
-          <small>More bad decisions later.</small>
-        </div>
-        <b class="mission-status">LOCKED</b>
       </button>
     </div>
   </div>
@@ -224,6 +224,46 @@ onclick="
 </section>
 
 
+
+<section id="screen-churros" class="screen churros-screen">
+  <header class="hud">
+    <button class="hud-btn churros-back">← INDONESIA</button>
+    <div class="churros-hud">
+      <span>LIVES <strong id="churros-lives">❤️❤️❤️</strong></span>
+      <span>SCORE <strong id="churros-score">0 / 15</strong></span>
+      <button class="debt-button debt-open">DEBT <img src="assets/pain_au_chocolat.png" alt=""><span class="debt-any">0</span></button>
+    </div>
+  </header>
+  <div class="churros-wrap">
+    <div class="churros-title">
+      <div class="eyebrow">MISSION 02 // DINNER IN INDONESIA</div>
+      <h2>CHURROS</h2>
+      <p>Catch churros and his actual medical problems. Avoid everybody else's problems.</p>
+      <div class="medical-cheat"><b>COLLECT:</b> CHURROS · ECZEMA · ARTHRITIS</div>
+    </div>
+    <div id="churros-stage" class="churros-stage">
+      <div class="restaurant-sign">CHURROS &amp; CHRONIC CONDITIONS</div>
+      <div id="falling-layer" class="falling-layer"></div>
+      <div id="churros-basket" class="churros-basket"><span>HIS BASKET</span></div>
+      <div id="churros-popup" class="churros-popup"></div>
+      <div id="churros-start-overlay" class="churros-start-overlay">
+        <div class="eyebrow">OBJECTIVE</div>
+        <h3>COLLECT 15 CORRECT ITEMS</h3>
+        <p>Churros, eczema and arthritis belong to him.<br>Everything else: absolutely not.</p>
+        <p><b>3 mistakes = +1 pain au chocolat debt.</b></p>
+        <button id="start-churros" class="primary">READY, GRANDPA? →</button>
+      </div>
+      <div id="churros-result" class="churros-result hidden">
+        <div class="eyebrow">DINNER SURVIVED</div>
+        <h2>FRENCH, BUT STABLE.</h2>
+        <p>Conditions remembered: unfortunately, all of them.</p>
+        <button id="finish-churros" class="primary">CONTINUE →</button>
+      </div>
+    </div>
+    <div class="churros-controls">MOVE BASKET: ← → / A D</div>
+  </div>
+</section>
+
 <section id="screen-padel-intro" class="screen padel-intro-screen">
   <header class="hud">
     <button class="hud-btn padel-back">← INDONESIA</button>
@@ -241,7 +281,7 @@ onclick="
         <div class="scanlines"></div>
       </div>
       <div class="character-info">
-        <div class="eyebrow">MISSION 02 // PLAYER 1</div>
+        <div class="eyebrow">MISSION 03 // PLAYER 1</div>
         <h2>PADEL</h2>
         <div class="stat-line"><span>SPORT</span><strong>PADEL</strong></div>
         <div class="stat-line"><span>CONDITION</span><strong>SWEATY</strong></div>
@@ -403,6 +443,6 @@ onclick="
   });
 })();
 </script>
-<script src="game.js?v=20"></script>
+<script src="game.js?v=21"></script>
 </body>
 </html>
