@@ -1,28 +1,22 @@
-THE BEST GAME — v5
+THE BEST GAME — v6
 
 UPLOAD TO GITHUB ROOT:
-index.html
-style.css
-game.js
-assets/
+- index.html
+- style.css
+- game.js
+- assets/
 
-Netlify is already linked to your GitHub repository, so after committing these files the same public URL will redeploy automatically.
-
-ACCESS CODE: indonesia
-
-V5 CHANGES
-- Complete visual rebuild based on the cinematic game UI reference.
-- Dark blue/black + gold Assassin's Creed / tactical game-menu direction.
-- PART 2 renamed to RUSSIA.
-- Tagline: Different places. Same two debils. ♡
-- More cringe jokes added throughout UI.
-- User-supplied transparent pain au chocolat PNG used directly, no background removal.
-- Pain au chocolat is much larger in Debt screen and profile stats.
-- Tinder remains Tinder-colored, embedded inside a more serious gaming HUD.
-- Tinder cards now use the supplied/generated detailed character portraits instead of hand-drawn emoji-like art.
-- Anastasia card keeps the supplied real photo and bio.
-- Tinder decoy order is randomized on each attempt; Anastasia remains the final match.
-- Persistent browser save retained: debt, attempts, completion and progress survive reload/close.
-
-NOTE
-Save is still per browser/device. Cloud save can be added later.
+Changes:
+- Removed extra left-side profile, World/Missions/Stats/Journal navigation and unnecessary menu buttons.
+- Returned to simple PART structure: Part 1 Indonesia, Part 2 Russia, Part 3 locked.
+- Clicking Part 1 opens its own mini-game list.
+- Added one-time welcome popup after first successful login:
+  "Coucou, yopta. Thought you were going to play Call of Duty? Ah bah non. T’en voulais beaucoup, hein ? Welcome to Warcuta."
+- Inventory preserved as a separate modal.
+- Debt preserved, no debt log button or history shown.
+- Pain au chocolat uses the user's transparent PNG directly and is larger.
+- Tinder no longer shows any visible profile queue.
+- Tinder profiles use detailed supplied/generated image assets.
+- User's uploaded game screenshots are used sparingly as backgrounds / mission artwork.
+- Save state remains persistent in the same browser/device.
+- Part 2 renamed RUSSIA.
