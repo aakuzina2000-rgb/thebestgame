@@ -550,40 +550,67 @@ function enterPadel(){
 }
 
 function enterGame(){
-  const nameInput=document.getElementById("player-name");
-  const codeInput=document.getElementById("access-code");
-  const error=document.getElementById("login-error");
+  try{
+    const nameInput=document.getElementById("player-name");
+    const codeInput=document.getElementById("access-code");
+    const error=document.getElementById("login-error");
 
-  const name=((nameInput && nameInput.value) || "Anastasia").trim() || "Anastasia";
-  const code=((codeInput && codeInput.value) || "indonesia").trim().toLowerCase();
+    const name=((nameInput && nameInput.value) || "Anastasia").trim() || "Anastasia";
+    const code=((codeInput && codeInput.value) || "indonesia").trim().toLowerCase();
 
-  if(code !== ACCESS_CODE){
-    if(error) error.textContent="WRONG ACCESS CODE";
-    return;
+    if(code!=="indonesia"){
+      if(error)error.textContent="WRONG ACCESS CODE";
+      return false;
+    }
+
+    state.playerName=name;
+
+    // localStorage must never be able to block login.
+    try{ saveState(); }catch(_){}
+
+    const homePlayer=document.getElementById("home-player");
+    if(homePlayer)homePlayer.textContent=name;
+    if(error)error.textContent="";
+
+    const home=document.getElementById("screen-home");
+    if(!home)throw new Error("Home screen missing");
+
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    home.classList.add("active");
+
+    // Welcome is decorative; if it ever breaks, login still succeeds.
+    try{
+      if(typeof showRandomWelcome==="function")showRandomWelcome();
+    }catch(_){}
+
+    return false;
+  }catch(err){
+    console.error("LOGIN ERROR",err);
+    const error=document.getElementById("login-error");
+    if(error)error.textContent="LOGIN ERROR — REFRESH AND TRY AGAIN";
+    return false;
   }
-
-  state.playerName=name;
-  saveState();
-
-  const homePlayer=document.getElementById("home-player");
-  if(homePlayer) homePlayer.textContent=name;
-  if(error) error.textContent="";
-
-  showScreen("screen-home");
-  if(typeof showRandomWelcome==="function") showRandomWelcome();
 }
 
-document.getElementById("login-btn").addEventListener("click",enterGame);
+const loginBtn=document.getElementById("login-btn");
+if(loginBtn){
+  loginBtn.onclick=function(e){
+    if(e)e.preventDefault();
+    return enterGame();
+  };
+}
+
 ["player-name","access-code"].forEach(id=>{
   const el=document.getElementById(id);
-  if(el) el.addEventListener("keydown",e=>{
-    if(e.key==="Enter"){
-      e.preventDefault();
-      enterGame();
-    }
-  });
+  if(el){
+    el.onkeydown=function(e){
+      if(e.key==="Enter"){
+        e.preventDefault();
+        enterGame();
+      }
+    };
+  }
 });
-
 
 const welcomeMessages=[
   ["Coucou, yopta.","Thought you were going to play Call of Duty?","Ah bah non. T’en voulais beaucoup, hein ?"],
