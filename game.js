@@ -549,12 +549,39 @@ function enterPadel(){
   showScreen("screen-padel-intro");
 }
 
-document.getElementById("login-btn").addEventListener("click",enterGame);
-document.getElementById("player-name").addEventListener("keydown",e=>{
-  if(e.key==="Enter"){
-    e.preventDefault();
-    enterGame();
+function enterGame(){
+  const nameInput=document.getElementById("player-name");
+  const codeInput=document.getElementById("access-code");
+  const error=document.getElementById("login-error");
+
+  const name=((nameInput && nameInput.value) || "Anastasia").trim() || "Anastasia";
+  const code=((codeInput && codeInput.value) || "indonesia").trim().toLowerCase();
+
+  if(code !== ACCESS_CODE){
+    if(error) error.textContent="WRONG ACCESS CODE";
+    return;
   }
+
+  state.playerName=name;
+  saveState();
+
+  const homePlayer=document.getElementById("home-player");
+  if(homePlayer) homePlayer.textContent=name;
+  if(error) error.textContent="";
+
+  showScreen("screen-home");
+  if(typeof showRandomWelcome==="function") showRandomWelcome();
+}
+
+document.getElementById("login-btn").addEventListener("click",enterGame);
+["player-name","access-code"].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){
+      e.preventDefault();
+      enterGame();
+    }
+  });
 });
 
 
@@ -613,7 +640,8 @@ document.querySelectorAll(".debt-open").forEach(b=>b.addEventListener("click",op
 document.getElementById("close-debt").addEventListener("click",()=>document.getElementById("debt-modal").classList.add("hidden"));
 
 document.getElementById("home-player").textContent=state.playerName||"—";
-if(state.playerName)document.getElementById("player-name").value=state.playerName;
+document.getElementById("player-name").value="Anastasia";
+document.getElementById("access-code").value="indonesia";
 renderDebt();renderLives();renderProgress();rebuildProfiles();
 
 
