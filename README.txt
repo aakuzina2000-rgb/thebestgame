@@ -41,3 +41,15 @@ V11:
 - With one life left, the notification warns that one more bad choice means buying a pain au chocolat.
 - Losing all lives shows DEBT +1 and restores lives.
 - No permanent result text below the card.
+
+V12:
+- Mission 02 is now PADEL.
+- It unlocks after Tinder is completed.
+- Added retro player character screen based on the supplied padel photo.
+- Character keeps the same shirtless / black shorts / athletic court appearance.
+- Added playable reaction/timing padel match: first to 5 points.
+- Controls: SPACE or HIT button.
+- PERFECT / GREAT / GOOD / TOO EARLY / TOO LATE feedback.
+- Losing a whole match costs one life.
+- Losing all three Padel lives adds +1 pain au chocolat debt and restores lives.
+- Winning completes Mission 02 and unlocks Mission 03.

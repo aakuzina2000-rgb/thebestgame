@@ -144,14 +144,14 @@
         <b id="tinder-status">PLAY →</b>
       </button>
 
-      <button class="mission-row locked">
-        <div class="mission-icon">?</div>
+      <button id="open-padel" class="mission-row locked padel-mission">
+        <div class="mission-icon padel-mini">●</div>
         <div class="mission-text">
           <span>MISSION 02</span>
-          <strong>CLASSIFIED</strong>
-          <small>Finish the first mess first.</small>
+          <strong>PADEL</strong>
+          <small>Timing. Sweat. Questionable confidence.</small>
         </div>
-        <b>LOCKED</b>
+        <b id="padel-status">LOCKED</b>
       </button>
 
       <button class="mission-row locked">
@@ -200,6 +200,105 @@
         <button id="like-btn" class="swipe-btn like" title="Like">♥</button>
       </div>
 </div>
+  </div>
+</section>
+
+
+<section id="screen-padel-intro" class="screen padel-intro-screen">
+  <header class="hud">
+    <button class="hud-btn padel-back">← INDONESIA</button>
+    <button class="debt-button debt-open">
+      DEBT
+      <img src="assets/pain_au_chocolat.png" alt="">
+      <span class="debt-any">0</span>
+    </button>
+  </header>
+
+  <div class="padel-intro-wrap">
+    <div class="character-card">
+      <div class="character-photo-wrap">
+        <img src="assets/padel_player_retro.png" alt="Padel player">
+        <div class="scanlines"></div>
+      </div>
+      <div class="character-info">
+        <div class="eyebrow">MISSION 02 // PLAYER 1</div>
+        <h2>PADEL</h2>
+        <div class="stat-line"><span>SPORT</span><strong>PADEL</strong></div>
+        <div class="stat-line"><span>CONDITION</span><strong>SWEATY</strong></div>
+        <div class="stat-line"><span>PHYSIQUE</span><strong>UNNECESSARILY MUSCULAR</strong></div>
+        <div class="stat-line"><span>CONFIDENCE</span><strong>UNFORTUNATELY HIGH</strong></div>
+        <p>First to 5 points. Hit at the right moment. Try not to embarrass France.</p>
+        <button id="start-padel" class="primary">ENTER THE COURT →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screen-padel" class="screen padel-game-screen">
+  <header class="hud padel-game-hud">
+    <button class="hud-btn padel-back">← INDONESIA</button>
+    <div class="padel-hud-center">
+      <span>PADEL // FIRST TO 5</span>
+      <strong id="padel-score">YOU 0 — 0 CPU</strong>
+    </div>
+    <div class="padel-hud-right">
+      <span class="padel-lives-label">LIVES <strong id="padel-lives">❤️❤️❤️</strong></span>
+      <button class="debt-button debt-open">
+        DEBT
+        <img src="assets/pain_au_chocolat.png" alt="">
+        <span class="debt-any">0</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="padel-stage-wrap">
+    <div id="padel-stage" class="padel-stage">
+      <div class="court-back-glass"></div>
+      <div class="court">
+        <div class="court-line center-line"></div>
+        <div class="court-line service-top"></div>
+        <div class="court-line service-bottom"></div>
+        <div class="court-net"></div>
+
+        <div class="padel-enemy">
+          <div class="enemy-head"></div>
+          <div class="enemy-body"></div>
+          <div class="enemy-racket"></div>
+          <span>LOCAL PADEL DAD, 46</span>
+        </div>
+
+        <div id="padel-player" class="padel-player">
+          <img src="assets/padel_player_retro.png" alt="">
+        </div>
+
+        <div id="padel-ball" class="padel-ball"></div>
+        <div id="hit-zone" class="hit-zone"></div>
+      </div>
+
+      <div id="padel-notification" class="padel-notification">
+        <div class="notification-app"><span class="notification-logo">🎾</span><span>PADEL</span><small>now</small></div>
+        <div class="notification-title"></div>
+        <div class="notification-text"></div>
+      </div>
+
+      <div class="timing-ui">
+        <div class="timing-label"><span>EARLY</span><span>PERFECT</span><span>LATE</span></div>
+        <div class="timing-bar">
+          <div class="perfect-zone"></div>
+          <div id="timing-marker" class="timing-marker"></div>
+        </div>
+        <button id="padel-hit" class="padel-hit-btn">HIT <small>SPACE</small></button>
+      </div>
+
+      <div class="padel-instructions">Wait for the ball. Hit when the marker enters the gold zone.</div>
+    </div>
+
+    <div id="padel-result" class="padel-result hidden">
+      <div class="eyebrow">MATCH RESULT</div>
+      <h2 id="padel-result-title">YOU WIN</h2>
+      <p id="padel-result-copy"></p>
+      <button id="padel-result-btn" class="primary">CONTINUE</button>
+    </div>
   </div>
 </section>
 

@@ -299,3 +299,135 @@ h1,h2,p{margin-top:0}
 
 .swipe-popup.life .notification-title{color:#d94139}
 .swipe-popup.safe .notification-title{color:#188b59}
+
+
+/* ===== V12 — MISSION 02: PADEL ===== */
+.padel-mini{background:#213a30;color:#c9ff68;font-size:33px}
+.mission-row.padel-mission:not(.locked){cursor:pointer;border-color:#8f743a}
+.mission-row.padel-mission:not(.locked):hover{background:rgba(20,29,35,.97)}
+
+.padel-intro-screen{
+  background:
+    linear-gradient(rgba(8,13,17,.68),rgba(8,13,17,.88)),
+    url("assets/bg_assassin_desert.jpeg") center/cover fixed no-repeat;
+}
+.padel-intro-wrap{max-width:1050px;margin:0 auto;padding:54px 28px 72px}
+.character-card{
+  display:grid;grid-template-columns:minmax(330px,.9fr) minmax(380px,1.1fr);
+  background:#0d151a;border:1px solid #5b656a;box-shadow:0 25px 70px rgba(0,0,0,.45)
+}
+.character-photo-wrap{position:relative;min-height:620px;overflow:hidden;background:#10191e}
+.character-photo-wrap img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;
+  image-rendering:pixelated;filter:contrast(1.03) saturate(.92)
+}
+.scanlines{
+  position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.12) 4px)
+}
+.character-info{padding:42px}
+.character-info h2{font-family:Georgia,serif;font-size:70px;margin:7px 0 24px}
+.character-info p{color:#b8c0c3;line-height:1.5;margin:26px 0}
+.stat-line{display:flex;justify-content:space-between;gap:22px;padding:14px 0;border-bottom:1px solid #29343a}
+.stat-line span{font-size:11px;letter-spacing:.13em;color:#849096}
+.stat-line strong{text-align:right;color:#e7bb5c}
+
+.padel-game-screen{background:#0b1115;min-height:100vh}
+.padel-game-hud{position:relative}
+.padel-hud-center{text-align:center}
+.padel-hud-center span{display:block;color:#8b979c;font-size:10px;letter-spacing:.14em}
+.padel-hud-center strong{font-size:22px}
+.padel-hud-right{display:flex;align-items:center;gap:14px}
+.padel-lives-label{font-size:13px;font-weight:800}
+
+.padel-stage-wrap{display:grid;place-items:center;padding:28px}
+.padel-stage{
+  position:relative;width:min(920px,96vw);height:700px;
+  background:linear-gradient(#252c31 0 15%,#161d21 15% 20%,#233 20%);
+  border:1px solid #49545a;box-shadow:0 30px 80px rgba(0,0,0,.45);overflow:hidden
+}
+.court-back-glass{
+  position:absolute;left:7%;right:7%;top:6%;height:17%;
+  background:linear-gradient(rgba(72,90,96,.34),rgba(26,38,43,.7));
+  border:2px solid #4a5a60;
+  box-shadow:inset 0 0 0 1px rgba(200,220,225,.08)
+}
+.court{
+  position:absolute;left:12%;right:12%;top:20%;bottom:19%;
+  background:
+    linear-gradient(90deg,transparent 49.6%,rgba(241,241,226,.72) 49.6% 50.4%,transparent 50.4%),
+    #315f82;
+  border:4px solid rgba(238,238,220,.82);
+  transform:perspective(700px) rotateX(3deg);
+  box-shadow:inset 0 0 45px rgba(0,0,0,.24)
+}
+.court-line{position:absolute;background:rgba(241,241,226,.82)}
+.center-line{left:49.7%;top:0;width:.6%;height:100%}
+.service-top{left:0;right:0;top:31%;height:3px}
+.service-bottom{left:0;right:0;bottom:31%;height:3px}
+.court-net{
+  position:absolute;left:-3%;right:-3%;top:49.4%;height:10px;background:#101417;
+  box-shadow:0 -2px 0 #d5d4c7,0 2px 0 rgba(255,255,255,.16);z-index:8
+}
+.padel-enemy{position:absolute;top:8%;left:50%;width:70px;height:100px;transform:translateX(-50%);z-index:4}
+.enemy-head{position:absolute;left:25px;top:0;width:23px;height:23px;border-radius:50%;background:#c89b7b}
+.enemy-body{position:absolute;left:17px;top:20px;width:40px;height:60px;background:#e5e1d3;clip-path:polygon(12% 0,88% 0,100% 85%,70% 100%,50% 70%,30% 100%,0 85%)}
+.enemy-racket{position:absolute;left:56px;top:39px;width:24px;height:35px;border:4px solid #1f2528;border-radius:50%;transform:rotate(25deg)}
+.padel-enemy span{position:absolute;top:-25px;left:50%;white-space:nowrap;transform:translateX(-50%);font-size:9px;letter-spacing:.08em;color:#ddd}
+
+.padel-player{
+  position:absolute;z-index:6;left:50%;bottom:-32px;width:108px;height:180px;
+  transform:translateX(-50%);overflow:hidden;
+  filter:drop-shadow(0 8px 8px rgba(0,0,0,.35))
+}
+.padel-player img{width:100%;height:100%;object-fit:cover;object-position:50% 44%;image-rendering:pixelated}
+.padel-ball{
+  position:absolute;z-index:12;left:50%;top:22%;width:16px;height:16px;border-radius:50%;
+  background:#dafa4a;box-shadow:0 0 12px rgba(218,250,74,.75);
+  transform:translate(-50%,-50%)
+}
+.hit-zone{
+  position:absolute;z-index:3;left:50%;bottom:8%;width:150px;height:72px;
+  transform:translateX(-50%);border:2px dashed rgba(231,184,76,.5);border-radius:50%;
+  opacity:.45
+}
+
+.timing-ui{
+  position:absolute;left:50%;bottom:20px;transform:translateX(-50%);
+  width:min(610px,80%);padding:14px 16px;background:rgba(7,12,15,.94);border:1px solid #3f4a50;z-index:20
+}
+.timing-label{display:flex;justify-content:space-between;margin-bottom:6px;font-size:9px;letter-spacing:.12em;color:#89949a}
+.timing-bar{position:relative;height:15px;background:#263239;border:1px solid #59676e}
+.perfect-zone{position:absolute;left:43%;width:14%;top:0;bottom:0;background:#d6a342}
+.timing-marker{position:absolute;left:0;top:-5px;width:5px;height:25px;background:#fff;box-shadow:0 0 8px #fff}
+.padel-hit-btn{
+  display:block;margin:12px auto 0;padding:9px 28px;background:#1b262c;border:1px solid #d6a342;color:#f5d88f;font-weight:900
+}
+.padel-hit-btn small{margin-left:8px;color:#89949a;font-size:10px}
+.padel-instructions{position:absolute;bottom:123px;left:50%;transform:translateX(-50%);font-size:12px;color:#8c989e;z-index:15;white-space:nowrap}
+
+.padel-notification{
+  position:absolute;z-index:100;top:18px;left:50%;width:min(390px,calc(100% - 30px));
+  transform:translate(-50%,-18px) scale(.98);opacity:0;pointer-events:none;
+  padding:11px 13px 12px;border-radius:17px;background:rgba(247,247,249,.97);color:#18191b;
+  box-shadow:0 12px 32px rgba(0,0,0,.25);transition:.2s ease
+}
+.padel-notification.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.padel-notification .notification-title{font-weight:900}
+.padel-notification.bad .notification-title{color:#d94139}
+.padel-notification.good .notification-title{color:#188b59}
+
+.padel-result{
+  position:absolute;z-index:200;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(520px,calc(100% - 40px));padding:30px;text-align:center;background:#0c151b;border:1px solid #657176;
+  box-shadow:0 30px 80px rgba(0,0,0,.55)
+}
+.padel-result h2{font-family:Georgia,serif;font-size:52px;margin:8px 0}
+.padel-result p{color:#b7c0c4;line-height:1.5}
+
+@media(max-width:800px){
+  .character-card{grid-template-columns:1fr}.character-photo-wrap{min-height:460px}
+  .character-info{padding:26px}.character-info h2{font-size:52px}
+  .padel-hud-center{display:none}.padel-hud-right .debt-button{display:none}
+  .padel-stage{height:650px}.padel-player{width:92px;height:155px}
+}
