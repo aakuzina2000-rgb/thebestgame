@@ -85,7 +85,7 @@ const baseProfiles=[
 ];
 
 const finalProfile={
-  name:"Anastasia",age:25,image:"assets/anastasia_16bit.png",
+  name:"Anastasia",age:24,image:"assets/anastasia_16bit.png",
   bio:"Russian. Love bumble coffee and kinder bueno",
   meta:"Bali • very close",
   isFinal:true,
@@ -165,6 +165,18 @@ function nextProfile(){
   renderProfile();
 }
 
+function showSwipePopup(text,type="safe"){
+  const old=document.querySelector(".swipe-popup");
+  if(old)old.remove();
+  const pop=document.createElement("div");
+  pop.className=`swipe-popup ${type}`;
+  pop.innerHTML=`<span>${type==="life"?"−1 LIFE":"✓ LIFE SAVED"}</span><strong>${text}</strong>`;
+  document.body.appendChild(pop);
+  requestAnimationFrame(()=>pop.classList.add("show"));
+  setTimeout(()=>pop.classList.remove("show"),1450);
+  setTimeout(()=>pop.remove(),1800);
+}
+
 function swipe(dir){
   const p=profiles[state.currentProfile];
   const action=dir==="right"?p.like:p.nope;
@@ -185,12 +197,20 @@ function swipe(dir){
     c.style.opacity="0";
   }
 
-  if(action.type==="life")msg.textContent=loseLife(action.text);
+  if(action.type==="life"){
+    const result=loseLife(action.text);
+    msg.textContent=result;
+    showSwipePopup(result,"life");
+  }
   else if(action.type==="match"){
     msg.textContent=action.text;
-    setTimeout(()=>showScreen("screen-match"),280);
+    showSwipePopup("Correct choice. Suspiciously correct.","safe");
+    setTimeout(()=>showScreen("screen-match"),900);
     return;
-  }else msg.textContent=action.text;
+  }else{
+    msg.textContent=action.text;
+    showSwipePopup(action.text,"safe");
+  }
 
   setTimeout(nextProfile,260);
 }

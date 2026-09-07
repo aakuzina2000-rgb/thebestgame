@@ -21,3 +21,10 @@ CHANGES IN V8:
 - Tinder descriptions rewritten with more jokes.
 - Anastasia photo converted to a subtle low-resolution / 16-bit-ish version without color filters.
 - Save state and pain-au-chocolat debt remain persistent in the same browser/device.
+
+V9:
+- Anastasia age changed to 24.
+- Every Tinder swipe now shows a temporary result popup.
+- Safe choice: LIFE SAVED + joke/result.
+- Bad choice: -1 LIFE + joke/result.
+- Match screen now says the player has not actually won and the game is only beginning.
