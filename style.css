@@ -646,3 +646,70 @@ h1,h2,p{margin-top:0}
   letter-spacing:2px;
   opacity:.78;
 }
+
+/* v19: Padel timing-only gameplay + game breaks + global debt gain */
+.padel-player{
+  left:50% !important;
+  transform:translateX(-50%);
+}
+.padel-game-break{
+  position:absolute;
+  z-index:35;
+  left:50%;
+  top:42%;
+  transform:translate(-50%,-50%);
+  min-width:min(520px,84%);
+  padding:22px 28px;
+  text-align:center;
+  background:rgba(5,8,12,.94);
+  border:1px solid rgba(255,255,255,.28);
+  box-shadow:0 18px 55px rgba(0,0,0,.55);
+  backdrop-filter:blur(5px);
+}
+.padel-game-break h2{
+  margin:7px 0 10px;
+  font-size:clamp(24px,4vw,42px);
+}
+.padel-game-break strong{
+  display:block;
+  font-size:clamp(16px,2.2vw,24px);
+  letter-spacing:2px;
+}
+.debt-gain-toast{
+  position:fixed;
+  z-index:9999;
+  right:18px;
+  top:82px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:210px;
+  padding:10px 14px 10px 10px;
+  background:rgba(12,10,8,.96);
+  border:1px solid rgba(236,195,119,.65);
+  box-shadow:0 10px 35px rgba(0,0,0,.45);
+  opacity:0;
+  transform:translateY(-8px);
+  pointer-events:none;
+  transition:opacity .18s ease, transform .18s ease;
+}
+.debt-gain-toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+.debt-gain-toast img{
+  width:54px;
+  height:38px;
+  object-fit:contain;
+}
+.debt-gain-toast strong{
+  display:block;
+  font-size:14px;
+  letter-spacing:1px;
+}
+.debt-gain-toast span{
+  display:block;
+  margin-top:2px;
+  font-size:11px;
+  opacity:.72;
+}

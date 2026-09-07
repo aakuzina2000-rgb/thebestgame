@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Best Game</title>
-  <link rel="stylesheet" href="style.css?v=18">
+  <link rel="stylesheet" href="style.css?v=19">
 </head>
 <body>
 <main id="app">
@@ -247,7 +247,7 @@ onclick="
         <div class="stat-line"><span>CONDITION</span><strong>SWEATY</strong></div>
         <div class="stat-line"><span>PHYSIQUE</span><strong>UNBELIEVABLY SEXY</strong></div>
         <div class="stat-line"><span>CONFIDENCE</span><strong>UNFORTUNATELY HIGH</strong></div>
-        <p>5 games total. First to 5 points wins each game. Try not to embarrass France.</p>
+        <p>5 games total. First to 5 points wins each game. Hit when the marker reaches the middle. No running around like a debil.</p>
         <button id="start-padel" class="primary">ENTER THE COURT →</button>
       </div>
     </div>
@@ -263,7 +263,6 @@ onclick="
       <span id="padel-points" class="padel-points">POINTS&nbsp;&nbsp; 0 — 0</span>
     </div>
     <div class="padel-hud-right">
-      <span class="padel-lives-label">LIVES <strong id="padel-lives">❤️❤️❤️</strong></span>
       <button class="debt-button debt-open">
         DEBT
         <img src="assets/pain_au_chocolat.png" alt="">
@@ -317,6 +316,13 @@ onclick="
         <span id="padel-countdown-text">3</span>
       </div>
 
+
+
+      <div id="padel-game-break" class="padel-game-break hidden">
+        <div class="eyebrow">GAME RESULT</div>
+        <h2 id="padel-game-break-title">GAME 1 — YOU LOST</h2>
+        <strong id="padel-game-break-score">FRANCE 0 — 1 PADEL GIRL</strong>
+      </div>
       <div id="padel-notification" class="padel-notification">
         <div class="notification-app"><span class="notification-logo">🎾</span><span>PADEL</span><small>now</small></div>
         <div class="notification-title"></div>
@@ -335,7 +341,7 @@ onclick="
         </div>
       </div>
 
-      <div class="padel-instructions">MOVE: ← → / A D &nbsp;•&nbsp; HIT: SPACE &nbsp;•&nbsp; PAUSE: P</div>
+      <div class="padel-instructions">HIT: SPACE &nbsp;•&nbsp; PAUSE: P</div>
     </div>
 
     <div id="padel-pause-overlay" class="padel-pause-overlay hidden">
@@ -397,6 +403,6 @@ onclick="
   });
 })();
 </script>
-<script src="game.js?v=18"></script>
+<script src="game.js?v=19"></script>
 </body>
 </html>

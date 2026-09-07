@@ -1,4 +1,4 @@
-console.log("THE BEST GAME v18 loaded");
+console.log("THE BEST GAME v19 loaded");
 const ACCESS_CODE="indonesia";
 const MAX_LIVES=3;
 const SAVE_KEY="thebestgame_save_v1";
@@ -121,6 +121,22 @@ function renderDebt(){
   document.querySelectorAll(".debt-any").forEach(e=>e.textContent=state.debt);
   document.getElementById("debt-big").textContent=state.debt;
 }
+function showDebtGain(){
+  renderDebt();
+  let toast=document.getElementById("debt-gain-toast");
+  if(!toast){
+    toast=document.createElement("div");
+    toast.id="debt-gain-toast";
+    toast.className="debt-gain-toast";
+    toast.innerHTML='<img src="assets/pain_au_chocolat.png" alt=""><div><strong>YOU OWE +1</strong><span>pain au chocolat</span></div>';
+    document.body.appendChild(toast);
+  }
+  toast.classList.remove("show");
+  void toast.offsetWidth;
+  toast.classList.add("show");
+  clearTimeout(toast._timer);
+  toast._timer=setTimeout(()=>toast.classList.remove("show"),1800);
+}
 function renderLives(){
   document.getElementById("lives").textContent="❤️".repeat(state.lives)+"🖤".repeat(MAX_LIVES-state.lives);
 }
@@ -138,7 +154,7 @@ function loseLife(msg){
   if(state.lives<=0){
     state.debt++;
     state.lives=MAX_LIVES;
-    saveState();renderDebt();renderLives();
+    saveState();showDebtGain();renderLives();
     return "NO LIVES LEFT. Respawned. Debt +1 pain au chocolat.";
   }
   saveState();renderLives();
@@ -289,7 +305,7 @@ let padel={
   lives:3,
   roundActive:false,finished:false,paused:false,
   startTime:0,duration:1500,raf:null,pauseStarted:0,
-  playerX:50,ballTargetX:50,
+  ballTargetX:50,
   rallyCount:0,totalGames:5,currentGame:1,pointsToWin:5,
   keys:{left:false,right:false},lastFrame:0
 };
@@ -318,11 +334,9 @@ function renderPadelHud(){
   const score=document.getElementById("padel-score");
   const points=document.getElementById("padel-points");
   const setLabel=document.getElementById("padel-set-label");
-  const lives=document.getElementById("padel-lives");
   if(score)score.textContent=`GAMES  YOU ${padel.gamesYou} — ${padel.gamesCpu} CPU`;
   if(points)points.textContent=`POINTS  ${padel.pointsYou} — ${padel.pointsCpu}`;
   if(setLabel)setLabel.textContent=`PADEL // GAME ${Math.min(padel.currentGame,5)} OF 5`;
-  if(lives)lives.textContent="❤️".repeat(padel.lives)+"🖤".repeat(3-padel.lives);
 }
 
 function padelNotify(title,text,type="good"){
@@ -338,7 +352,7 @@ function padelNotify(title,text,type="good"){
 
 function updatePlayer(){
   const el=document.getElementById("padel-player");
-  if(el)el.style.left=padel.playerX+"%";
+  if(el)el.style.left="50%";
 }
 
 function setBallProgress(p){
@@ -346,7 +360,7 @@ function setBallProgress(p){
   const marker=document.getElementById("timing-marker");
   if(!ball||!marker)return;
   const top=22+p*62;
-  const x=50+(padel.ballTargetX-50)*p;
+  const x=50;
   ball.style.top=top+"%";
   ball.style.left=x+"%";
   marker.style.left=`calc(${Math.max(0,Math.min(1,p))*100}% - 2px)`;
@@ -389,7 +403,7 @@ function startRally(){
   padel.rallyCount++;
   padel.startTime=performance.now();
   padel.duration=currentSpeedDuration();
-  padel.ballTargetX=22+Math.random()*56;
+  padel.ballTargetX=50;
   setBallProgress(0);
 
   function frame(t){
@@ -399,11 +413,7 @@ function startRally(){
       return;
     }
 
-    const dt=padel.lastFrame ? Math.min(34,t-padel.lastFrame) : 16;
     padel.lastFrame=t;
-    const move=.045*dt;
-    if(padel.keys.left)padel.playerX=Math.max(12,padel.playerX-move);
-    if(padel.keys.right)padel.playerX=Math.min(88,padel.playerX+move);
     updatePlayer();
 
     const p=(t-padel.startTime)/padel.duration;
@@ -427,6 +437,17 @@ function scheduleNextRally(){
   },700);
 }
 
+function showPadelGameBreak(playerWonGame,finishedGame){
+  const overlay=document.getElementById("padel-game-break");
+  if(!overlay)return;
+  const title=document.getElementById("padel-game-break-title");
+  const score=document.getElementById("padel-game-break-score");
+  title.textContent=playerWonGame ? `GAME ${finishedGame} — YOU WON` : `GAME ${finishedGame} — YOU LOST`;
+  score.textContent=`FRANCE ${padel.gamesYou} — ${padel.gamesCpu} PADEL GIRL`;
+  overlay.classList.remove("hidden");
+  setTimeout(()=>overlay.classList.add("hidden"),1800);
+}
+
 function finishPoint(playerWon,title,text){
   if(playerWon)padel.pointsYou++; else padel.pointsCpu++;
   renderPadelHud();
@@ -439,20 +460,21 @@ function finishPoint(playerWon,title,text){
   }
 
   const playerWonGame = padel.pointsYou>padel.pointsCpu;
-  if(playerWonGame)padel.gamesYou++; else padel.gamesCpu++;
+  if(playerWonGame){
+    padel.gamesYou++;
+  }else{
+    padel.gamesCpu++;
+    state.debt++;
+    saveState();
+    showDebtGain();
+  }
 
-  const finishedGame = padel.currentGame;
+  const finishedGame=padel.currentGame;
   renderPadelHud();
-  setTimeout(()=>{
-    padelNotify(
-      playerWonGame ? "GAME WON" : "GAME LOST",
-      `Game ${finishedGame}: ${playerWonGame ? "you take it." : "CPU takes it."}`,
-      playerWonGame ? "good" : "bad"
-    );
-  },250);
+  showPadelGameBreak(playerWonGame,finishedGame);
 
   if(padel.currentGame>=padel.totalGames){
-    setTimeout(()=>finishPadelMatch(padel.gamesYou>padel.gamesCpu),1350);
+    setTimeout(()=>finishPadelMatch(padel.gamesYou>padel.gamesCpu),2100);
     return;
   }
 
@@ -462,23 +484,15 @@ function finishPoint(playerWon,title,text){
   setTimeout(()=>{
     renderPadelHud();
     scheduleNextRally();
-  },1250);
+  },2000);
 }
 
 function hitPadel(){
   if(!padel.roundActive||padel.finished||padel.paused)return;
 
   const p=(performance.now()-padel.startTime)/padel.duration;
-  const positionDistance=Math.abs(padel.playerX-padel.ballTargetX);
-
   padel.roundActive=false;
   cancelAnimationFrame(padel.raf);
-
-  // Position matters, but the hit window is intentionally generous.
-  if(positionDistance>18){
-    finishPoint(false,"MISSED","Move toward the ball, beau gosse.");
-    return;
-  }
 
   // Fixed timing bug: a broad valid window instead of a razor-thin single moment.
   if(p>=0.69 && p<=0.86){
@@ -568,7 +582,7 @@ function resetPadelMatch(){
   document.getElementById("padel-pause-overlay").classList.add("hidden");
   padel.gamesYou=0;padel.gamesCpu=0;padel.pointsYou=0;padel.pointsCpu=0;
   padel.finished=false;padel.roundActive=false;padel.paused=false;
-  padel.playerX=50;padel.rallyCount=0;padel.currentGame=1;
+  padel.rallyCount=0;padel.currentGame=1;
   padel.keys.left=false;padel.keys.right=false;
   renderPadelHud();updatePlayer();setBallProgress(0);
 }
