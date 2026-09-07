@@ -67,59 +67,47 @@ const state = {
 
 const profiles = [
   {
-    name: "Dracarys",
-    age: 327,
-    image: "assets/dragon.jpg",
+    name: "Dracarys", age: 327, image: "assets/dragon.jpg",
     bio: "Owns property. Emotionally available. Breathes fire when annoyed.",
     meta: "Canggu • 3 km away",
-    like: { type: "life", text: "It's a match. She introduced you to her 14 children. -1 life." },
-    nope: { type: "safe", text: "Good call. Your eyebrows remain intact." }
+    like: { type: "life", text: "MATCH. She invited you home. You were technically dinner. -1 HP." },
+    nope: { type: "safe", text: "Good call. Eyebrows preserved." }
   },
   {
-    name: "Bear",
-    age: 12,
-    image: "assets/bear.jpg",
-    bio: "6'2. Loves hiking. Sleeps through winter. Looking for someone outdoorsy.",
+    name: "Bear", age: 12, image: "assets/bear.jpg",
+    bio: "6'2. Loves hiking. Sleeps through winter. Very outdoorsy.",
     meta: "Ubud • 18 km away",
-    like: { type: "life", text: "The date was going well until he remembered he is a bear. -1 life." },
-    nope: { type: "safe", text: "Reasonable." }
+    like: { type: "life", text: "The date was great until he remembered he was a bear. -1 HP." },
+    nope: { type: "safe", text: "Survival instinct: functional." }
   },
   {
-    name: "Chad",
-    age: 29,
-    image: "assets/chad.jpg",
-    bio: "Open-minded. Yoga at sunrise. 'Just seeing what happens.'",
+    name: "Chad", age: 29, image: "assets/chad.jpg",
+    bio: "Yoga at sunrise. Open-minded. 'Just seeing what happens.'",
     meta: "Seminyak • 5 km away",
-    like: { type: "life", text: "Unexpected plot twist. Not your target audience. -1 life." },
-    nope: { type: "safe", text: "Mission remains unchanged." }
+    like: { type: "life", text: "Unexpected side quest. Wrong target audience. -1 HP." },
+    nope: { type: "safe", text: "Main mission continues." }
   },
   {
-    name: "Bella",
-    age: 24,
-    image: "assets/bella.jpg",
-    bio: "47 countries ✈️ Brunch. Pilates. Don't waste my time.",
+    name: "Bella", age: 24, image: "assets/bella.jpg",
+    bio: "47 countries ✈ Brunch. Pilates. Don't waste my time.",
     meta: "Canggu • 1 km away",
-    like: { type: "life", text: "Dinner bill: 4,850,000 IDR. Your wallet did not survive. -1 life." },
-    nope: { type: "safe", text: "Your bank account thanks you." }
+    like: { type: "life", text: "Dinner bill: 4,850,000 IDR. Critical wallet damage. -1 HP." },
+    nope: { type: "safe", text: "Your bank account gained +10 morale." }
   },
   {
-    name: "Alien Girl",
-    age: 1042,
-    image: "assets/alien.jpg",
+    name: "Xyra", age: 1042, image: "assets/alien.jpg",
     bio: "New to Earth. Looking for a local guide and possibly a specimen.",
-    meta: "Bali? • 0 km away",
-    like: { type: "life", text: "You have been selected for research. -1 life." },
-    nope: { type: "safe", text: "Earth keeps one more citizen." }
+    meta: "Bali(?) • 0 km away",
+    like: { type: "life", text: "You have been selected for research. -1 HP." },
+    nope: { type: "safe", text: "Earth retains one citizen." }
   },
   {
-    name: "Anastasia",
-    age: 24,
-    image: "assets/anastasia_placeholder.jpg",
-    bio: "This text will later be replaced with the real bio / joke / detail from when you met.",
-    meta: "Bali • very close",
+    name: "Anastasia", age: 25, image: "assets/anastasia_real.jpeg",
+    bio: "Russian. Love bumble coffee and kinder bueno",
+    meta: "Bali • close enough",
     isFinal: true,
     like: { type: "match", text: "Finally." },
-    nope: { type: "return", text: "Excuse me? Try that again." }
+    nope: { type: "return", text: "Excuse me? That option appears to be broken." }
   }
 ];
 
