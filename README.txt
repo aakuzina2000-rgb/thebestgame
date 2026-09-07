@@ -28,3 +28,8 @@ V9:
 - Safe choice: LIFE SAVED + joke/result.
 - Bad choice: -1 LIFE + joke/result.
 - Match screen now says the player has not actually won and the game is only beginning.
+
+V10:
+- Removed the permanent feedback text under Tinder cards.
+- Swipe feedback now appears only as a temporary phone-style notification at the top of the screen.
+- Rewind feedback also uses the same notification style.

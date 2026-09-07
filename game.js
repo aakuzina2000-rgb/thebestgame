@@ -180,10 +180,8 @@ function showSwipePopup(text,type="safe"){
 function swipe(dir){
   const p=profiles[state.currentProfile];
   const action=dir==="right"?p.like:p.nope;
-  const msg=document.getElementById("game-message");
 
   if(p.isFinal&&dir==="left"){
-    msg.textContent=action.text;
     const c=document.querySelector(".profile-card");
     if(c)c.animate([{transform:"translateX(-10px)"},{transform:"translateX(10px)"},{transform:"translateX(0)"}],{duration:300});
     return;
@@ -203,12 +201,10 @@ function swipe(dir){
     showSwipePopup(result,"life");
   }
   else if(action.type==="match"){
-    msg.textContent=action.text;
     showSwipePopup("Correct choice. Suspiciously correct.","safe");
     setTimeout(()=>showScreen("screen-match"),900);
     return;
   }else{
-    msg.textContent=action.text;
     showSwipePopup(action.text,"safe");
   }
 
@@ -216,14 +212,13 @@ function swipe(dir){
 }
 
 function rewind(){
-  const msg=document.getElementById("game-message");
   if(!state.history.length){
-    msg.textContent="Nothing to rewind. Time machine not installed.";
+    showSwipePopup("Nothing to rewind. Time machine not installed.","safe");
     return;
   }
   state.currentProfile=state.history.pop();
   renderProfile();
-  msg.textContent="Rewound. Pretend that never happened.";
+  showSwipePopup("Rewound. Pretend that never happened.","safe");
 }
 
 function attachDrag(card){
@@ -271,7 +266,6 @@ document.getElementById("open-tinder").addEventListener("click",()=>{
   state.parts.indonesia.minigames.tinder.attempts++;
   state.currentProfile=0;state.history=[];state.lives=MAX_LIVES;
   rebuildProfiles();renderLives();renderProfile();saveState();
-  document.getElementById("game-message").textContent="Swipe. Try not to die.";
   showScreen("screen-tinder");
 });
 document.getElementById("back-indonesia").addEventListener("click",()=>showScreen("screen-indonesia"));
