@@ -1,4 +1,4 @@
-console.log("THE BEST GAME v21 loaded");
+console.log("THE BEST GAME v22 loaded");
 const ACCESS_CODE="indonesia";
 const MAX_LIVES=3;
 const SAVE_KEY="thebestgame_save_v1";
@@ -374,7 +374,9 @@ function catchChurros(item){
     churrosPop(item.data.label==="CHURROS"?"+1 · IMPORTANT MEDICATION":"+1 · YEP. THAT'S YOURS.");
     if(churros.score>=15){
       stopChurros();
-      document.getElementById("churros-result").classList.remove("hidden");
+      const result=document.getElementById("churros-result");
+      result.classList.remove("hidden");
+      result.style.display="grid";
       return;
     }
   }else{
@@ -405,12 +407,19 @@ function resetChurros(){
   stopChurros();clearChurrosItems();
   churros.score=0;churros.lives=3;churros.basketX=50;churros.last=0;
   churros.keys.left=false;churros.keys.right=false;
-  document.getElementById("churros-result").classList.add("hidden");
-  document.getElementById("churros-start-overlay").classList.remove("hidden");
+  const result=document.getElementById("churros-result");
+  const start=document.getElementById("churros-start-overlay");
+  result.classList.add("hidden");
+  result.style.display="none";
+  start.classList.remove("hidden");
+  start.style.display="grid";
   renderChurrosHud();
 }
 function startChurros(){
-  resetChurros();document.getElementById("churros-start-overlay").classList.add("hidden");
+  resetChurros();
+  const start=document.getElementById("churros-start-overlay");
+  start.classList.add("hidden");
+  start.style.display="none";
   churros.active=true;spawnChurrosItem();churros.raf=requestAnimationFrame(churrosFrame);
 }
 

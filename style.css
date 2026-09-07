@@ -776,3 +776,9 @@ h1,h2,p{margin-top:0}
 .padel-pause-overlay.hidden{display:none!important}
 .padel-pause-overlay .eyebrow{font-size:10px}.padel-pause-overlay h2{font-size:30px!important;margin:3px 0!important}.padel-pause-overlay p{font-size:12px;margin:4px 0 12px!important}
 .padel-pause-overlay .primary{padding:8px 16px;font-size:11px}
+
+/* v22 hotfix: CHURROS result must stay hidden until the player actually wins. */
+.churros-result.hidden,
+.churros-start-overlay.hidden{
+  display:none !important;
+}
