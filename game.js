@@ -123,7 +123,7 @@ function tryHm(){
   renderHm();
 }
 
-console.log("THE BEST GAME v24 loaded");
+console.log("THE BEST GAME v25 loaded");
 const ACCESS_CODE="indonesia";
 const MAX_LIVES=3;
 const SAVE_KEY="thebestgame_save_v1";
@@ -287,7 +287,9 @@ function renderProgress(){
   const t=state.parts.indonesia.minigames.tinder;
   const st=document.getElementById("tinder-status");
   if(st){st.textContent=t.completed?"COMPLETE":"IN PROGRESS";st.dataset.status=t.completed?"complete":"progress";}
+  if(typeof renderChurrosMission==="function")renderChurrosMission();
   if(typeof renderPadelMission==="function")renderPadelMission();
+  if(typeof renderLaterMissions==="function")renderLaterMissions();
 }
 function loseLife(msg){
   state.lives--;
@@ -442,7 +444,7 @@ function attachDrag(card){
 /* ===== MISSION 02: CHURROS ===== */
 let churros={
   active:false,score:0,lives:3,basketX:50,items:[],spawnTimer:null,raf:null,last:0,
-  keys:{left:false,right:false},nextId:1,startTime:0
+  keys:{left:false,right:false},nextId:1,startTime:0,goodBag:[],badBag:[]
 };
 const churrosGood=[
   {label:"CHURROS",kind:"food",image:"assets/food_churros.png"},
@@ -489,9 +491,12 @@ function stopChurros(){
 }
 function spawnChurrosItem(){
   if(!churros.active)return;
-  const good=Math.random()<0.48;
-  const pool=good?churrosGood:churrosBad;
-  const data=pool[Math.floor(Math.random()*pool.length)];
+  const good=Math.random()<0.50;
+  const refillBag=(source)=>source.map((_,i)=>i).sort(()=>Math.random()-0.5);
+  if(good && !churros.goodBag.length)churros.goodBag=refillBag(churrosGood);
+  if(!good && !churros.badBag.length)churros.badBag=refillBag(churrosBad);
+  const idx=good?churros.goodBag.pop():churros.badBag.pop();
+  const data=(good?churrosGood:churrosBad)[idx];
   const el=document.createElement("div");
   el.className=`fall-item ${data.kind} ${good?"wanted":"wrong"}`;
   el.innerHTML=data.kind==="food"
@@ -548,7 +553,7 @@ function churrosFrame(t){
 }
 function resetChurros(){
   stopChurros();clearChurrosItems();
-  churros.score=0;churros.lives=3;churros.basketX=50;churros.last=0;churros.startTime=0;
+  churros.score=0;churros.lives=3;churros.basketX=50;churros.last=0;churros.startTime=0;churros.goodBag=[];churros.badBag=[];
   churros.keys.left=false;churros.keys.right=false;
   const result=document.getElementById("churros-result");
   const start=document.getElementById("churros-start-overlay");

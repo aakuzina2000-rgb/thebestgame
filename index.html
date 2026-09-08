@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Best Game</title>
-  <link rel="stylesheet" href="style.css?v=24">
+  <link rel="stylesheet" href="style.css?v=25">
 </head>
 <body>
 <main id="app">
@@ -175,7 +175,7 @@ onclick="
       </button>
 
       <button id="open-padel" class="mission-row locked padel-mission">
-        <div class="mission-icon padel-mini">●</div>
+        <div class="mission-icon padel-mini"><span class="padel-ball-icon"></span></div>
         <div class="mission-text">
           <span>MISSION 03</span>
           <strong>PADEL</strong>
@@ -184,7 +184,7 @@ onclick="
         <b id="padel-status" class="mission-status">LOCKED</b>
       </button>
       <button id="open-bumble" class="mission-row locked">
-        <div class="mission-icon bumble-mini">☕</div>
+        <div class="mission-icon bumble-mini"><img src="assets/decaf_bumble.png" alt="decaf Bumble"></div>
         <div class="mission-text">
           <span>MISSION 04</span>
           <strong>FIND THE DECAF BUMBLE</strong>
@@ -449,7 +449,7 @@ onclick="
       <button class="search-object obj-bag" data-object="bag"><span>BAG</span></button>
       <button class="search-object obj-cushion" data-object="cushion"><span>CUSHION</span></button>
       <button class="search-object obj-box" data-object="box"><span>BOX</span></button>
-      <div id="decaf-bumble" class="decaf-bumble hidden"><b>DECAF</b><strong>BUMBLE</strong><span>FOUND</span></div>
+      <div id="decaf-bumble" class="decaf-bumble hidden"><img src="assets/decaf_bumble.png" alt="DECAF Bumble"><span>FOUND</span></div>
       <div id="bumble-comment" class="bumble-comment">OBJECTS DISTURBED: <b>0</b></div>
       <div id="bumble-finale" class="bumble-finale hidden">
         <div class="eyebrow">BUMBLE FOUND</div>
@@ -561,6 +561,6 @@ onclick="
   });
 })();
 </script>
-<script src="game.js?v=24"></script>
+<script src="game.js?v=25"></script>
 </body>
 </html>

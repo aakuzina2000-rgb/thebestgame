@@ -871,3 +871,35 @@ h1,h2,p{margin-top:0}
 .hm-hud{display:flex;align-items:center;gap:15px}.hm-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:20px}.hm-shop,.hm-fitting{border:1px solid #4b5055;background:#111519;padding:18px}.hm-round{font-size:11px;letter-spacing:2px;color:#aaa}.hm-shop h3{font-size:11px;letter-spacing:2px;margin:18px 0 8px}.clothes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.cloth{min-height:115px;background:#20252a;border:1px solid #4b5359;color:#eee;padding:8px;cursor:pointer}.cloth i{display:block;width:55px;height:65px;margin:auto;border-radius:10px;background:#777}.cloth span{display:block;font-size:9px;font-weight:900;margin-top:7px}.cloth.clown i,.model-top.clown{background:repeating-linear-gradient(45deg,#d33 0 10px,#f2d34b 10px 20px,#3a79d8 20px 30px)}.cloth.france i,.model-top.france{background:linear-gradient(90deg,#2447a0 0 33%,#eee 33% 66%,#d13b42 66%)}.cloth.leopard i,.model-top.leopard{background:radial-gradient(circle,#332012 20%,transparent 22%) 0 0/15px 15px,#c8954c}.cloth.disco i,.model-top.disco{background:linear-gradient(135deg,#aaa,#eee,#777)}.cloth.beret i,.model-top.beret{background:#422d2d}.cloth.hoodie i,.model-top.hoodie{background:#777}.cloth.greenshirt i,.model-top.greenshirt{background:#527454}.cloth.dressTop i,.model-top.dress{background:#1a1a1d}.cloth.dress i,.model-bottom.dress{background:#17171a}.cloth.flowers i,.model-bottom.flowers{background:radial-gradient(circle,#e88 20%,#5a8 22%) 0 0/18px 18px}.cloth.white i,.model-bottom.white{background:#ddd}.cloth.blackshorts i,.model-bottom.blackshorts{background:#111}.cloth.skirt i,.model-bottom.skirt{background:#242126}.cloth.clownpants i,.model-bottom.clownpants{background:repeating-linear-gradient(90deg,#e44 0 10px,#f2d44c 10px 20px)}.cloth.football i,.model-bottom.football{background:#1e3e88}.cloth.gold i,.model-bottom.gold{background:#a88a38}
 .fitting-sign{text-align:center;font-size:11px;letter-spacing:3px}.hm-model{height:300px;position:relative;margin:10px auto;width:180px;background:#272c30;border-radius:90px 90px 20px 20px}.model-head{position:absolute;width:70px;height:78px;border-radius:45%;background:#c99a79;left:55px;top:18px}.model-top{position:absolute;width:105px;height:105px;left:38px;top:91px;background:#555;border-radius:20px 20px 8px 8px}.model-bottom{position:absolute;width:95px;height:70px;left:43px;top:190px;background:#333}.model-legs{position:absolute;left:55px;top:250px;width:70px;height:50px;border-left:22px solid #bd8d6e;border-right:22px solid #bd8d6e}.your-picks{display:grid;gap:4px;font-size:10px;border-top:1px solid #444;padding-top:10px}.hm-verdict{min-height:28px;color:#e1b56e;font-weight:900;margin:10px 0}.hm-win{position:fixed;z-index:60;inset:0;display:grid;place-content:center;text-align:center;background:#080b0ded}.hm-win.hidden{display:none!important}.hm-win h2{font-family:Georgia,serif;font-size:50px;color:#86aa75}.hm-mini{font-size:10px!important;background:#ad1f2b!important}
 @media(max-width:760px){.hm-layout{grid-template-columns:1fr}.bumble-room{height:520px}.clothes-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* v25 polish */
+.padel-mini{display:grid!important;place-items:center!important;background:#17231d!important}
+.padel-ball-icon{display:block;width:48px;height:48px;border-radius:50%;background:#d8ee42;border:3px solid #101713;box-shadow:inset -7px -8px 0 #9eb22f,0 2px 0 #000}
+.bumble-mini{display:grid!important;place-items:center!important;background:#39202b!important;overflow:hidden}
+.bumble-mini img{width:64px!important;height:64px!important;object-fit:contain!important;image-rendering:pixelated}
+
+.bumble-room{
+  height:610px!important;
+  background-image:linear-gradient(rgba(30,8,20,.08),rgba(30,8,20,.08)),url("assets/bumble_cafe_bg.png")!important;
+  background-size:cover!important;
+  background-position:center!important;
+  border:2px solid #df83a9!important;
+  image-rendering:auto;
+}
+.cafe-wall-sign,.cafe-table{display:none!important}
+.search-object{
+  border:2px solid #fff9!important;
+  box-shadow:0 7px 0 #542d3d88,0 12px 22px #0005!important;
+  image-rendering:pixelated;
+}
+.search-object span{background:#1a1118d9;padding:3px 5px;border-radius:2px}
+.obj-plant{left:8%!important;top:27%!important;width:92px!important;height:125px!important}
+.obj-menu{left:43%!important;top:57%!important;width:78px!important;height:105px!important}
+.obj-burger{left:22%!important;top:69%!important;width:105px!important;height:62px!important}
+.obj-bag{right:8%!important;top:52%!important;width:92px!important;height:118px!important}
+.obj-cushion{left:24%!important;bottom:26%!important;width:120px!important;height:72px!important}
+.obj-box{right:31%!important;bottom:20%!important;width:108px!important;height:78px!important}
+.search-object.moved{transform:translate(58px,-38px) rotate(10deg)!important;opacity:.72!important}
+.decaf-bumble{width:118px!important;height:145px!important;background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important}
+.decaf-bumble img{width:118px;height:118px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(0 8px 4px #0007)}
+.decaf-bumble span{display:block!important;margin-top:-8px!important;background:#161016e8;border:1px solid #f5b1ce;color:#fff;padding:5px;font-size:10px;font-weight:900}
