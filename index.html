@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Best Game</title>
-  <link rel="stylesheet" href="style.css?v=23">
+  <link rel="stylesheet" href="style.css?v=24">
 </head>
 <body>
 <main id="app">
@@ -182,6 +182,35 @@ onclick="
           <small>Timing. Sweat. Questionable confidence.</small>
         </div>
         <b id="padel-status" class="mission-status">LOCKED</b>
+      </button>
+      <button id="open-bumble" class="mission-row locked">
+        <div class="mission-icon bumble-mini">☕</div>
+        <div class="mission-text">
+          <span>MISSION 04</span>
+          <strong>FIND THE DECAF BUMBLE</strong>
+          <small>One drink. One pink café. Too many objects.</small>
+        </div>
+        <b id="bumble-status" class="mission-status">LOCKED</b>
+      </button>
+
+      <button id="open-french" class="mission-row locked">
+        <div class="mission-icon french-mini">FR</div>
+        <div class="mission-text">
+          <span>MISSION 05</span>
+          <strong>FRENCH CONNECTION</strong>
+          <small>24 hours without a text. National emergency.</small>
+        </div>
+        <b id="french-status" class="mission-status">LOCKED</b>
+      </button>
+
+      <button id="open-hm" class="mission-row locked">
+        <div class="mission-icon hm-mini">H&amp;M</div>
+        <div class="mission-text">
+          <span>MISSION 06</span>
+          <strong>H&amp;M FIT CHECK</strong>
+          <small>Find the green flag. Survive the fitting room.</small>
+        </div>
+        <b id="hm-status" class="mission-status">LOCKED</b>
       </button>
     </div>
   </div>
@@ -401,6 +430,95 @@ onclick="
   </div>
 </section>
 
+
+<section id="screen-bumble" class="screen bumble-screen">
+  <header class="hud"><button class="hud-btn bumble-back">← INDONESIA</button>
+    <div><strong>MISSION 04 // FIND THE DECAF BUMBLE</strong></div>
+    <button class="debt-button debt-open">DEBT <img src="assets/pain_au_chocolat.png" alt=""><span class="debt-any">0</span></button>
+  </header>
+  <div class="bumble-wrap">
+    <div class="eyebrow">VEGAN CAFÉ // INDONESIA</div>
+    <h2>FIND THE DECAF BUMBLE</h2>
+    <p class="mission-copy">You wanted one decaf Bumble. Apparently this is now a quest. Move things until you find it.</p>
+    <div id="bumble-room" class="bumble-room">
+      <div class="cafe-wall-sign">VEGAN • PINK • SUSPICIOUSLY EXPENSIVE</div>
+      <div class="cafe-table"></div>
+      <button class="search-object obj-plant" data-object="plant"><span>PLANT</span></button>
+      <button class="search-object obj-menu" data-object="menu"><span>MENU</span></button>
+      <button class="search-object obj-burger" data-object="burger"><span>VEGAN BURGER</span></button>
+      <button class="search-object obj-bag" data-object="bag"><span>BAG</span></button>
+      <button class="search-object obj-cushion" data-object="cushion"><span>CUSHION</span></button>
+      <button class="search-object obj-box" data-object="box"><span>BOX</span></button>
+      <div id="decaf-bumble" class="decaf-bumble hidden"><b>DECAF</b><strong>BUMBLE</strong><span>FOUND</span></div>
+      <div id="bumble-comment" class="bumble-comment">OBJECTS DISTURBED: <b>0</b></div>
+      <div id="bumble-finale" class="bumble-finale hidden">
+        <div class="eyebrow">BUMBLE FOUND</div>
+        <h2>3 HOURS LATER...</h2>
+        <div class="date-table"><span>🍔 VEGAN BURGER</span><span>☕ DECAF BUMBLE</span></div>
+        <p>Conversation: suspiciously good.</p>
+        <div class="kiss-line">NEW OBJECTIVE: KISS ANASTASIA</div>
+        <div class="kiss-animation"><span>HIM</span><b>♥</b><span>ANASTASIA</span></div>
+        <p class="kiss-done">KISS: SUCCESSFUL.</p>
+        <button id="finish-bumble" class="primary">MISSION COMPLETE →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screen-french" class="screen french-screen">
+  <header class="hud"><button class="hud-btn french-back">← INDONESIA</button><strong>MISSION 05 // FRENCH CONNECTION</strong></header>
+  <div class="french-wrap">
+    <div class="phone-story">
+      <div class="eyebrow">24 HOURS LATER...</div>
+      <h2>FRENCH CONNECTION</h2>
+      <div class="chat-box"><span>ANASTASIA</span><p>No new messages.</p><small>She is literally just living her life.</small></div>
+      <div class="anxiety-label"><span>FRENCHMAN ANXIETY</span><b id="anxiety-value">10%</b></div>
+      <div class="anxiety-track"><i id="anxiety-bar"></i></div>
+      <div id="french-thought">Anastasia is doing literally anything else.</div>
+      <div id="french-choices" class="french-choices hidden">
+        <button data-choice="A">A — TEXT HER LIKE A NORMAL PERSON</button>
+        <button data-choice="B">B — WAIT</button>
+        <button data-choice="C">C — BLOCK HER</button>
+      </div>
+      <div id="forced-choice" class="forced-choice hidden">
+        <div class="eyebrow">CRITICAL OVERTHINKING DETECTED</div>
+        <h3>C — BLOCK HER</h3>
+        <p>Reason: she had a life for approximately 24 hours.</p>
+        <strong>ACHIEVEMENT UNLOCKED<br>EMOTIONAL STABILITY 🇫🇷</strong>
+        <button id="finish-french" class="primary">CONTINUE MAKING GOOD DECISIONS →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="screen-hm" class="screen hm-screen">
+  <header class="hud"><button class="hud-btn hm-back">← INDONESIA</button>
+    <div><strong>MISSION 06 // H&amp;M FIT CHECK</strong></div>
+    <div class="hm-hud">LIVES <strong id="hm-lives">❤️❤️❤️</strong>
+      <button class="debt-button debt-open">DEBT <img src="assets/pain_au_chocolat.png" alt=""><span class="debt-any">0</span></button>
+    </div>
+  </header>
+  <div class="hm-wrap">
+    <div class="eyebrow">FITTING ROOM // H&amp;M</div><h2>BUILD THE ACTUAL OUTFIT</h2>
+    <p>Correct fit: green shirt + black shorts. Tiny problem: H&amp;M refuses to give you both immediately.</p>
+    <div class="hm-layout">
+      <div class="hm-shop">
+        <div class="hm-round">NEW ARRIVALS // ROUND <b id="hm-round">1</b></div>
+        <h3>TOP</h3><div id="hm-tops" class="clothes-grid"></div>
+        <h3>BOTTOM</h3><div id="hm-bottoms" class="clothes-grid"></div>
+        <button id="hm-next-stock" class="secondary">KEEP LOOKING →</button>
+      </div>
+      <div class="hm-fitting">
+        <div class="fitting-sign">FITTING ROOM</div>
+        <div id="hm-model" class="hm-model"><div class="model-head"></div><div id="model-top" class="model-top"></div><div id="model-bottom" class="model-bottom"></div><div class="model-legs"></div></div>
+        <div class="your-picks"><span>YOUR PICKS</span><b id="hm-pick-top">TOP: —</b><b id="hm-pick-bottom">BOTTOM: —</b></div>
+        <button id="hm-try" class="primary">TRY IT ON →</button>
+        <div id="hm-verdict" class="hm-verdict"></div>
+      </div>
+    </div>
+    <div id="hm-win" class="hm-win hidden"><div class="eyebrow">FIT CHECK: PASSED</div><h2>GREEN FLAG DETECTED</h2><strong>BOYFRIEND MATERIAL: 100%</strong><p>Unfortunately, he knows he looks good.</p><button id="finish-hm" class="primary">MISSION COMPLETE →</button></div>
+  </div>
+</section>
 <section id="screen-match" class="screen match-screen">
   <div class="match-card">
     <div class="eyebrow">MISSION UPDATE</div>
@@ -443,6 +561,6 @@ onclick="
   });
 })();
 </script>
-<script src="game.js?v=23"></script>
+<script src="game.js?v=24"></script>
 </body>
 </html>

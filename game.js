@@ -1,4 +1,129 @@
-console.log("THE BEST GAME v23 loaded");
+
+/* ===== MISSIONS 04–06 ===== */
+function missionBadge(game,btnId,statusId){
+  const btn=document.getElementById(btnId),status=document.getElementById(statusId); if(!btn||!status)return;
+  if(game.completed){btn.classList.remove("locked");status.textContent="COMPLETE";status.dataset.status="complete";}
+  else if(game.unlocked){btn.classList.remove("locked");status.textContent="UNLOCKED";status.dataset.status="unlocked";}
+  else{btn.classList.add("locked");status.textContent="LOCKED";status.dataset.status="locked";}
+}
+function renderLaterMissions(){
+  missionBadge(state.parts.indonesia.minigames.game4,"open-bumble","bumble-status");
+  missionBadge(state.parts.indonesia.minigames.game5,"open-french","french-status");
+  missionBadge(state.parts.indonesia.minigames.game6,"open-hm","hm-status");
+}
+
+/* Mission 04 */
+let bumbleDisturbed=0,bumbleTarget="box",bumbleFound=false;
+const bumbleComments={
+  plant:"Why would a drink be behind a plant?",
+  menu:"Still no Bumble.",
+  burger:"That's a burger, Sherlock.",
+  bag:"Not yours. Dangerous territory.",
+  cushion:"Getting warmer. Maybe.",
+  box:"Jesus fucking Christ."
+};
+function resetBumble(){
+  bumbleDisturbed=0;bumbleFound=false;
+  const choices=["plant","menu","burger","bag","cushion","box"];
+  bumbleTarget=choices[Math.floor(Math.random()*choices.length)];
+  document.querySelectorAll(".search-object").forEach(o=>o.classList.remove("moved"));
+  document.getElementById("decaf-bumble").classList.add("hidden");
+  document.getElementById("bumble-finale").classList.add("hidden");
+  document.getElementById("bumble-comment").innerHTML="OBJECTS DISTURBED: <b>0</b>";
+}
+function searchBumble(obj){
+  if(bumbleFound||obj.classList.contains("moved"))return;
+  obj.classList.add("moved");bumbleDisturbed++;
+  const key=obj.dataset.object;
+  document.getElementById("bumble-comment").innerHTML=`${key===bumbleTarget?"DECAF BUMBLE FOUND.":bumbleComments[key]} <b>${bumbleDisturbed}</b>`;
+  if(key===bumbleTarget){
+    bumbleFound=true;
+    const drink=document.getElementById("decaf-bumble");
+    drink.style.left=obj.offsetLeft+obj.offsetWidth/2+"px";drink.style.top=obj.offsetTop+18+"px";
+    drink.classList.remove("hidden");
+    setTimeout(()=>document.getElementById("bumble-finale").classList.remove("hidden"),900);
+  }
+}
+
+/* Mission 05 */
+let anxietyTimer=null;
+function startFrenchConnection(){
+  clearInterval(anxietyTimer);
+  let v=10;
+  document.getElementById("anxiety-value").textContent="10%";
+  document.getElementById("anxiety-bar").style.width="10%";
+  document.getElementById("french-choices").classList.add("hidden");
+  document.getElementById("forced-choice").classList.add("hidden");
+  const thoughts=["Anastasia is living her life.","Anastasia is still living her life.","Anastasia still hasn't texted.","This is apparently an emergency."];
+  let ti=0;
+  anxietyTimer=setInterval(()=>{
+    v=Math.min(100,v+9);
+    document.getElementById("anxiety-value").textContent=v+"%";
+    document.getElementById("anxiety-bar").style.width=v+"%";
+    if(v%18===1 && ti<thoughts.length)document.getElementById("french-thought").textContent=thoughts[ti++];
+    if(v>=100){clearInterval(anxietyTimer);document.getElementById("french-choices").classList.remove("hidden");}
+  },180);
+}
+function forceFrenchChoice(){
+  document.querySelectorAll("#french-choices button").forEach(b=>b.disabled=true);
+  setTimeout(()=>{
+    document.querySelector('[data-choice="C"]').classList.add("forced");
+    setTimeout(()=>document.getElementById("forced-choice").classList.remove("hidden"),550);
+  },250);
+}
+
+/* Mission 06 */
+let hm={round:1,lives:3,top:null,bottom:null};
+const hmStock={
+  1:{
+    tops:[["clown","CLOWN JACKET","clown"],["france","FRANCE KIT 🇫🇷","france"],["leopard","LEOPARD SHIRT","leopard"]],
+    bottoms:[["dress","EVENING DRESS","dress"],["flowers","FLOWER SHORTS","flowers"],["white","WHITE SKINNY PANTS","white"]]
+  },
+  2:{
+    tops:[["disco","DISCO SHIRT","disco"],["beret","RICH FRENCHMAN","beret"],["hoodie","GIANT HOODIE","hoodie"]],
+    bottoms:[["blackshorts","BLACK SHORTS","blackshorts"],["skirt","BLACK SKIRT","skirt"],["clownpants","CLOWN PANTS","clownpants"]]
+  },
+  3:{
+    tops:[["greenshirt","GREEN SHIRT","greenshirt"],["france","FRANCE KIT 🇫🇷","france"],["dressTop","VERY SERIOUS DRESS","dress"]],
+    bottoms:[["blackshorts","BLACK SHORTS","blackshorts"],["football","FOOTBALL SHORTS","football"],["gold","GOLD TROUSERS","gold"]]
+  }
+};
+function renderHm(){
+  document.getElementById("hm-round").textContent=hm.round;
+  document.getElementById("hm-lives").textContent="❤️".repeat(hm.lives)+"🖤".repeat(3-hm.lives);
+  const stock=hmStock[hm.round]||hmStock[3];
+  const render=(arr,id,type)=>{
+    document.getElementById(id).innerHTML=arr.map(x=>`<button class="cloth ${x[2]}" data-type="${type}" data-id="${x[0]}" data-label="${x[1]}"><i></i><span>${x[1]}</span></button>`).join("");
+  };
+  render(stock.tops,"hm-tops","top");render(stock.bottoms,"hm-bottoms","bottom");
+  document.querySelectorAll(".cloth").forEach(b=>b.onclick=()=>pickHm(b));
+  document.getElementById("hm-pick-top").textContent="TOP: "+(hm.top?.label||"—");
+  document.getElementById("hm-pick-bottom").textContent="BOTTOM: "+(hm.bottom?.label||"—");
+  document.getElementById("model-top").className="model-top "+(hm.top?.style||"");
+  document.getElementById("model-bottom").className="model-bottom "+(hm.bottom?.style||"");
+}
+function pickHm(b){
+  const val={id:b.dataset.id,label:b.dataset.label,style:b.classList[1]};
+  hm[b.dataset.type]=val;renderHm();
+}
+function resetHm(){
+  hm={round:1,lives:3,top:null,bottom:null};
+  document.getElementById("hm-win").classList.add("hidden");
+  document.getElementById("hm-verdict").textContent="";
+  renderHm();
+}
+const badFits=["Absolutely fucking not.","France has suffered enough.","H&M did not deserve this.","Disturbingly convincing.","Accurate personality. Wrong outfit.","Wrong date. Correct nationality."];
+function tryHm(){
+  if(!hm.top||!hm.bottom){document.getElementById("hm-verdict").textContent="Pick a top AND a bottom, fashion icon.";return;}
+  if(hm.top.id==="greenshirt"&&hm.bottom.id==="blackshorts"){
+    document.getElementById("hm-win").classList.remove("hidden");return;
+  }
+  hm.lives--;document.getElementById("hm-verdict").textContent=badFits[Math.floor(Math.random()*badFits.length)];
+  if(hm.lives<=0){state.debt++;hm.lives=3;saveState();showDebtGain();}
+  renderHm();
+}
+
+console.log("THE BEST GAME v24 loaded");
 const ACCESS_CODE="indonesia";
 const MAX_LIVES=3;
 const SAVE_KEY="thebestgame_save_v1";
@@ -39,6 +164,15 @@ function loadSave(){
 }
 
 const state={...loadSave(),lives:MAX_LIVES,currentProfile:0,history:[]};
+state.parts.indonesia.minigames.game4 ||= {unlocked:false,completed:false};
+state.parts.indonesia.minigames.game5 ||= {unlocked:false,completed:false};
+state.parts.indonesia.minigames.game6 ||= {unlocked:false,completed:false};
+
+
+
+if(state.parts.indonesia.minigames.game3.completed){
+  state.parts.indonesia.minigames.game4.unlocked=true;
+}
 
 // v21 mission-order migration: Tinder -> Churros -> Padel.
 if(state.parts.indonesia.minigames.tinder.completed){
@@ -685,6 +819,7 @@ function finishPadelMatch(won){
 
   // Mission passes either way, as requested.
   state.parts.indonesia.minigames.game3.completed=true;
+  state.parts.indonesia.minigames.game4.unlocked=true;
   saveState();
   renderProgress();
   renderPadelMission();
@@ -920,3 +1055,21 @@ document.addEventListener("keyup",e=>{
 });
 
 renderPadelMission();
+
+
+document.getElementById("open-bumble").addEventListener("click",()=>{if(!state.parts.indonesia.minigames.game4.unlocked)return;resetBumble();showScreen("screen-bumble");});
+document.querySelector(".bumble-back").addEventListener("click",()=>showScreen("screen-indonesia"));
+document.querySelectorAll(".search-object").forEach(o=>o.addEventListener("click",()=>searchBumble(o)));
+document.getElementById("finish-bumble").addEventListener("click",()=>{state.parts.indonesia.minigames.game4.completed=true;state.parts.indonesia.minigames.game5.unlocked=true;saveState();renderLaterMissions();showScreen("screen-indonesia");});
+
+document.getElementById("open-french").addEventListener("click",()=>{if(!state.parts.indonesia.minigames.game5.unlocked)return;showScreen("screen-french");startFrenchConnection();});
+document.querySelector(".french-back").addEventListener("click",()=>{clearInterval(anxietyTimer);showScreen("screen-indonesia");});
+document.querySelectorAll("#french-choices button").forEach(b=>b.addEventListener("click",forceFrenchChoice));
+document.getElementById("finish-french").addEventListener("click",()=>{state.parts.indonesia.minigames.game5.completed=true;state.parts.indonesia.minigames.game6.unlocked=true;saveState();renderLaterMissions();showScreen("screen-indonesia");});
+
+document.getElementById("open-hm").addEventListener("click",()=>{if(!state.parts.indonesia.minigames.game6.unlocked)return;resetHm();showScreen("screen-hm");});
+document.querySelector(".hm-back").addEventListener("click",()=>showScreen("screen-indonesia"));
+document.getElementById("hm-next-stock").addEventListener("click",()=>{hm.round=Math.min(3,hm.round+1);renderHm();});
+document.getElementById("hm-try").addEventListener("click",tryHm);
+document.getElementById("finish-hm").addEventListener("click",()=>{state.parts.indonesia.minigames.game6.completed=true;saveState();renderLaterMissions();showScreen("screen-indonesia");});
+renderLaterMissions();
