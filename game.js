@@ -12,64 +12,152 @@ function renderLaterMissions(){
   missionBadge(state.parts.indonesia.minigames.game6,"open-hm","hm-status");
 }
 
-/* Mission 04 */
-let bumbleDisturbed=0,bumbleTarget="box",bumbleFound=false;
+/* Mission 04 — draggable hidden-object café */
+let bumbleDisturbed=0,bumbleTarget="box",bumbleFound=false,bumbleDrag=null;
 const bumbleComments={
-  plant:"Why would a drink be behind a plant?",
-  menu:"Still no Bumble.",
-  burger:"That's a burger, Sherlock.",
-  bag:"Not yours. Dangerous territory.",
-  cushion:"Getting warmer. Maybe.",
-  box:"Jesus fucking Christ."
+ chair:"Just a chair. Revolutionary.", machine:"Coffee machine. Wrong caffeine situation.",
+ cookies:"Cookies acquired. Priorities.", burger:"That's a vegan burger, Sherlock.",
+ croissant:"Croissant. Very French. Still wrong.", frog:"Why is there a frog in the café?",
+ poop:"You found a fucking poop. Congratulations.", plant:"Plant. Vegan enough, but no.",
+ coffee:"Coffee. But NOT the decaf Bumble.", bag:"Not yours. Dangerous territory.",
+ menu:"Reading the menu now? Bit late.", box:"A box. Suspicious. Empty.",
+ grinder:"Coffee grinder. We're getting nowhere.", pillow:"Cute. Useless.", bottle:"Organic something. Of course."
 };
 function resetBumble(){
-  bumbleDisturbed=0;bumbleFound=false;
-  const choices=["plant","menu","burger","bag","cushion","box"];
-  bumbleTarget=choices[Math.floor(Math.random()*choices.length)];
-  document.querySelectorAll(".search-object").forEach(o=>o.classList.remove("moved"));
-  document.getElementById("decaf-bumble").classList.add("hidden");
+  bumbleDisturbed=0;bumbleFound=false;bumbleDrag=null;
+  const objects=[...document.querySelectorAll("#bumble-room .search-object")];
+  bumbleTarget=objects[Math.floor(Math.random()*objects.length)].dataset.object;
+  objects.forEach(o=>{
+    o.classList.remove("moved");
+    o.style.transform="";
+    o.dataset.dx="0";o.dataset.dy="0";o.dataset.disturbed="0";
+  });
+  const drink=document.getElementById("decaf-bumble");
+  drink.classList.add("hidden");drink.style.left="";drink.style.top="";
   document.getElementById("bumble-finale").classList.add("hidden");
-  document.getElementById("bumble-comment").innerHTML="OBJECTS DISTURBED: <b>0</b>";
+  document.getElementById("bumble-comment").innerHTML="DRAG OBJECTS TO SEARCH · DISTURBED: <b>0</b>";
 }
-function searchBumble(obj){
-  if(bumbleFound||obj.classList.contains("moved"))return;
-  obj.classList.add("moved");bumbleDisturbed++;
-  const key=obj.dataset.object;
-  document.getElementById("bumble-comment").innerHTML=`${key===bumbleTarget?"DECAF BUMBLE FOUND.":bumbleComments[key]} <b>${bumbleDisturbed}</b>`;
-  if(key===bumbleTarget){
-    bumbleFound=true;
-    const drink=document.getElementById("decaf-bumble");
-    drink.style.left=obj.offsetLeft+obj.offsetWidth/2+"px";drink.style.top=obj.offsetTop+18+"px";
-    drink.classList.remove("hidden");
-    setTimeout(()=>document.getElementById("bumble-finale").classList.remove("hidden"),900);
+function bumbleMessage(text){
+  document.getElementById("bumble-comment").innerHTML=`${text} · DISTURBED: <b>${bumbleDisturbed}</b>`;
+}
+function revealBumble(obj){
+  if(bumbleFound||obj.dataset.object!==bumbleTarget)return;
+  bumbleFound=true;
+  const drink=document.getElementById("decaf-bumble");
+  drink.style.left=(obj.offsetLeft+obj.offsetWidth/2)+"px";
+  drink.style.top=(obj.offsetTop+obj.offsetHeight/2)+"px";
+  drink.classList.remove("hidden");
+  bumbleMessage("DECAF BUMBLE FOUND. JESUS FUCKING CHRIST.");
+  setTimeout(()=>document.getElementById("bumble-finale").classList.remove("hidden"),1100);
+}
+function disturbBumbleObject(obj,dx,dy){
+  obj.dataset.dx=String(dx);obj.dataset.dy=String(dy);
+  obj.style.setProperty("transform",`translate(${dx}px,${dy}px) rotate(${Math.max(-8,Math.min(8,dx/10))}deg)`,"important");
+  const distance=Math.hypot(dx,dy);
+  if(distance>38 && obj.dataset.disturbed!=="1"){
+    obj.dataset.disturbed="1";bumbleDisturbed++;obj.classList.add("moved");
+    if(obj.dataset.object===bumbleTarget) revealBumble(obj);
+    else bumbleMessage(bumbleComments[obj.dataset.object]||"Nothing here.");
   }
 }
-
-/* Mission 05 */
-let anxietyTimer=null;
+function initBumbleDragging(){
+  document.querySelectorAll("#bumble-room .search-object").forEach(obj=>{
+    obj.addEventListener("pointerdown",e=>{
+      if(bumbleFound)return;
+      obj.setPointerCapture?.(e.pointerId);
+      bumbleDrag={obj,startX:e.clientX,startY:e.clientY,baseX:+obj.dataset.dx||0,baseY:+obj.dataset.dy||0,moved:false};
+    });
+    obj.addEventListener("pointermove",e=>{
+      if(!bumbleDrag||bumbleDrag.obj!==obj)return;
+      const dx=bumbleDrag.baseX+e.clientX-bumbleDrag.startX;
+      const dy=bumbleDrag.baseY+e.clientY-bumbleDrag.startY;
+      if(Math.hypot(e.clientX-bumbleDrag.startX,e.clientY-bumbleDrag.startY)>5)bumbleDrag.moved=true;
+      disturbBumbleObject(obj,dx,dy);
+    });
+    obj.addEventListener("pointerup",e=>{
+      if(!bumbleDrag||bumbleDrag.obj!==obj)return;
+      if(!bumbleDrag.moved){
+        const dx=(+obj.dataset.dx||0)+(Math.random()>.5?62:-62);
+        const dy=(+obj.dataset.dy||0)-42;
+        disturbBumbleObject(obj,dx,dy);
+      }
+      bumbleDrag=null;
+    });
+  });
+}
+/* Mission 05 — anxiety mini-game */
+let frenchGame={timer:null,spawnTimer:null,seconds:22,anxiety:18,score:0,running:false};
+const paranoidThoughts=["SHE HATES ME","SHE'S WITH ANOTHER GUY","SHE FORGOT ME","BLOCK HER FIRST","IT'S OVER","SHE'S IGNORING ME","PANIC NOW","DOUBLE TEXT? NO. BLOCK."];
+const saneThoughts=["SHE'S BUSY","JUST TEXT HER","SHE HAS A LIFE","WAIT LIKE A NORMAL PERSON","YOU LITERALLY KISSED YESTERDAY"];
+function updateFrenchHud(){
+  document.getElementById("french-time").textContent=frenchGame.seconds;
+  document.getElementById("french-score").textContent=frenchGame.score;
+  document.getElementById("anxiety-value").textContent=Math.round(frenchGame.anxiety)+"%";
+  document.getElementById("anxiety-bar").style.width=Math.min(100,frenchGame.anxiety)+"%";
+}
+function spawnFrenchThought(){
+  if(!frenchGame.running)return;
+  const arena=document.getElementById("thought-arena");
+  const paranoid=Math.random()<0.68;
+  const list=paranoid?paranoidThoughts:saneThoughts;
+  const card=document.createElement("button");
+  card.type="button";card.className="thought-card "+(paranoid?"paranoid":"sane");
+  card.textContent=list[Math.floor(Math.random()*list.length)];
+  card.style.left=(4+Math.random()*72)+"%";
+  card.style.setProperty("--fall", (3.2+Math.random()*2.1)+"s");
+  card.dataset.type=paranoid?"paranoid":"sane";
+  const resolve=(clicked)=>{
+    if(!card.isConnected)return;
+    if(clicked){
+      if(paranoid){frenchGame.score++;frenchGame.anxiety=Math.max(5,frenchGame.anxiety-3);card.classList.add("destroyed");}
+      else{frenchGame.anxiety=Math.min(95,frenchGame.anxiety+11);card.classList.add("wrong");}
+      updateFrenchHud();setTimeout(()=>card.remove(),180);
+    }else{
+      if(paranoid)frenchGame.anxiety=Math.min(95,frenchGame.anxiety+8);
+      else{frenchGame.score++;frenchGame.anxiety=Math.max(5,frenchGame.anxiety-1);}
+      updateFrenchHud();card.remove();
+    }
+  };
+  card.addEventListener("click",()=>resolve(true));
+  card.addEventListener("animationend",()=>resolve(false),{once:true});
+  arena.appendChild(card);
+}
+function stopFrenchTimers(){
+  clearInterval(frenchGame.timer);clearInterval(frenchGame.spawnTimer);
+  frenchGame.timer=frenchGame.spawnTimer=null;
+}
 function startFrenchConnection(){
-  clearInterval(anxietyTimer);
-  let v=10;
-  document.getElementById("anxiety-value").textContent="10%";
-  document.getElementById("anxiety-bar").style.width="10%";
+  stopFrenchTimers();
+  frenchGame={timer:null,spawnTimer:null,seconds:22,anxiety:18,score:0,running:true};
+  document.querySelectorAll("#french-choices button").forEach(b=>{b.disabled=false;b.classList.remove("forced")});
+  document.getElementById("thought-arena").innerHTML="";
   document.getElementById("french-choices").classList.add("hidden");
   document.getElementById("forced-choice").classList.add("hidden");
-  const thoughts=["Anastasia is living her life.","Anastasia is still living her life.","Anastasia still hasn't texted.","This is apparently an emergency."];
-  let ti=0;
-  anxietyTimer=setInterval(()=>{
-    v=Math.min(100,v+9);
-    document.getElementById("anxiety-value").textContent=v+"%";
-    document.getElementById("anxiety-bar").style.width=v+"%";
-    if(v%18===1 && ti<thoughts.length)document.getElementById("french-thought").textContent=thoughts[ti++];
-    if(v>=100){clearInterval(anxietyTimer);document.getElementById("french-choices").classList.remove("hidden");}
-  },180);
+  document.getElementById("french-thought").textContent="CLICK PARANOID THOUGHTS. LEAVE NORMAL THOUGHTS ALONE.";
+  updateFrenchHud();
+  frenchGame.spawnTimer=setInterval(spawnFrenchThought,760);
+  spawnFrenchThought();
+  frenchGame.timer=setInterval(()=>{
+    frenchGame.seconds--;
+    frenchGame.anxiety=Math.min(95,frenchGame.anxiety+1.7);
+    updateFrenchHud();
+    if(frenchGame.seconds<=0){
+      stopFrenchTimers();frenchGame.running=false;
+      document.querySelectorAll("#thought-arena .thought-card").forEach(c=>c.remove());
+      document.getElementById("french-thought").textContent="YOU SURVIVED. THE FRENCHMAN DID NOT.";
+      frenchGame.anxiety=100;updateFrenchHud();
+      setTimeout(()=>document.getElementById("french-choices").classList.remove("hidden"),600);
+    }
+  },1000);
 }
 function forceFrenchChoice(){
+  if(frenchGame.running)return;
   document.querySelectorAll("#french-choices button").forEach(b=>b.disabled=true);
   setTimeout(()=>{
-    document.querySelector('[data-choice="C"]').classList.add("forced");
-    setTimeout(()=>document.getElementById("forced-choice").classList.remove("hidden"),550);
-  },250);
+    const c=document.querySelector('[data-choice="C"]');c.classList.add("forced");
+    document.getElementById("french-thought").textContent="SYSTEM OVERRIDE: HISTORICAL ACCURACY ENABLED.";
+    setTimeout(()=>document.getElementById("forced-choice").classList.remove("hidden"),650);
+  },300);
 }
 
 /* Mission 06 */
@@ -92,18 +180,30 @@ function renderHm(){
   document.getElementById("hm-round").textContent=hm.round;
   document.getElementById("hm-lives").textContent="❤️".repeat(hm.lives)+"🖤".repeat(3-hm.lives);
   const stock=hmStock[hm.round]||hmStock[3];
+  const assetFor=(type,id)=>{
+    const map={
+      top:{clown:"hm_top_clown.png",france:"hm_top_france.png",leopard:"hm_top_leopard.png",disco:"hm_top_disco.png",beret:"hm_top_beret.png",hoodie:"hm_top_hoodie.png",greenshirt:"hm_top_greenshirt.png",dressTop:"hm_top_dress.png"},
+      bottom:{dress:"hm_bottom_dress.png",flowers:"hm_bottom_flowers.png",white:"hm_bottom_white.png",blackshorts:"hm_bottom_blackshorts.png",skirt:"hm_bottom_skirt.png",clownpants:"hm_bottom_clownpants.png",football:"hm_bottom_football.png",gold:"hm_bottom_gold.png"}
+    };
+    return map[type][id];
+  };
   const render=(arr,id,type)=>{
-    document.getElementById(id).innerHTML=arr.map(x=>`<button class="cloth ${x[2]}" data-type="${type}" data-id="${x[0]}" data-label="${x[1]}"><i></i><span>${x[1]}</span></button>`).join("");
+    document.getElementById(id).innerHTML=arr.map(x=>{
+      const asset=assetFor(type,x[0]);
+      return `<button class="cloth" data-type="${type}" data-id="${x[0]}" data-label="${x[1]}" data-asset="${asset}">
+        <img src="assets/${asset}" alt=""><span>${x[1]}</span></button>`;
+    }).join("");
   };
   render(stock.tops,"hm-tops","top");render(stock.bottoms,"hm-bottoms","bottom");
   document.querySelectorAll(".cloth").forEach(b=>b.onclick=()=>pickHm(b));
   document.getElementById("hm-pick-top").textContent="TOP: "+(hm.top?.label||"—");
   document.getElementById("hm-pick-bottom").textContent="BOTTOM: "+(hm.bottom?.label||"—");
-  document.getElementById("model-top").className="model-top "+(hm.top?.style||"");
-  document.getElementById("model-bottom").className="model-bottom "+(hm.bottom?.style||"");
+  const top=document.getElementById("model-top"),bottom=document.getElementById("model-bottom");
+  if(hm.top){top.src="assets/"+hm.top.asset;top.classList.remove("hidden")}else top.classList.add("hidden");
+  if(hm.bottom){bottom.src="assets/"+hm.bottom.asset;bottom.classList.remove("hidden")}else bottom.classList.add("hidden");
 }
 function pickHm(b){
-  const val={id:b.dataset.id,label:b.dataset.label,style:b.classList[1]};
+  const val={id:b.dataset.id,label:b.dataset.label,asset:b.dataset.asset};
   hm[b.dataset.type]=val;renderHm();
 }
 function resetHm(){
@@ -123,7 +223,7 @@ function tryHm(){
   renderHm();
 }
 
-console.log("THE BEST GAME v25 loaded");
+console.log("THE BEST GAME v26 loaded");
 const ACCESS_CODE="indonesia";
 const MAX_LIVES=3;
 const SAVE_KEY="thebestgame_save_v1";
@@ -1064,13 +1164,13 @@ renderPadelMission();
 
 document.getElementById("open-bumble").addEventListener("click",()=>{if(!state.parts.indonesia.minigames.game4.unlocked)return;resetBumble();showScreen("screen-bumble");});
 document.querySelector(".bumble-back").addEventListener("click",()=>showScreen("screen-indonesia"));
-document.querySelectorAll(".search-object").forEach(o=>o.addEventListener("click",()=>searchBumble(o)));
+initBumbleDragging();
 document.getElementById("finish-bumble").addEventListener("click",()=>{state.parts.indonesia.minigames.game4.completed=true;state.parts.indonesia.minigames.game5.unlocked=true;saveState();renderLaterMissions();showScreen("screen-indonesia");});
 
 document.getElementById("open-french").addEventListener("click",()=>{if(!state.parts.indonesia.minigames.game5.unlocked)return;showScreen("screen-french");startFrenchConnection();});
-document.querySelector(".french-back").addEventListener("click",()=>{clearInterval(anxietyTimer);showScreen("screen-indonesia");});
+document.querySelector(".french-back").addEventListener("click",()=>{stopFrenchTimers();frenchGame.running=false;showScreen("screen-indonesia");});
 document.querySelectorAll("#french-choices button").forEach(b=>b.addEventListener("click",forceFrenchChoice));
-document.getElementById("finish-french").addEventListener("click",()=>{state.parts.indonesia.minigames.game5.completed=true;state.parts.indonesia.minigames.game6.unlocked=true;saveState();renderLaterMissions();showScreen("screen-indonesia");});
+document.getElementById("finish-french").addEventListener("click",()=>{stopFrenchTimers();frenchGame.running=false;state.parts.indonesia.minigames.game5.completed=true;state.parts.indonesia.minigames.game6.unlocked=true;saveState();renderLaterMissions();showScreen("screen-indonesia");});
 
 document.getElementById("open-hm").addEventListener("click",()=>{if(!state.parts.indonesia.minigames.game6.unlocked)return;resetHm();showScreen("screen-hm");});
 document.querySelector(".hm-back").addEventListener("click",()=>showScreen("screen-indonesia"));

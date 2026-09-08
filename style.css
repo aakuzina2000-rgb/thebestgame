@@ -903,3 +903,83 @@ h1,h2,p{margin-top:0}
 .decaf-bumble{width:118px!important;height:145px!important;background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important}
 .decaf-bumble img{width:118px;height:118px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(0 8px 4px #0007)}
 .decaf-bumble span{display:block!important;margin-top:-8px!important;background:#161016e8;border:1px solid #f5b1ce;color:#fff;padding:5px;font-size:10px;font-weight:900}
+
+/* v26 — graphical assets instead of CSS geometry */
+.french-mini,.hm-mini{display:grid!important;place-items:center!important;overflow:hidden!important}
+.french-mini img{width:58px;height:58px;object-fit:contain;image-rendering:pixelated}
+.hm-mini{background:#fff!important;border-color:#d7d7d7!important}
+.hm-mini img{width:72px;height:50px;object-fit:contain;image-rendering:pixelated}
+
+/* Bumble hidden-object scene */
+.bumble-room{position:relative!important;overflow:hidden!important}
+.search-object{
+  position:absolute!important;width:78px!important;height:78px!important;
+  padding:0!important;background:transparent!important;border:0!important;
+  box-shadow:none!important;cursor:grab!important;touch-action:none!important;
+  z-index:5!important;transition:filter .15s!important;
+}
+.search-object:active{cursor:grabbing!important}
+.search-object img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(0 6px 4px #0005)}
+.search-object:hover img{filter:drop-shadow(0 6px 4px #0005) brightness(1.06)}
+.search-object.moved{opacity:1!important}
+.prop-chair{left:11%!important;top:63%!important;width:92px!important;height:92px!important}
+.prop-machine{right:7%!important;top:28%!important;width:98px!important;height:98px!important}
+.prop-cookies{right:24%!important;top:34%!important;width:75px!important;height:75px!important}
+.prop-burger{left:18%!important;top:72%!important;width:74px!important;height:74px!important}
+.prop-croissant{right:15%!important;top:50%!important;width:64px!important;height:64px!important}
+.prop-frog{left:49%!important;top:71%!important;width:60px!important;height:60px!important}
+.prop-poop{left:4%!important;top:77%!important;width:54px!important;height:54px!important}
+.prop-plant{left:35%!important;top:40%!important;width:88px!important;height:88px!important}
+.prop-coffee{left:24%!important;top:50%!important;width:62px!important;height:62px!important}
+.prop-bag{right:5%!important;top:68%!important;width:78px!important;height:78px!important}
+.prop-menu{left:58%!important;top:64%!important;width:60px!important;height:60px!important}
+.prop-box{right:33%!important;top:47%!important;width:76px!important;height:76px!important}
+.prop-grinder{right:13%!important;top:34%!important;width:65px!important;height:65px!important}
+.prop-pillow{left:13%!important;top:41%!important;width:70px!important;height:70px!important}
+.prop-bottle{left:69%!important;top:55%!important;width:58px!important;height:58px!important}
+.bumble-comment{
+  left:50%!important;bottom:10px!important;transform:translateX(-50%)!important;
+  width:max-content!important;max-width:90%!important;text-align:center!important;
+  pointer-events:none!important;background:#140d12e8!important;z-index:12!important
+}
+.decaf-bumble{z-index:3!important;width:88px!important;height:88px!important;transform:translate(-50%,-50%)!important}
+.decaf-bumble img{width:88px!important;height:88px!important}
+.decaf-bumble span{display:none!important}
+
+/* French Connection actual game */
+.french-game-shell{width:min(700px,94vw)!important}
+.french-rules{color:#aab0b5;font-size:13px;line-height:1.45}
+.french-stats{display:flex;justify-content:space-between;gap:12px;margin:14px 0}
+.french-stats>div{flex:1;border:1px solid #3e474e;background:#171c20;padding:9px 12px;display:flex;justify-content:space-between}
+.french-stats span{font-size:9px;color:#8e979e;letter-spacing:1px}.french-stats b{font-size:18px}
+.thought-arena{position:relative;height:310px;overflow:hidden;border:1px solid #414950;background:
+linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px) 0 0/100% 42px,#0c1013;margin-top:12px}
+.thought-card{position:absolute;top:-55px;max-width:180px;min-width:110px;padding:10px 12px;border:1px solid #636d75;
+background:#20262b;color:#eee;font:900 10px/1.3 monospace;letter-spacing:.4px;animation:frenchFall var(--fall) linear forwards;cursor:pointer}
+.thought-card.paranoid{border-color:#9b5057;background:#2a171a}
+.thought-card.sane{border-color:#56646c;background:#192126}
+.thought-card.destroyed{animation:none;transform:scale(.2) rotate(18deg);opacity:0;transition:.18s}
+.thought-card.wrong{animation:none;background:#7b242d;transform:scale(1.15);opacity:0;transition:.18s}
+@keyframes frenchFall{from{top:-55px}to{top:285px}}
+.french-instruction{min-height:34px;margin-top:10px;color:#b7bdc2;font:700 10px monospace;letter-spacing:.5px}
+.french-choices{margin-top:15px!important}
+
+/* H&M fitting room with real character sprite */
+.hm-fitting{background:linear-gradient(90deg,#eee 0 4%,#d9d9d9 4% 5%,#f7f7f7 5% 95%,#d9d9d9 95% 96%,#eee 96%)!important;color:#171717!important}
+.hm-fitting .fitting-sign{color:#777!important}
+.hm-model{height:390px!important;width:250px!important;margin:8px auto 14px!important;background:
+linear-gradient(90deg,transparent 0 12%,#ddd 12% 13%,transparent 13% 87%,#ddd 87% 88%,transparent 88%),
+linear-gradient(#fafafa,#ececec)!important;border:8px solid #d7d7d7!important;border-radius:3px!important;overflow:hidden!important;position:relative!important}
+.mirror-label{position:absolute;top:8px;right:10px;z-index:5;background:#fff;color:#cf1734;font:900 19px Arial;padding:3px 7px}
+.hm-person-base,.hm-clothing-layer{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.hm-person-base{z-index:1}
+.hm-clothing-layer{z-index:2;pointer-events:none}
+.hm-bottom-layer{z-index:3}
+.hm-top-layer{z-index:4}
+.cloth{min-height:128px!important;background:#181c20!important;border:1px solid #4b5359!important;padding:6px!important}
+.cloth img{display:block;width:100%;height:92px;object-fit:contain;image-rendering:auto}
+.cloth span{font-size:9px!important}
+.your-picks{color:#333!important;border-color:#ccc!important}
+.hm-verdict{color:#9b2838!important}
+
+.model-head,.model-legs{display:none!important}.model-top,.model-bottom{background:none!important}

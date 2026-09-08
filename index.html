@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Best Game</title>
-  <link rel="stylesheet" href="style.css?v=25">
+  <link rel="stylesheet" href="style.css?v=26">
 </head>
 <body>
 <main id="app">
@@ -194,7 +194,7 @@ onclick="
       </button>
 
       <button id="open-french" class="mission-row locked">
-        <div class="mission-icon french-mini">FR</div>
+        <div class="mission-icon french-mini"><img src="assets/french_connection_icon.png" alt=""></div>
         <div class="mission-text">
           <span>MISSION 05</span>
           <strong>FRENCH CONNECTION</strong>
@@ -204,7 +204,7 @@ onclick="
       </button>
 
       <button id="open-hm" class="mission-row locked">
-        <div class="mission-icon hm-mini">H&amp;M</div>
+        <div class="mission-icon hm-mini"><img src="assets/hm_icon.png" alt="H&M"></div>
         <div class="mission-text">
           <span>MISSION 06</span>
           <strong>H&amp;M FIT CHECK</strong>
@@ -441,18 +441,27 @@ onclick="
     <h2>FIND THE DECAF BUMBLE</h2>
     <p class="mission-copy">You wanted one decaf Bumble. Apparently this is now a quest. Move things until you find it.</p>
     <div id="bumble-room" class="bumble-room">
-      <div class="cafe-wall-sign">VEGAN • PINK • SUSPICIOUSLY EXPENSIVE</div>
-      <div class="cafe-table"></div>
-      <button class="search-object obj-plant" data-object="plant"><span>PLANT</span></button>
-      <button class="search-object obj-menu" data-object="menu"><span>MENU</span></button>
-      <button class="search-object obj-burger" data-object="burger"><span>VEGAN BURGER</span></button>
-      <button class="search-object obj-bag" data-object="bag"><span>BAG</span></button>
-      <button class="search-object obj-cushion" data-object="cushion"><span>CUSHION</span></button>
-      <button class="search-object obj-box" data-object="box"><span>BOX</span></button>
-      <div id="decaf-bumble" class="decaf-bumble hidden"><img src="assets/decaf_bumble.png" alt="DECAF Bumble"><span>FOUND</span></div>
-      <div id="bumble-comment" class="bumble-comment">OBJECTS DISTURBED: <b>0</b></div>
+      <div id="decaf-bumble" class="decaf-bumble hidden"><img src="assets/decaf_bumble.png" alt="DECAF Bumble"></div>
+
+      <button class="search-object prop-chair" data-object="chair" aria-label="Move chair"><img src="assets/prop_chair.png" alt=""></button>
+      <button class="search-object prop-machine" data-object="machine" aria-label="Move coffee machine"><img src="assets/prop_machine.png" alt=""></button>
+      <button class="search-object prop-cookies" data-object="cookies" aria-label="Move cookies"><img src="assets/prop_cookies.png" alt=""></button>
+      <button class="search-object prop-burger" data-object="burger" aria-label="Move vegan burger"><img src="assets/prop_burger.png" alt=""></button>
+      <button class="search-object prop-croissant" data-object="croissant" aria-label="Move croissant"><img src="assets/prop_croissant.png" alt=""></button>
+      <button class="search-object prop-frog" data-object="frog" aria-label="Move frog"><img src="assets/prop_frog.png" alt=""></button>
+      <button class="search-object prop-poop" data-object="poop" aria-label="Move poop"><img src="assets/prop_poop.png" alt=""></button>
+      <button class="search-object prop-plant" data-object="plant" aria-label="Move plant"><img src="assets/prop_plant.png" alt=""></button>
+      <button class="search-object prop-coffee" data-object="coffee" aria-label="Move coffee"><img src="assets/prop_coffee.png" alt=""></button>
+      <button class="search-object prop-bag" data-object="bag" aria-label="Move bag"><img src="assets/prop_bag.png" alt=""></button>
+      <button class="search-object prop-menu" data-object="menu" aria-label="Move menu"><img src="assets/prop_menu.png" alt=""></button>
+      <button class="search-object prop-box" data-object="box" aria-label="Move box"><img src="assets/prop_box.png" alt=""></button>
+      <button class="search-object prop-grinder" data-object="grinder" aria-label="Move grinder"><img src="assets/prop_grinder.png" alt=""></button>
+      <button class="search-object prop-pillow" data-object="pillow" aria-label="Move pillow"><img src="assets/prop_pillow.png" alt=""></button>
+      <button class="search-object prop-bottle" data-object="bottle" aria-label="Move bottle"><img src="assets/prop_bottle.png" alt=""></button>
+
+      <div id="bumble-comment" class="bumble-comment">DRAG OBJECTS TO SEARCH · DISTURBED: <b>0</b></div>
       <div id="bumble-finale" class="bumble-finale hidden">
-        <div class="eyebrow">BUMBLE FOUND</div>
+        <div class="eyebrow">DECAF BUMBLE FOUND</div>
         <h2>3 HOURS LATER...</h2>
         <div class="date-table"><span>🍔 VEGAN BURGER</span><span>☕ DECAF BUMBLE</span></div>
         <p>Conversation: suspiciously good.</p>
@@ -468,14 +477,21 @@ onclick="
 <section id="screen-french" class="screen french-screen">
   <header class="hud"><button class="hud-btn french-back">← INDONESIA</button><strong>MISSION 05 // FRENCH CONNECTION</strong></header>
   <div class="french-wrap">
-    <div class="phone-story">
-      <div class="eyebrow">24 HOURS LATER...</div>
-      <h2>FRENCH CONNECTION</h2>
+    <div class="phone-story french-game-shell">
+      <div class="eyebrow">24 HOURS AFTER THE KISS...</div>
+      <h2>DO NOT OVERTHINK</h2>
+      <p class="french-rules">Destroy paranoid thoughts. Leave normal thoughts alone. Keep the Frenchman functional until the timer ends.</p>
       <div class="chat-box"><span>ANASTASIA</span><p>No new messages.</p><small>She is literally just living her life.</small></div>
-      <div class="anxiety-label"><span>FRENCHMAN ANXIETY</span><b id="anxiety-value">10%</b></div>
+      <div class="french-stats">
+        <div><span>TIME</span><b id="french-time">22</b></div>
+        <div><span>COMMON SENSE</span><b id="french-score">0</b></div>
+      </div>
+      <div class="anxiety-label"><span>FRENCHMAN ANXIETY</span><b id="anxiety-value">18%</b></div>
       <div class="anxiety-track"><i id="anxiety-bar"></i></div>
-      <div id="french-thought">Anastasia is doing literally anything else.</div>
+      <div id="thought-arena" class="thought-arena" aria-label="Overthinking arena"></div>
+      <div id="french-thought" class="french-instruction">CLICK PARANOID THOUGHTS BEFORE THEY REACH THE BOTTOM.</div>
       <div id="french-choices" class="french-choices hidden">
+        <div class="eyebrow">FINAL DECISION</div>
         <button data-choice="A">A — TEXT HER LIKE A NORMAL PERSON</button>
         <button data-choice="B">B — WAIT</button>
         <button data-choice="C">C — BLOCK HER</button>
@@ -510,7 +526,12 @@ onclick="
       </div>
       <div class="hm-fitting">
         <div class="fitting-sign">FITTING ROOM</div>
-        <div id="hm-model" class="hm-model"><div class="model-head"></div><div id="model-top" class="model-top"></div><div id="model-bottom" class="model-bottom"></div><div class="model-legs"></div></div>
+        <div id="hm-model" class="hm-model">
+          <div class="mirror-label">H&amp;M</div>
+          <img class="hm-person-base" src="assets/hm_boyfriend.png" alt="boyfriend in fitting room">
+          <img id="model-top" class="hm-clothing-layer hm-top-layer hidden" alt="">
+          <img id="model-bottom" class="hm-clothing-layer hm-bottom-layer hidden" alt="">
+        </div>
         <div class="your-picks"><span>YOUR PICKS</span><b id="hm-pick-top">TOP: —</b><b id="hm-pick-bottom">BOTTOM: —</b></div>
         <button id="hm-try" class="primary">TRY IT ON →</button>
         <div id="hm-verdict" class="hm-verdict"></div>
@@ -561,6 +582,6 @@ onclick="
   });
 })();
 </script>
-<script src="game.js?v=25"></script>
+<script src="game.js?v=26"></script>
 </body>
 </html>
