@@ -12,36 +12,52 @@ function renderLaterMissions(){
   missionBadge(state.parts.indonesia.minigames.game6,"open-hm","hm-status");
 }
 
-/* Mission 04 — draggable hidden-object café */
+/* Mission 04 — spatial hidden-object café */
 let bumbleDisturbed=0,bumbleTarget="box",bumbleFound=false,bumbleDrag=null;
+let bumbleDecoys={};
 const bumbleComments={
- chair:"Just a chair. Revolutionary.", machine:"Coffee machine. Wrong caffeine situation.",
- cookies:"Cookies acquired. Priorities.", burger:"That's a vegan burger, Sherlock.",
- croissant:"Croissant. Very French. Still wrong.", frog:"Why is there a frog in the café?",
- poop:"You found a fucking poop. Congratulations.", plant:"Plant. Vegan enough, but no.",
- coffee:"Coffee. But NOT the decaf Bumble.", bag:"Not yours. Dangerous territory.",
- menu:"Reading the menu now? Bit late.", box:"A box. Suspicious. Empty.",
- grinder:"Coffee grinder. We're getting nowhere.", pillow:"Cute. Useless.", bottle:"Organic something. Of course."
+ chair:"Chair moved. Very investigative.", machine:"Coffee machine. Heavy as hell.",
+ cookies:"Cookies. Strong lead. Wrong drink.", burger:"Vegan burger located. Eat later.",
+ plant:"Plant successfully harassed.", coffee:"Coffee. Wrong caffeine situation.",
+ bag:"Not yours. Dangerous territory.", menu:"Menu. The answer was not printed there.",
+ box:"A box. Obviously suspicious.", grinder:"Coffee grinder. We're getting closer to caffeine.",
+ pillow:"You searched a pillow. Respect.", bottle:"Organic bottle of something."
 };
+const decoyNames=[
+  {name:"A TINY FROG",asset:"assets/prop_frog.png",line:"Why the fuck is there a frog here?"},
+  {name:"A POOP",asset:"assets/prop_poop.png",line:"You found a fucking poop. Congratulations."},
+  {name:"A CROISSANT",asset:"assets/prop_croissant.png",line:"Extremely French. Still not the Bumble."}
+];
 function resetBumble(){
-  bumbleDisturbed=0;bumbleFound=false;bumbleDrag=null;
+  bumbleDisturbed=0;bumbleFound=false;bumbleDrag=null;bumbleDecoys={};
   const objects=[...document.querySelectorAll("#bumble-room .search-object")];
-  bumbleTarget=objects[Math.floor(Math.random()*objects.length)].dataset.object;
+  const keys=objects.map(o=>o.dataset.object).sort(()=>Math.random()-0.5);
+  bumbleTarget=keys[0];
+  decoyNames.forEach((d,i)=>{if(keys[i+1])bumbleDecoys[keys[i+1]]=d;});
   objects.forEach(o=>{
     o.classList.remove("moved");
-    o.style.transform="";
+    o.style.removeProperty("transform");
     o.dataset.dx="0";o.dataset.dy="0";o.dataset.disturbed="0";
   });
-  const drink=document.getElementById("decaf-bumble");
-  drink.classList.add("hidden");drink.style.left="";drink.style.top="";
+  document.getElementById("decaf-bumble").classList.add("hidden");
+  const hidden=document.getElementById("hidden-find");
+  hidden.classList.add("hidden");hidden.innerHTML="";
   document.getElementById("bumble-finale").classList.add("hidden");
-  document.getElementById("bumble-comment").innerHTML="DRAG OBJECTS TO SEARCH · DISTURBED: <b>0</b>";
+  document.getElementById("bumble-comment").innerHTML="DRAG CAFÉ OBJECTS TO SEARCH · DISTURBED: <b>0</b>";
 }
 function bumbleMessage(text){
   document.getElementById("bumble-comment").innerHTML=`${text} · DISTURBED: <b>${bumbleDisturbed}</b>`;
 }
+function showHiddenAt(obj,data){
+  const el=document.getElementById("hidden-find");
+  el.innerHTML=`<img src="${data.asset}" alt=""><span>${data.name}</span>`;
+  el.style.left=(obj.offsetLeft+obj.offsetWidth/2)+"px";
+  el.style.top=(obj.offsetTop+obj.offsetHeight/2)+"px";
+  el.classList.remove("hidden");
+  setTimeout(()=>el.classList.add("hidden"),1450);
+}
 function revealBumble(obj){
-  if(bumbleFound||obj.dataset.object!==bumbleTarget)return;
+  if(bumbleFound)return;
   bumbleFound=true;
   const drink=document.getElementById("decaf-bumble");
   drink.style.left=(obj.offsetLeft+obj.offsetWidth/2)+"px";
@@ -50,14 +66,17 @@ function revealBumble(obj){
   bumbleMessage("DECAF BUMBLE FOUND. JESUS FUCKING CHRIST.");
   setTimeout(()=>document.getElementById("bumble-finale").classList.remove("hidden"),1100);
 }
+function firstSearchResult(obj){
+  if(obj.dataset.object===bumbleTarget){revealBumble(obj);return;}
+  const decoy=bumbleDecoys[obj.dataset.object];
+  if(decoy){showHiddenAt(obj,decoy);bumbleMessage(decoy.line);}
+  else bumbleMessage(bumbleComments[obj.dataset.object]||"Nothing here.");
+}
 function disturbBumbleObject(obj,dx,dy){
   obj.dataset.dx=String(dx);obj.dataset.dy=String(dy);
-  obj.style.setProperty("transform",`translate(${dx}px,${dy}px) rotate(${Math.max(-8,Math.min(8,dx/10))}deg)`,"important");
-  const distance=Math.hypot(dx,dy);
-  if(distance>38 && obj.dataset.disturbed!=="1"){
-    obj.dataset.disturbed="1";bumbleDisturbed++;obj.classList.add("moved");
-    if(obj.dataset.object===bumbleTarget) revealBumble(obj);
-    else bumbleMessage(bumbleComments[obj.dataset.object]||"Nothing here.");
+  obj.style.setProperty("transform",`translate(${dx}px,${dy}px) rotate(${Math.max(-7,Math.min(7,dx/12))}deg)`,"important");
+  if(Math.hypot(dx,dy)>34 && obj.dataset.disturbed!=="1"){
+    obj.dataset.disturbed="1";bumbleDisturbed++;obj.classList.add("moved");firstSearchResult(obj);
   }
 }
 function initBumbleDragging(){
@@ -74,88 +93,80 @@ function initBumbleDragging(){
       if(Math.hypot(e.clientX-bumbleDrag.startX,e.clientY-bumbleDrag.startY)>5)bumbleDrag.moved=true;
       disturbBumbleObject(obj,dx,dy);
     });
-    obj.addEventListener("pointerup",e=>{
+    obj.addEventListener("pointerup",()=>{
       if(!bumbleDrag||bumbleDrag.obj!==obj)return;
       if(!bumbleDrag.moved){
-        const dx=(+obj.dataset.dx||0)+(Math.random()>.5?62:-62);
-        const dy=(+obj.dataset.dy||0)-42;
-        disturbBumbleObject(obj,dx,dy);
+        disturbBumbleObject(obj,(+obj.dataset.dx||0)+(Math.random()>.5?54:-54),(+obj.dataset.dy||0)-34);
       }
       bumbleDrag=null;
     });
   });
 }
-/* Mission 05 — anxiety mini-game */
-let frenchGame={timer:null,spawnTimer:null,seconds:22,anxiety:18,score:0,running:false};
-const paranoidThoughts=["SHE HATES ME","SHE'S WITH ANOTHER GUY","SHE FORGOT ME","BLOCK HER FIRST","IT'S OVER","SHE'S IGNORING ME","PANIC NOW","DOUBLE TEXT? NO. BLOCK."];
-const saneThoughts=["SHE'S BUSY","JUST TEXT HER","SHE HAS A LIFE","WAIT LIKE A NORMAL PERSON","YOU LITERALLY KISSED YESTERDAY"];
+
+/* Mission 05 — decision-based anxiety game */
+let frenchGame={step:0,anxiety:18,score:0,locked:false};
+const frenchEvents=[
+ {time:"11:08",title:"She hasn't texted for 3 hours.",copy:"This is a normal amount of time for a human being to be unavailable.",
+  actions:[["GO TO THE GYM",-7,1,"Excellent. Touch grass, but indoors."],["CHECK HER ONLINE STATUS",9,0,"Very healthy investigative work."],["ASSUME SHE HATES YOU",16,0,"Reasonable. Definitely enough evidence."]]},
+ {time:"13:42",title:"She posted a story.",copy:"She has somehow found time to use Instagram.",
+  actions:[["WATCH IT ONCE",-4,1,"Normal human behavior detected."],["WATCH IT 14 TIMES",10,0,"Instagram analytics department activated."],["ASSUME IT'S ABOUT ANOTHER MAN",18,0,"Based on absolutely fucking nothing."]]},
+ {time:"15:16",title:"Still no message.",copy:"Anastasia is doing errands. You do not know this because you are busy spiraling.",
+  actions:[["TEXT HER", -6,1,"Look at that. Communication."],["OPEN INSTAGRAM AGAIN",8,0,"Perhaps the 38th refresh will reveal the truth."],["DRAFT A GOODBYE SPEECH",15,0,"Bit premature, Shakespeare."]]},
+ {time:"17:55",title:"Your phone vibrates.",copy:"It's a delivery notification.",
+  actions:[["PUT THE PHONE DOWN",-5,1,"Character development."],["CHECK IF SHE VIEWED YOUR STORY",9,0,"Federal investigation continues."],["DELETE THE CHAT",14,0,"Escalation speed: French."]]},
+ {time:"20:31",title:"She is still not texting.",copy:"At this point she has committed the crime of having an evening.",
+  actions:[["WATCH A MOVIE",-6,1,"A hobby. Incredible."],["ASK A FRIEND WHAT IT MEANS",8,0,"Committee meeting convened."],["DECIDE IT'S OVER",17,0,"Relationship autopsy before relationship death."]]},
+ {time:"23:47",title:"Almost 24 hours.",copy:"You kissed yesterday. Somehow this information has become irrelevant.",
+  actions:[["GO TO SLEEP",-8,1,"The strongest move available."],["TYPE 'OK' AND DELETE IT",8,0,"Powerful communication strategy."],["PREPARE THE BLOCK BUTTON",19,0,"Ah. Historical accuracy approaching."]]}
+];
 function updateFrenchHud(){
-  document.getElementById("french-time").textContent=frenchGame.seconds;
-  document.getElementById("french-score").textContent=frenchGame.score;
   document.getElementById("anxiety-value").textContent=Math.round(frenchGame.anxiety)+"%";
   document.getElementById("anxiety-bar").style.width=Math.min(100,frenchGame.anxiety)+"%";
+  document.getElementById("french-score").textContent=frenchGame.score;
+  document.getElementById("french-step-label").textContent=`EVENT ${Math.min(frenchGame.step+1,6)} / 6`;
 }
-function spawnFrenchThought(){
-  if(!frenchGame.running)return;
-  const arena=document.getElementById("thought-arena");
-  const paranoid=Math.random()<0.68;
-  const list=paranoid?paranoidThoughts:saneThoughts;
-  const card=document.createElement("button");
-  card.type="button";card.className="thought-card "+(paranoid?"paranoid":"sane");
-  card.textContent=list[Math.floor(Math.random()*list.length)];
-  card.style.left=(4+Math.random()*72)+"%";
-  card.style.setProperty("--fall", (3.2+Math.random()*2.1)+"s");
-  card.dataset.type=paranoid?"paranoid":"sane";
-  const resolve=(clicked)=>{
-    if(!card.isConnected)return;
-    if(clicked){
-      if(paranoid){frenchGame.score++;frenchGame.anxiety=Math.max(5,frenchGame.anxiety-3);card.classList.add("destroyed");}
-      else{frenchGame.anxiety=Math.min(95,frenchGame.anxiety+11);card.classList.add("wrong");}
-      updateFrenchHud();setTimeout(()=>card.remove(),180);
-    }else{
-      if(paranoid)frenchGame.anxiety=Math.min(95,frenchGame.anxiety+8);
-      else{frenchGame.score++;frenchGame.anxiety=Math.max(5,frenchGame.anxiety-1);}
-      updateFrenchHud();card.remove();
-    }
-  };
-  card.addEventListener("click",()=>resolve(true));
-  card.addEventListener("animationend",()=>resolve(false),{once:true});
-  arena.appendChild(card);
+function renderFrenchEvent(){
+  if(frenchGame.step>=frenchEvents.length){
+    document.getElementById("french-event-card").classList.add("hidden");
+    document.getElementById("french-choices").classList.remove("hidden");
+    frenchGame.anxiety=100;updateFrenchHud();return;
+  }
+  const ev=frenchEvents[frenchGame.step];
+  document.getElementById("french-event-time").textContent=ev.time;
+  document.getElementById("french-event-title").textContent=ev.title;
+  document.getElementById("french-event-copy").textContent=ev.copy;
+  document.getElementById("french-event-feedback").textContent="";
+  const wrap=document.getElementById("french-event-actions");
+  wrap.innerHTML=ev.actions.map((a,i)=>`<button type="button" data-i="${i}">${a[0]}</button>`).join("");
+  wrap.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>chooseFrenchAction(+b.dataset.i)));
+  updateFrenchHud();
 }
-function stopFrenchTimers(){
-  clearInterval(frenchGame.timer);clearInterval(frenchGame.spawnTimer);
-  frenchGame.timer=frenchGame.spawnTimer=null;
+function chooseFrenchAction(i){
+  if(frenchGame.locked)return;
+  frenchGame.locked=true;
+  const action=frenchEvents[frenchGame.step].actions[i];
+  frenchGame.anxiety=Math.max(4,Math.min(96,frenchGame.anxiety+action[1]));
+  frenchGame.score+=action[2];
+  document.getElementById("french-event-feedback").textContent=action[3];
+  document.querySelectorAll("#french-event-actions button").forEach((b,j)=>{
+    b.disabled=true;if(j===i)b.classList.add(action[2]?"good-choice":"bad-choice");
+  });
+  updateFrenchHud();
+  setTimeout(()=>{frenchGame.step++;frenchGame.locked=false;renderFrenchEvent();},850);
 }
 function startFrenchConnection(){
-  stopFrenchTimers();
-  frenchGame={timer:null,spawnTimer:null,seconds:22,anxiety:18,score:0,running:true};
-  document.querySelectorAll("#french-choices button").forEach(b=>{b.disabled=false;b.classList.remove("forced")});
-  document.getElementById("thought-arena").innerHTML="";
+  frenchGame={step:0,anxiety:18,score:0,locked:false};
+  document.getElementById("french-event-card").classList.remove("hidden");
   document.getElementById("french-choices").classList.add("hidden");
   document.getElementById("forced-choice").classList.add("hidden");
-  document.getElementById("french-thought").textContent="CLICK PARANOID THOUGHTS. LEAVE NORMAL THOUGHTS ALONE.";
-  updateFrenchHud();
-  frenchGame.spawnTimer=setInterval(spawnFrenchThought,760);
-  spawnFrenchThought();
-  frenchGame.timer=setInterval(()=>{
-    frenchGame.seconds--;
-    frenchGame.anxiety=Math.min(95,frenchGame.anxiety+1.7);
-    updateFrenchHud();
-    if(frenchGame.seconds<=0){
-      stopFrenchTimers();frenchGame.running=false;
-      document.querySelectorAll("#thought-arena .thought-card").forEach(c=>c.remove());
-      document.getElementById("french-thought").textContent="YOU SURVIVED. THE FRENCHMAN DID NOT.";
-      frenchGame.anxiety=100;updateFrenchHud();
-      setTimeout(()=>document.getElementById("french-choices").classList.remove("hidden"),600);
-    }
-  },1000);
+  document.querySelectorAll("#french-choices button").forEach(b=>{b.disabled=false;b.classList.remove("forced")});
+  renderFrenchEvent();
 }
+function stopFrenchTimers(){}
 function forceFrenchChoice(){
-  if(frenchGame.running)return;
   document.querySelectorAll("#french-choices button").forEach(b=>b.disabled=true);
   setTimeout(()=>{
     const c=document.querySelector('[data-choice="C"]');c.classList.add("forced");
-    document.getElementById("french-thought").textContent="SYSTEM OVERRIDE: HISTORICAL ACCURACY ENABLED.";
     setTimeout(()=>document.getElementById("forced-choice").classList.remove("hidden"),650);
   },300);
 }
@@ -223,7 +234,7 @@ function tryHm(){
   renderHm();
 }
 
-console.log("THE BEST GAME v26 loaded");
+console.log("THE BEST GAME v27 loaded");
 const ACCESS_CODE="indonesia";
 const MAX_LIVES=3;
 const SAVE_KEY="thebestgame_save_v1";
